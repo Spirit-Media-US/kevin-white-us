@@ -1,21 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&family=Black+Han+Sans&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Lexend:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #1a1a1a;
-  --color-gold: #c8a96e;
-  --color-gold-dark: #b08f50;
+  --color-black: #000000;
+  --color-white: #ffffff;
+  --color-gray: #808080;
+  --color-light-gray: #d9d9d9;
+  --color-blue: #89cff0;
+  --color-blue-dark: #6bb8e0;
   --color-bg: #ffffff;
-  --color-bg-light: #f9f9f9;
-  --color-text: #333333;
-  --color-text-light: #666666;
-  --color-text-on-dark: #ffffff;
-  --color-text-muted: #999999;
-  --color-border: #e5e5e5;
-  --color-dark: #1a1a1a;
-  --font-heading: "DM Serif Display", Georgia, serif;
-  --font-body: "Inter", -apple-system, sans-serif;
-  --container-max: 1100px;
+  --color-text: #000000;
+  --color-text-gray: #808080;
+  --font-heading: "Lexend", sans-serif;
+  --font-body: "Almarai", sans-serif;
+  --font-display: "Black Han Sans", sans-serif;
+  --font-serif: "Crimson Text", serif;
+  --container-max: 1440px;
 }
 
 html { scroll-behavior: smooth; }
@@ -24,25 +24,24 @@ body {
   font-family: var(--font-body);
   color: var(--color-text);
   background: var(--color-bg);
-  line-height: 1.7;
+  line-height: 1.6;
   font-size: 16px;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3 {
   font-family: var(--font-heading);
-  font-weight: 400;
-  line-height: 1.25;
-  color: var(--color-primary);
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--color-black);
 }
 
-h1 { font-size: 2.75rem; }
-h2 { font-size: 2rem; }
-h3 { font-size: 1.5rem; }
+h1 { font-size: 80px; }
+h2 { font-size: 30px; }
+h3 { font-size: 20px; }
 
 @media (max-width: 768px) {
-  h1 { font-size: 2rem; }
-  h2 { font-size: 1.5rem; }
-  h3 { font-size: 1.25rem; }
+  h1 { font-size: 60px; }
+  h2 { font-size: 25px; }
 }
 
 a { color: inherit; text-decoration: none; }
@@ -50,52 +49,48 @@ a { color: inherit; text-decoration: none; }
 .container-site {
   max-width: var(--container-max);
   margin: 0 auto;
-  padding-left: 24px;
-  padding-right: 24px;
+  padding-left: 2vw;
+  padding-right: 2vw;
 }
 
-.section-pad { padding: 60px 0; }
-@media (max-width: 768px) { .section-pad { padding: 40px 0; } }
+.section-pad { padding: 2vw 0; }
 
 .btn {
   display: inline-block;
-  padding: 12px 28px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  border-radius: 4px;
+  padding: 12px 30px;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 400;
+  border-radius: 50px;
   transition: all 0.25s ease;
   cursor: pointer;
   text-decoration: none;
 }
 
-.btn-primary {
-  background: var(--color-primary);
-  color: #fff;
+.btn-black {
+  background: var(--color-black);
+  color: var(--color-white);
 }
-.btn-primary:hover { background: #333; }
+.btn-black:hover { background: #333; }
+
+.btn-blue {
+  background: var(--color-blue);
+  color: var(--color-black);
+}
+.btn-blue:hover { background: var(--color-blue-dark); }
 
 .btn-outline {
   background: transparent;
-  color: var(--color-primary);
-  border: 1.5px solid var(--color-primary);
+  color: var(--color-black);
+  border: 1.5px solid var(--color-black);
 }
-.btn-outline:hover { background: var(--color-primary); color: #fff; }
+.btn-outline:hover { background: var(--color-black); color: var(--color-white); }
 
-.btn-gold-fill {
-  background: var(--color-gold);
-  color: #fff;
-}
-.btn-gold-fill:hover { background: var(--color-gold-dark); }
+.font-display { font-family: var(--font-display); }
+.font-serif { font-family: var(--font-serif); }
+.font-heading { font-family: var(--font-heading); }
 
-.link-arrow {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--color-primary);
-  text-decoration: none;
-  transition: color 0.2s;
-}
-.link-arrow:hover { color: var(--color-gold); }
+.text-gray { color: var(--color-gray); }
 
 .img-placeholder {
   background: #e8e4df;
@@ -105,3 +100,12 @@ a { color: inherit; text-decoration: none; }
   color: #bbb;
   font-size: 13px;
 }
+
+.link-more {
+  font-family: var(--font-body);
+  font-size: 20px;
+  color: var(--color-black);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.link-more:hover { color: var(--color-blue); }
