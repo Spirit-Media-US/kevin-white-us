@@ -33,10 +33,10 @@ Then run: `git checkout dev && git pull origin dev`
 
 ### Completed on Dev
 - Phase 1: Infrastructure — repo, Sanity project, CF Pages, dev branch, scaffold
+- Phase 2: Content + CSS extraction — 18 pages crawled, design tokens, image catalog
+- Phase 3: Design + Build — 19 pages built (6 static + 11 blog posts + blog index + 404)
 
 ### Still Pending
-- Phase 2: Content + CSS Extraction
-- Phase 3: Design + Build
 - Phase 4: Wire Sanity CMS
 - Phase 5: CAR / Transformation Layer Report
 - Phase 6: Design Refinement
