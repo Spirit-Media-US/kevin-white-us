@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+import { sanityClient } from '../lib/sanity.ts';
+
+const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0...5] { title, "coverImage": coverImage.asset->url }`);
+---
+
+<Layout title="Contact — Kevin White" description="Get in touch with Kevin White. Speaking inquiries, collaboration, or general contact.">
+  <main>
+    <section class="bg-white section-pad">
+      <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- Left: Contact Info -->
+        <div>
+          <h1 class="mb-6">Let's Talk</h1>
+          <p class="text-[var(--color-text-light)] leading-relaxed mb-8">
+            I enjoy hearing from readers and new friends. Please send a message if you want to collaborate or work together.
+          </p>
+
+          <div class="space-y-6">
+            <div>
+              <h3 class="text-base font-semibold mb-1" style="font-family: var(--font-body);">Mailing Address</h3>
+              <p class="text-[var(--color-text-light)]">PO Box 3251<br />Cary, NC 27519</p>
+            </div>
+
+            <div>
+              <h3 class="text-base font-semibold mb-1" style="font-family: var(--font-body);">Phone</h3>
+              <p><a href="tel:+18888578685" class="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">+1-888-857-8685</a></p>
+            </div>
+
+            <div>
+              <h3 class="text-base font-semibold mb-1" style="font-family: var(--font-body);">Socials</h3>
+              <div class="flex flex-col gap-1 text-[var(--color-text-light)]">
+                <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-primary)]">@kevinwhitetv</a>
+                <a href="https://www.instagram.com/kevinwhiteus/" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-primary)]">@kevinwhiteus</a>
+                <a href="https://www.linkedin.com/in/kevinwhiteus/" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-primary)]">@kevinwhiteus</a>
+                <a href="https://twitter.com/kevinwhiteus" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-primary)]">@kevinwhiteus</a>
+              </div>
+            </div>
+
+            <div>
+              <h3 class="text-base font-semibold mb-1" style="font-family: var(--font-body);">For more on speaking, contact Jeremy</h3>
+              <a href="mailto:jeremy@spiritmedia.us" class="btn btn-primary mt-2">Send an email</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Book covers + author blurb -->
+        <div>
+          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
+            {books.map((book: any) => (
+              <a href="/books" class="block">
+                {book.coverImage ? (
+                  <img src={`${book.coverImage}?w=200&auto=format`} alt={book.title} class="w-full rounded shadow-sm" />
+                ) : (
+                  <div class="img-placeholder rounded aspect-[3/4] text-[10px]">{book.title}</div>
+                )}
+              </a>
+            ))}
+          </div>
+          <h3 class="text-base font-semibold mb-2" style="font-family: var(--font-body);">Bestselling Author</h3>
+          <p class="text-[var(--color-text-light)] leading-relaxed">
+            Kevin has published seven books in 5 years. His eighth book will be released this fall. Each book equips and empowers readers to live out God's Word.
+          </p>
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

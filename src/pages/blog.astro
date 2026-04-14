@@ -1,0 +1,55 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+import { sanityClient } from '../lib/sanity.ts';
+
+const posts = await sanityClient.fetch(`
+  *[_type == "blogPost"] | order(publishDate desc) {
+    "slug": slug.current, title, excerpt, "author": coalesce(author, "Kevin White"), publishDate,
+    "image": heroImage.asset->url
+  }
+`);
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function formatDate(d: string) { const dt = new Date(d); return `${MONTHS[dt.getUTCMonth()]} ${dt.getUTCDate()}, ${dt.getUTCFullYear()}`; }
+---
+
+<Layout title="Magazines — Kevin White" description="Quick reads. Powerful results. Devotional articles by Kevin White.">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org", "@type": "Blog",
+      "name": "Kevin White Magazines", "url": "https://kevinwhite.us/blog",
+      "publisher": { "@type": "Person", "name": "Kevin White", "url": "https://kevinwhite.us" }
+    })}></script>
+  </Fragment>
+
+  <main>
+    <!-- Header -->
+    <section class="bg-white section-pad">
+      <div class="container-site text-center">
+        <h1 class="mb-2">Magazines</h1>
+        <p class="text-lg text-[var(--color-text-light)]">Quick reads. Powerful results.</p>
+      </div>
+    </section>
+
+    <!-- Posts Grid -->
+    <section class="bg-white section-pad border-t border-[var(--color-border)]">
+      <div class="container-site">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {posts.map((post: any) => (
+            <a href={`/blog/${post.slug}`} class="block group">
+              {post.image ? (
+                <img src={`${post.image}?w=600&h=400&fit=crop&auto=format`} alt={post.title} class="w-full rounded-lg aspect-[16/10] object-cover mb-3" />
+              ) : (
+                <div class="img-placeholder rounded-lg aspect-[16/10] mb-3">{post.title}</div>
+              )}
+              <h3 class="text-lg font-semibold text-[var(--color-primary)] group-hover:text-[var(--color-gold)]" style="font-family: var(--font-body); transition: color 0.2s;">{post.title}</h3>
+              <p class="text-sm text-[var(--color-text-muted)] mt-1">{formatDate(post.publishDate)}</p>
+              <p class="text-sm text-[var(--color-text-light)] mt-1 line-clamp-2">{post.excerpt}</p>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+</Layout>

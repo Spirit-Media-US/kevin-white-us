@@ -1,0 +1,50 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+import { sanityClient } from '../lib/sanity.ts';
+
+const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) { title, description, amazonUrl, "coverImage": coverImage.asset->url }`);
+---
+
+<Layout title="Books — Kevin White" description="Kevin White's bestselling books on generosity, faith, entrepreneurship, and spiritual growth.">
+  <main>
+    <!-- Hero -->
+    <section class="bg-white section-pad">
+      <div class="container-site text-center max-w-3xl mx-auto">
+        <h1 class="mb-4">Authorship</h1>
+        <p class="text-lg text-[var(--color-text-light)] leading-relaxed mb-2">
+          These books will help you connect with God, deepen your relationships with Him and other people, and help you live in abundance.
+        </p>
+        <p class="text-sm text-[var(--color-text-light)] mb-4">
+          <a href="#" class="text-[var(--color-gold)] hover:underline">Click here to check out Kevin's Amazon author page</a>
+        </p>
+        <p class="text-sm font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-2">Bestselling Author</p>
+        <p class="italic text-[var(--color-text-light)]" style="font-family: var(--font-heading);">"God says we are transformed as we change our minds"</p>
+      </div>
+    </section>
+
+    <!-- Books: alternating layout -->
+    {books.map((book: any, i: number) => (
+      <section class:list={['section-pad border-t border-[var(--color-border)]', i % 2 === 0 ? 'bg-white' : 'bg-[var(--color-bg-light)]']}>
+        <div class:list={['container-site grid grid-cols-1 md:grid-cols-2 gap-8 items-center', i % 2 === 1 && 'md:[direction:rtl] md:[&>*]:[direction:ltr]']}>
+          <div>
+            {book.coverImage ? (
+              <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="w-48 mx-auto md:mx-0 rounded shadow-md" />
+            ) : (
+              <div class="img-placeholder rounded aspect-[3/4] w-48 mx-auto md:mx-0">{book.title}</div>
+            )}
+          </div>
+          <div>
+            <h2 class="mb-3">{book.title}</h2>
+            <p class="text-[var(--color-text-light)] leading-relaxed mb-5">{book.description}</p>
+            {book.amazonUrl ? (
+              <a href={book.amazonUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">Read Now</a>
+            ) : (
+              <span class="btn btn-primary opacity-70 cursor-default">Read Now</span>
+            )}
+          </div>
+        </div>
+      </section>
+    ))}
+  </main>
+</Layout>

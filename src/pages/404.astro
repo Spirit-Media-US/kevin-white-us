@@ -2,11 +2,16 @@
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 ---
-<Layout title="Page Not Found">
+
+<Layout title="Page Not Found — Kevin White">
   <Fragment slot="head"><meta name="robots" content="noindex, nofollow" /></Fragment>
-  <main class="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-    <h1 class="text-4xl font-bold mb-4">404</h1>
-    <p class="text-lg mb-8">Page not found.</p>
-    <a href="/" class="underline">Go home</a>
+  <main>
+    <section class="bg-white min-h-[60vh] flex items-center justify-center">
+      <div class="container-site text-center py-20">
+        <h1 class="mb-4">404</h1>
+        <p class="text-lg text-[var(--color-text-light)] mb-6">Page not found.</p>
+        <a href="/" class="btn btn-primary">Go Home</a>
+      </div>
+    </section>
   </main>
 </Layout>

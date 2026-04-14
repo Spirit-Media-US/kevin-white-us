@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+import { sanityClient } from '../lib/sanity.ts';
+
+const keynotes = await sanityClient.fetch(`*[_type == "keynote"] | order(order asc) { title, description, videoUrl }`);
+---
+
+<Layout title="Speaking — Kevin White" description="Book Kevin White for your next conference. Keynotes on generosity, kingdom entrepreneurship, and faith-driven leadership.">
+  <main>
+    <!-- Hero with video background placeholder -->
+    <section class="bg-white section-pad">
+      <div class="container-site text-center">
+        <div class="img-placeholder rounded-lg aspect-video max-w-3xl mx-auto mb-8">Hero Video</div>
+        <h1 class="mb-2">Engage empower excite</h1>
+        <p class="text-lg text-[var(--color-text-light)] mb-6">Kevin will move your audience</p>
+        <a href="/contact" class="btn btn-primary">Book Kevin to Speak</a>
+      </div>
+    </section>
+
+    <!-- Featured Podcasts -->
+    <section class="bg-white section-pad border-t border-[var(--color-border)]">
+      <div class="container-site">
+        <h2 class="text-center mb-8">Featured Podcasts</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
+          {['Chasing the Kingdom', 'Guys Who Do Stuff', 'Welcome Heart', 'Beyond the Rut', 'Seek Go Create', 'Eric Nevins', 'Ops Podcast', 'Kingdom Over Coffee', 'Apple Podcasts', 'YouTube'].map(name => (
+            <div class="img-placeholder rounded aspect-square text-[10px]">{name}</div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Bio: two-column -->
+    <section class="bg-white section-pad border-t border-[var(--color-border)]">
+      <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="mb-4">Bio</h2>
+          <p class="text-[var(--color-text-light)] leading-relaxed mb-4">
+            Kevin has written international bestsellers Audacious Generosity and Get to the Point. He is also the CEO of Spirit Media, a publishing and marketing company committed to disrupting the traditional publishing industry.
+          </p>
+          <p class="text-[var(--color-text-light)] leading-relaxed">
+            Kevin helps audiences engage, empower, and excite through solutions applicable to communities and offers one-on-one consulting.
+          </p>
+        </div>
+        <div class="img-placeholder rounded-lg aspect-[4/5]">Kevin White Headshot</div>
+      </div>
+    </section>
+
+    <!-- "As heard on" -->
+    <section class="bg-white py-8 border-t border-[var(--color-border)]">
+      <div class="container-site text-center">
+        <p class="text-sm font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-4">As heard on</p>
+        <div class="img-placeholder rounded h-12 max-w-2xl mx-auto">Media Logos</div>
+      </div>
+    </section>
+
+    <!-- Keynote Presentations -->
+    {keynotes.map((k: any, i: number) => (
+      <section class:list={['section-pad border-t border-[var(--color-border)]', i % 2 === 0 ? 'bg-white' : 'bg-[var(--color-bg-light)]']}>
+        <div class="container-site max-w-3xl mx-auto">
+          <h2 class="mb-4 text-center">{k.title}</h2>
+          <div class="img-placeholder rounded-lg aspect-video mb-6">Video</div>
+          <p class="text-[var(--color-text-light)] leading-relaxed text-center mb-6">{k.description}</p>
+          <div class="text-center">
+            <a href="/contact" class="btn btn-primary">Book</a>
+          </div>
+        </div>
+      </section>
+    ))}
+  </main>
+</Layout>

@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import '../styles/global.css';
+---
+
+<Layout title="About — Kevin White" description="Kevin White is driven by his deep love for Jesus. Founder of Spirit Media and bestselling author.">
+  <main>
+    <!-- Hero: two-column, image left, text right -->
+    <section class="bg-[var(--color-bg-light)] section-pad">
+      <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div class="img-placeholder rounded-lg aspect-[3/4] md:aspect-[4/5]">Kevin White Photo</div>
+        <div>
+          <h1 class="mb-4">About</h1>
+          <p class="text-[var(--color-text-light)] leading-relaxed mb-4">
+            Kevin White is driven by his deep love for Jesus, his wife, children, and grandchildren. He is the Founder and Chief Spiritual Officer of SpiritMedia.US and owner of White Enterprise.
+          </p>
+          <p class="text-[var(--color-text-light)] leading-relaxed mb-5">
+            As a serial entrepreneur and bestselling author, Kevin helps leaders globally equip and empower leaders worldwide to live out God's Word while purposefully generating Kingdom wealth for Kingdom impact.
+          </p>
+          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn btn-primary">In Action</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Key Points -->
+    <section class="bg-white section-pad border-t border-[var(--color-border)]">
+      <div class="container-site max-w-3xl mx-auto">
+        <ul class="space-y-3 text-[var(--color-text-light)] list-disc pl-5">
+          <li>Serial entrepreneur who has helped launch hundreds of businesses internationally</li>
+          <li>Hosts a highly-ranked podcast across streaming platforms</li>
+          <li>Father of three children</li>
+          <li>Married thirty years to his high school sweetheart</li>
+          <li>Traveled to India 48 times and visited 30 countries in the past two decades</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- Podcast: two-column, text left, image right -->
+    <section class="bg-white section-pad border-t border-[var(--color-border)]">
+      <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="mb-4">A weekly podcast to motivate</h2>
+          <p class="text-[var(--color-text-light)] leading-relaxed mb-5">
+            The Kevin White Show offers weekly episodes since 2020 with ideas, proverbs, or short stories to help listeners prosper in the presence of God.
+          </p>
+          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Listen</a>
+        </div>
+        <div class="img-placeholder rounded-lg aspect-[4/3]">Podcast Image</div>
+      </div>
+    </section>
+
+    <!-- Services: three-column cards -->
+    <section class="bg-white section-pad border-t border-[var(--color-border)]">
+      <div class="container-site">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div>
+            <h3 class="mb-3">Conference Speaker</h3>
+            <p class="text-[var(--color-text-light)] leading-relaxed mb-4">Keynotes designed to inspire audiences toward creating and living in the presence of God.</p>
+            <a href="/speaking" class="link-arrow">Learn More &rarr;</a>
+          </div>
+          <div>
+            <h3 class="mb-3">Serial Entrepreneur</h3>
+            <p class="text-[var(--color-text-light)] leading-relaxed mb-4">Spirit Media provides publishing and marketing services to amplify your mission and visibility.</p>
+            <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="link-arrow">Learn More &rarr;</a>
+          </div>
+          <div>
+            <h3 class="mb-3">Fundraiser</h3>
+            <p class="text-[var(--color-text-light)] leading-relaxed mb-4">Hands-on workshops and coaching for business development, startup capital, and nonprofit fundraising.</p>
+            <a href="/contact" class="link-arrow">Learn More &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Books -->
+    <section class="bg-[var(--color-bg-light)] section-pad">
+      <div class="container-site text-center">
+        <h2 class="mb-2">Nurture Your Spiritual Journey</h2>
+        <p class="text-[var(--color-text-light)] mb-6">Seven published books, each equipping readers to live out God's Word.</p>
+        <a href="/books" class="btn btn-primary">View All Books</a>
+      </div>
+    </section>
+  </main>
+</Layout>
