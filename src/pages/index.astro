@@ -22,7 +22,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     <!-- Hero: background image with prayer text left-aligned -->
     <section
       class="relative bg-cover bg-center flex items-center text-white"
-      style={`background-image: url('${IMG.heroBg}?w=1440&auto=format'); min-height: 700px;`}
+      style={`background-image: url('${IMG.heroBg}?w=1440&auto=format'); height: 100vh;`}
     >
       <div class="container-site relative z-10 py-16">
         <h1 style="font-family: var(--font-heading); font-size: 80px; color: #fff; line-height: 1.05;">
