@@ -1,42 +1,20 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import { sanityClient } from '../lib/sanity.ts';
 
-const books = [
-  {
-    title: 'Audacious Generosity',
-    description: 'If you desire to give more selflessly, exchanging pressure for genuine confidence and satisfaction, this is a read for you. Discover what happens when you open your hands to God and commit to using what He puts into those hands.',
-  },
-  {
-    title: 'Get to the Point',
-    description: 'Distilled into one easy-to-read book are the most valuable lessons Kevin has learned to fully live in God\'s presence, hear His voice, and receive His provision.',
-  },
-  {
-    title: 'What\'s Your Word?',
-    description: 'Words are more than characters uttered or written. They are vehicles that channel our aspirations and ambitions. When we listen to God speaking His word in our lives and identify how we fit into that context, the keys to the ignition are on.',
-  },
-  {
-    title: 'Ultimate Book Marketing Guide',
-    description: 'In today\'s dog-eat-dog world, many authors can only dream of getting noticed, much less read. Kevin shares his marketing formula for getting your book jumping off the shelves.',
-  },
-  {
-    title: 'Only God Works',
-    description: 'We all behave like workaholics nowadays, burning the midnight oil to get that competitive edge. In chasing a life of abundance, Kevin reveals why you should permit yourself to rely on God to provide.',
-  },
-  {
-    title: 'Your Very Own Children\'s Book',
-    description: 'Spirit Media provides a professional touch to help you achieve your publishing dreams by providing support and guidance to create Your Very Own Children\'s Book.',
-  },
-  {
-    title: 'Gifts',
-    description: 'God has physical blessings and spiritual gifts waiting for you in the Scriptures and this book. Kevin reminds us God\'s love knows no bounds. The gift of salvation is only one thing God wants to give us as His faithful children.',
-  },
-];
+const books = await sanityClient.fetch(`
+  *[_type == "book"] | order(order asc) {
+    title,
+    description,
+    amazonUrl,
+    "coverImage": coverImage.asset->url
+  }
+`);
 ---
 
 <Layout title="Books — Kevin White" description="Kevin White's bestselling books on generosity, faith, entrepreneurship, and spiritual growth.">
   <main>
-    <!-- Hero -->
     <section class="bg-[var(--color-bg-warm)] section-padding">
       <div class="container-site max-w-4xl mx-auto">
         <span class="eyebrow">Bestselling Author</span>
@@ -50,21 +28,28 @@ const books = [
       </div>
     </section>
 
-    <!-- Books Grid -->
     <section class="bg-white section-padding">
       <div class="container-site">
         <div class="space-y-16">
-          {books.map((book, i) => (
+          {books.map((book: any, i: number) => (
             <div class:list={['flex flex-col md:flex-row gap-8 items-start', i % 2 === 1 && 'md:flex-row-reverse']}>
               <div class="w-full md:w-1/3">
-                <div class="bg-[var(--color-bg-warm)] rounded-lg aspect-[3/4] flex items-center justify-center">
-                  <span class="text-[var(--color-text-light)] text-sm">Book Cover</span>
-                </div>
+                {book.coverImage ? (
+                  <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="w-full rounded-lg" />
+                ) : (
+                  <div class="bg-[var(--color-bg-warm)] rounded-lg aspect-[3/4] flex items-center justify-center">
+                    <span class="text-[var(--color-text-light)] text-sm">Book Cover</span>
+                  </div>
+                )}
               </div>
               <div class="w-full md:w-2/3">
                 <h2 class="mb-4">{book.title}</h2>
                 <p class="text-lg text-[var(--color-text-light)] leading-relaxed mb-6">{book.description}</p>
-                <span class="btn-gold cursor-default">Read Now</span>
+                {book.amazonUrl ? (
+                  <a href={book.amazonUrl} target="_blank" rel="noopener noreferrer" class="btn-gold">Read Now</a>
+                ) : (
+                  <span class="btn-gold cursor-default">Read Now</span>
+                )}
               </div>
             </div>
           ))}

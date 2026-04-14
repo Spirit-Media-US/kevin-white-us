@@ -35,13 +35,28 @@ Then run: `git checkout dev && git pull origin dev`
 - Phase 1: Infrastructure — repo, Sanity project, CF Pages, dev branch, scaffold
 - Phase 2: Content + CSS extraction — 18 pages crawled, design tokens, image catalog
 - Phase 3: Design + Build — 19 pages built (6 static + 11 blog posts + blog index + 404)
+- Phase 4: Sanity CMS — 3 schemas (blogPost, book, keynote), 24 docs migrated, embedded Studio, webhook
 
 ### Still Pending
-- Phase 4: Wire Sanity CMS
 - Phase 5: CAR / Transformation Layer Report
 - Phase 6: Design Refinement
 - Phase 7: QA
 - Phase 8: Launch
+
+## Sanity Content Audit
+
+| Page | Content Block | Decision | Reasoning |
+|------|-------------|----------|-----------|
+| All pages | Blog/magazine posts (11) | **Sanity** (blogPost) | Client publishes new devotional content |
+| Books | Book listings (7) | **Sanity** (book) | Client adds new books, updates Amazon links |
+| Speaking | Keynote topics (6) | **Sanity** (keynote) | Client adds/updates speaking topics |
+| Homepage | Hero, roles, sections | Static | Single instance, rarely changes |
+| About | Bio, facts, services | Static | Single instance, developer updates |
+| Contact | Address, phone, form | Static | Rarely changes |
+| Thank You | Confirmation message | Static | Structural |
+| 404 | Error page | Static | Structural |
+| All pages | Nav, footer, layout | Static | Structural |
+| All pages | JSON-LD, SEO meta | Static | Technical SEO |
 
 ## Rules
 

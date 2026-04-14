@@ -1,20 +1,23 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import { sanityClient } from '../lib/sanity.ts';
 
-const posts = [
-  { slug: 'goodness', title: 'GOODNESS', date: 'March 19, 2025', excerpt: 'Four daily affirmations centered on God\'s goodness. Discover what happens when you recognize His goodness consistently.' },
-  { slug: 'faithfulness', title: 'FAITHFULNESS', date: 'March 19, 2025', excerpt: 'Three commitments to model God\'s faithfulness: praise, prayer, and sales as a spiritual calling.' },
-  { slug: 'multiply', title: 'MULTIPLY', date: 'March 10, 2025', excerpt: 'Exploring multiplication as a divine principle woven throughout biblical history, from creation to the Great Commission.' },
-  { slug: 'joy', title: 'JOY', date: 'February 24, 2025', excerpt: 'Three types of joy — emotional, positional, and spiritual. An unshakeable divine gift independent of circumstances.' },
-  { slug: 'rewarded', title: 'REWARDED', date: 'February 18, 2025', excerpt: 'God\'s rewards for faithful followers. If God says He will reward us for our faith, then God will reward us.' },
-  { slug: 'paths', title: 'PATHS', date: 'February 10, 2025', excerpt: 'Six standards for Spirit Media and God\'s guidance through established pathways. His guidance is His provision.' },
-  { slug: 'revelation', title: 'REVELATION', date: 'January 31, 2025', excerpt: 'Understanding biblical revelation — what God reveals, how we receive it, and the ground rules for discernment.' },
-  { slug: 'fight', title: 'FIGHT!', date: 'June 20, 2024', excerpt: 'Spiritual fighting in personal and professional contexts. The battle belongs to the Lord and has already been won.' },
-  { slug: 'boasting', title: 'BOASTING', date: 'June 20, 2024', excerpt: 'All possessions and accomplishments are divine gifts. Boast only in the Lord, not in personal achievement.' },
-  { slug: 'succeed', title: 'SUCCEED!', date: 'June 20, 2024', excerpt: 'Help others succeed and you will succeed too. The welfare of the city determines your welfare.' },
-  { slug: 'relationships', title: 'RELATIONSHIPS', date: 'June 20, 2024', excerpt: 'Business success depends on strong relationships. The most beloved action in any relationship is to be heard.' },
-];
+const posts = await sanityClient.fetch(`
+  *[_type == "blogPost"] | order(publishDate desc) {
+    "slug": slug.current,
+    title,
+    excerpt,
+    "author": coalesce(author, "Kevin White"),
+    publishDate
+  }
+`);
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+function formatDate(dateStr: string) {
+  const d = new Date(dateStr);
+  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
+}
 ---
 
 <Layout title="Magazines — Kevin White" description="Quick reads. Powerful results. Kevin White's devotional magazine articles on faith, business, and kingdom impact.">
@@ -30,7 +33,6 @@ const posts = [
   </Fragment>
 
   <main>
-    <!-- Hero -->
     <section class="bg-[var(--color-bg-warm)] section-padding">
       <div class="container-site max-w-4xl mx-auto">
         <span class="eyebrow">Blog</span>
@@ -39,17 +41,16 @@ const posts = [
       </div>
     </section>
 
-    <!-- Posts Grid -->
     <section class="bg-white section-padding">
       <div class="container-site">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {posts.map(post => (
+          {posts.map((post: any) => (
             <a href={`/blog/${post.slug}`} class="group bg-[var(--color-bg-warm)] rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow no-underline">
               <div class="h-48 bg-[var(--color-bg-dark)] flex items-center justify-center">
                 <span class="text-3xl font-bold text-white/20" style="font-family: var(--font-heading);">{post.title}</span>
               </div>
               <div class="p-6">
-                <p class="text-xs text-[var(--color-text-light)] mb-2">{post.date}</p>
+                <p class="text-xs text-[var(--color-text-light)] mb-2">{formatDate(post.publishDate)}</p>
                 <h3 class="text-xl mb-3 text-[var(--color-text)] group-hover:text-[var(--color-gold)] transition-colors">{post.title}</h3>
                 <p class="text-sm text-[var(--color-text-light)] leading-relaxed">{post.excerpt}</p>
                 <span class="inline-block mt-4 text-sm font-semibold text-[var(--color-gold)] uppercase tracking-wider">Read More &rarr;</span>

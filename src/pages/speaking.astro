@@ -1,38 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import { sanityClient } from '../lib/sanity.ts';
 
-const keynotes = [
-  {
-    title: 'Living Generous Lives',
-    description: 'We all want to be more generous, but many fear doing it. Learn about entering God-fueled relationships and experiencing unlimited giving.',
-  },
-  {
-    title: 'Seeking the Kingdom',
-    description: 'Focus on pursuing God\'s presence, hearing His voice, and the six ways the Holy Spirit communicates with us.',
-  },
-  {
-    title: 'A Christian in Entrepreneurship',
-    description: 'Explores ethical business practices and stewardship principles for the faith-driven entrepreneur.',
-  },
-  {
-    title: 'God Works, You Don\'t',
-    description: 'Reframes work perspective within the Great Commission context. Learn to let God work through you.',
-  },
-  {
-    title: 'Harness Your Vision',
-    description: 'Develops leadership innovation and creative problem-solving approaches grounded in faith.',
-  },
-  {
-    title: 'The Startup Revolution',
-    description: 'Covers fundraising, business planning, team building, and adaptability for transformational leadership.',
-  },
-];
+const keynotes = await sanityClient.fetch(`
+  *[_type == "keynote"] | order(order asc) {
+    title,
+    description,
+    videoUrl
+  }
+`);
 ---
 
 <Layout title="Speaking — Kevin White" description="Kevin White equips leaders through keynote presentations on generosity, kingdom entrepreneurship, and faith-driven leadership.">
   <main>
-    <!-- Hero -->
     <section class="bg-[var(--color-bg-dark)] text-white min-h-[420px] md:min-h-[65vh] flex items-center">
       <div class="container-site py-20 md:py-32">
         <span class="eyebrow">Speaker</span>
@@ -44,7 +25,6 @@ const keynotes = [
       </div>
     </section>
 
-    <!-- Bio -->
     <section class="bg-white section-padding">
       <div class="container-site max-w-3xl mx-auto text-center">
         <p class="text-lg text-[var(--color-text-light)] leading-relaxed mb-4">
@@ -56,7 +36,6 @@ const keynotes = [
       </div>
     </section>
 
-    <!-- Keynotes -->
     <section class="bg-[var(--color-bg-warm)] section-padding">
       <div class="container-site">
         <div class="text-center mb-12">
@@ -64,7 +43,7 @@ const keynotes = [
           <h2 class="mt-3">Topics</h2>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {keynotes.map((k) => (
+          {keynotes.map((k: any) => (
             <div class="bg-white rounded-lg p-8 shadow-sm">
               <h3 class="text-xl mb-4">{k.title}</h3>
               <p class="text-[var(--color-text-light)] mb-6">{k.description}</p>
@@ -75,7 +54,6 @@ const keynotes = [
       </div>
     </section>
 
-    <!-- Featured Podcasts -->
     <section class="bg-white section-padding">
       <div class="container-site max-w-3xl mx-auto text-center">
         <span class="eyebrow">As Heard On</span>
@@ -87,7 +65,6 @@ const keynotes = [
       </div>
     </section>
 
-    <!-- CTA -->
     <section class="bg-[var(--color-bg-dark)] text-white section-padding">
       <div class="container-site text-center max-w-2xl mx-auto">
         <h2 class="text-white mb-4">Ready to Book Kevin?</h2>
