@@ -1,6 +1,22 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import { sanityClient } from '../lib/sanity.ts';
+
+const books = await sanityClient.fetch(`
+  *[_type == "book"] | order(order asc) {
+    title,
+    "coverImage": coverImage.asset->url
+  }
+`);
+
+const posts = await sanityClient.fetch(`
+  *[_type == "blogPost"] | order(publishDate desc) [0...3] {
+    "slug": slug.current,
+    title,
+    excerpt
+  }
+`);
 ---
 
 <Layout title="Kevin White — Author, Speaker, Entrepreneur">
@@ -25,113 +41,137 @@ import '../styles/global.css';
   <main>
     <!-- Hero -->
     <section class="bg-[var(--color-bg-warm)] min-h-[420px] md:min-h-[65vh] flex items-center">
-      <div class="container-site py-20 md:py-32">
-        <span class="eyebrow">Author &middot; Speaker &middot; Entrepreneur</span>
-        <h1 class="mt-4 mb-6 max-w-3xl">Kevin White</h1>
-        <p class="text-lg md:text-xl text-[var(--color-text-light)] max-w-2xl leading-relaxed">
-          Serial entrepreneur, author, speaker, and Spirit Media founder. Equipping and empowering leaders worldwide to live out God's Word while purposefully generating Kingdom wealth for Kingdom impact.
+      <div class="container-site py-16 md:py-24 text-center max-w-3xl mx-auto">
+        <p class="text-2xl md:text-3xl text-[var(--color-text-light)] mb-2" style="font-family: var(--font-heading);">Hi!</p>
+        <h1 class="mb-4">Kevin White</h1>
+        <p class="text-lg md:text-xl text-[var(--color-text-light)] leading-relaxed">
+          I'm a serial entrepreneur, author, speaker, and Spirit Media founder. Equipping and empowering leaders worldwide to live out God's Word while purposefully generating Kingdom wealth for Kingdom impact.
         </p>
-        <div class="mt-8 flex flex-wrap gap-4">
-          <a href="/contact" class="btn-gold">Subscribe for Devotionals</a>
-          <a href="/about" class="btn-dark">Learn More</a>
-        </div>
+      </div>
+    </section>
+
+    <!-- Subscribe CTA -->
+    <section class="bg-white py-10 border-b border-[var(--color-border)]">
+      <div class="container-site text-center">
+        <p class="text-lg text-[var(--color-text-light)] mb-4">Subscribe to get a free pick-me-up devotion</p>
+        <a href="/contact" class="btn-gold">Subscribe</a>
       </div>
     </section>
 
     <!-- Prayer Focus -->
-    <section class="bg-[var(--color-bg-dark)] text-white section-padding">
+    <section class="bg-[var(--color-bg-warm)] section-padding">
       <div class="container-site text-center max-w-3xl mx-auto">
-        <span class="eyebrow">Prayer Focus</span>
-        <h2 class="mt-4 mb-6 text-white">Nothing Changes Our Lives More Than Prioritizing Prayer</h2>
-        <p class="text-[var(--color-text-muted)] text-lg leading-relaxed">
-          Kevin emphasizes prayer's transformative role in business, family, and spiritual life. Prayer is the foundation that fuels everything else.
+        <h2 class="mb-6">Nothing Changes Our Lives More Than Prioritizing Prayer</h2>
+        <p class="text-lg text-[var(--color-text-light)] leading-relaxed">
+          There is no better way to value what God values, live the life He prescribes, and experience freedom and abundance than prayer. Prayer clarifies our priorities, prayer renews our hope, prayer reshapes us.
         </p>
       </div>
     </section>
 
-    <!-- Roles -->
+    <!-- YouTube -->
+    <section class="bg-white section-padding">
+      <div class="container-site text-center max-w-2xl mx-auto">
+        <span class="eyebrow">YouTube</span>
+        <h2 class="mt-3 mb-4">The Kevin White Show</h2>
+        <p class="text-[var(--color-text-light)] mb-6">Weekly encouragement and guidance every Tuesday at 10 AM.</p>
+        <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn-gold">Watch on YouTube</a>
+      </div>
+    </section>
+
+    <!-- Instagram -->
+    <section class="bg-[var(--color-bg-warm)] py-10">
+      <div class="container-site text-center">
+        <p class="text-lg text-[var(--color-text-light)] mb-4">Follow along on Instagram for daily encouragement</p>
+        <a href="https://www.instagram.com/kevinwhiteus/" target="_blank" rel="noopener noreferrer" class="btn-gold">Follow @kevinwhiteus</a>
+      </div>
+    </section>
+
+    <!-- Three Roles -->
     <section class="bg-white section-padding">
       <div class="container-site">
-        <div class="text-center mb-12">
-          <span class="eyebrow">What Kevin Does</span>
-          <h2 class="mt-3">Faith-Driven Leadership</h2>
-        </div>
         <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div class="text-center">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--color-bg-warm)] flex items-center justify-center">
-              <svg class="w-7 h-7 text-[var(--color-gold)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582" />
-              </svg>
-            </div>
             <h3 class="mb-3">Serial Entrepreneur</h3>
-            <p class="text-[var(--color-text-light)]">Founded multiple businesses and nonprofits globally. Helped launch hundreds of businesses internationally.</p>
+            <p class="text-[var(--color-text-light)] mb-4">Founded multiple businesses and nonprofits globally. Helped launch hundreds of businesses internationally.</p>
+            <a href="/about" class="text-sm font-semibold text-[var(--color-gold)] uppercase tracking-wider">Learn More &rarr;</a>
           </div>
           <div class="text-center">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--color-bg-warm)] flex items-center justify-center">
-              <svg class="w-7 h-7 text-[var(--color-gold)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
-              </svg>
-            </div>
             <h3 class="mb-3">Conference Speaker</h3>
-            <p class="text-[var(--color-text-light)]">Equips leaders on God's Word, prayer, and kingdom impact. Keynotes that engage, empower, and excite.</p>
+            <p class="text-[var(--color-text-light)] mb-4">Equips leaders on God's Word, prayer, and kingdom impact. Keynotes that engage, empower, and excite.</p>
+            <a href="/speaking" class="text-sm font-semibold text-[var(--color-gold)] uppercase tracking-wider">Learn More &rarr;</a>
           </div>
           <div class="text-center">
-            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--color-bg-warm)] flex items-center justify-center">
-              <svg class="w-7 h-7 text-[var(--color-gold)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
-              </svg>
-            </div>
             <h3 class="mb-3">Bestselling Author</h3>
-            <p class="text-[var(--color-text-light)]">Seven published books in five years. Each book equips and empowers readers to live out God's Word.</p>
+            <p class="text-[var(--color-text-light)] mb-4">Seven published books in five years. Each book equips and empowers readers to live out God's Word.</p>
+            <a href="/books" class="text-sm font-semibold text-[var(--color-gold)] uppercase tracking-wider">Learn More &rarr;</a>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- YouTube + Instagram -->
+    <!-- Books Grid -->
     <section class="bg-[var(--color-bg-warm)] section-padding">
-      <div class="container-site">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
-          <div class="bg-white rounded-lg p-8 shadow-sm">
-            <span class="eyebrow">YouTube</span>
-            <h3 class="mt-3 mb-4">The Kevin White Show</h3>
-            <p class="text-[var(--color-text-light)] mb-6">Weekly encouragement and guidance. Ideas, proverbs, and short stories to help you prosper in the presence of God.</p>
-            <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn-gold">Watch on YouTube</a>
-          </div>
-          <div class="bg-white rounded-lg p-8 shadow-sm">
-            <span class="eyebrow">Instagram</span>
-            <h3 class="mt-3 mb-4">Follow Along</h3>
-            <p class="text-[var(--color-text-light)] mb-6">Latest updates, encouragement, and engagement. Join the community and stay connected daily.</p>
-            <a href="https://www.instagram.com/kevinwhiteus/" target="_blank" rel="noopener noreferrer" class="btn-gold">Follow @kevinwhiteus</a>
-          </div>
+      <div class="container-site text-center">
+        <h2 class="mb-8">Books</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 max-w-5xl mx-auto">
+          {books.map((book: any) => (
+            <a href="/books" class="group">
+              {book.coverImage ? (
+                <img src={`${book.coverImage}?w=200&auto=format`} alt={book.title} class="w-full rounded shadow-md group-hover:shadow-lg transition-shadow" />
+              ) : (
+                <div class="bg-[var(--color-bg-dark)] rounded aspect-[3/4] flex items-center justify-center shadow-md">
+                  <span class="text-xs text-white/40 text-center px-2" style="font-family: var(--font-heading);">{book.title}</span>
+                </div>
+              )}
+            </a>
+          ))}
         </div>
       </div>
     </section>
 
     <!-- Fundraising -->
     <section class="bg-white section-padding">
-      <div class="container-site max-w-3xl mx-auto text-center">
-        <span class="eyebrow">Fundraising</span>
-        <h2 class="mt-3 mb-6">Articulating Vision for Financial Support</h2>
-        <p class="text-[var(--color-text-light)] text-lg leading-relaxed mb-4">
+      <div class="container-site max-w-3xl mx-auto">
+        <h2 class="mb-6">Fundraising</h2>
+        <p class="text-lg text-[var(--color-text-light)] leading-relaxed mb-4">
           Kevin coaches startups and nonprofits on raising capital. His track record includes guiding nonprofits that have raised over $100M collectively.
         </p>
-        <p class="text-[var(--color-text-light)] text-lg leading-relaxed mb-8">
-          Specializing in helping leaders articulate their vision to attract the financial support they need to fulfill their mission.
-        </p>
-        <a href="/contact" class="btn-gold">Get in Touch</a>
+        <ul class="space-y-2 text-[var(--color-text-light)] mb-6">
+          <li class="flex items-start gap-2">
+            <span class="text-[var(--color-gold)] mt-1">&#8226;</span>
+            Coaching for startup capital and nonprofit donations
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-[var(--color-gold)] mt-1">&#8226;</span>
+            Track record: guided nonprofits raising $100M+
+          </li>
+          <li class="flex items-start gap-2">
+            <span class="text-[var(--color-gold)] mt-1">&#8226;</span>
+            Specializes in articulating vision for financial support
+          </li>
+        </ul>
+        <a href="/contact" class="btn-gold">Start Your Fundraising Coaching</a>
       </div>
     </section>
 
-    <!-- Books Preview -->
-    <section class="bg-[var(--color-bg-dark)] text-white section-padding">
+    <!-- Magazines Preview -->
+    <section class="bg-[var(--color-bg-warm)] section-padding">
       <div class="container-site text-center">
-        <span class="eyebrow">Books</span>
-        <h2 class="mt-3 mb-4 text-white">Nurture Your Spiritual Journey</h2>
-        <p class="text-[var(--color-text-muted)] mb-8 max-w-2xl mx-auto">
-          These books will help you connect with God, deepen your relationships with Him and other people, and help you live in abundance.
-        </p>
-        <a href="/books" class="btn-gold">View All Books</a>
+        <h2 class="mb-8">Magazines</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          {posts.map((post: any) => (
+            <a href={`/blog/${post.slug}`} class="group bg-white rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow no-underline">
+              <div class="h-40 bg-[var(--color-bg-dark)] flex items-center justify-center">
+                <span class="text-2xl font-bold text-white/20" style="font-family: var(--font-heading);">{post.title}</span>
+              </div>
+              <div class="p-5">
+                <h3 class="text-lg text-[var(--color-text)] group-hover:text-[var(--color-gold)] transition-colors">{post.title}</h3>
+                <p class="text-sm text-[var(--color-text-light)] mt-2 line-clamp-2">{post.excerpt}</p>
+              </div>
+            </a>
+          ))}
+        </div>
+        <a href="/blog" class="inline-block mt-8 text-sm font-semibold text-[var(--color-gold)] uppercase tracking-wider">View More &rarr;</a>
       </div>
     </section>
   </main>
