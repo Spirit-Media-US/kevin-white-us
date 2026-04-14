@@ -2,132 +2,106 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors */
   --color-primary: #1a1a1a;
   --color-gold: #c8a96e;
   --color-gold-dark: #b08f50;
   --color-bg: #ffffff;
-  --color-bg-warm: #f7f5f2;
-  --color-bg-dark: #1a1a1a;
-  --color-text: #1a1a1a;
+  --color-bg-light: #f9f9f9;
+  --color-text: #333333;
   --color-text-light: #666666;
   --color-text-on-dark: #ffffff;
-  --color-text-muted: #cccccc;
+  --color-text-muted: #999999;
   --color-border: #e5e5e5;
-
-  /* Fonts */
-  --font-heading: "DM Serif Display", serif;
-  --font-body: "Inter", sans-serif;
-
-  /* Spacing */
-  --container-max: 1200px;
+  --color-dark: #1a1a1a;
+  --font-heading: "DM Serif Display", Georgia, serif;
+  --font-body: "Inter", -apple-system, sans-serif;
+  --container-max: 1100px;
 }
 
-/* Base styles */
-html {
-  scroll-behavior: smooth;
-}
+html { scroll-behavior: smooth; }
 
 body {
   font-family: var(--font-body);
   color: var(--color-text);
-  background-color: var(--color-bg);
+  background: var(--color-bg);
   line-height: 1.7;
+  font-size: 16px;
 }
 
 h1, h2, h3, h4 {
   font-family: var(--font-heading);
-  line-height: 1.2;
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--color-primary);
 }
 
-h1 { font-size: 3.5rem; }
-h2 { font-size: 2.5rem; }
-h3 { font-size: 1.75rem; }
-h4 { font-size: 1.375rem; }
+h1 { font-size: 2.75rem; }
+h2 { font-size: 2rem; }
+h3 { font-size: 1.5rem; }
 
 @media (max-width: 768px) {
-  h1 { font-size: 2.25rem; }
-  h2 { font-size: 1.75rem; }
-  h3 { font-size: 1.375rem; }
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.5rem; }
+  h3 { font-size: 1.25rem; }
 }
 
-a {
-  color: var(--color-gold);
-  transition: color 0.3s ease;
-}
+a { color: inherit; text-decoration: none; }
 
-a:hover {
-  color: var(--color-gold-dark);
-}
-
-/* Utility classes */
 .container-site {
   max-width: var(--container-max);
   margin: 0 auto;
-  padding-left: 2.5rem;
-  padding-right: 2.5rem;
+  padding-left: 24px;
+  padding-right: 24px;
 }
 
-@media (max-width: 768px) {
-  .container-site {
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-  }
-}
+.section-pad { padding: 60px 0; }
+@media (max-width: 768px) { .section-pad { padding: 40px 0; } }
 
-.btn-gold {
+.btn {
   display: inline-block;
-  background-color: var(--color-gold);
-  color: var(--color-text-on-dark);
-  padding: 0.75rem 2rem;
+  padding: 12px 28px;
+  font-size: 14px;
   font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  border-radius: 4px;
+  transition: all 0.25s ease;
+  cursor: pointer;
   text-decoration: none;
-  transition: background-color 0.3s ease;
 }
 
-.btn-gold:hover {
-  background-color: var(--color-gold-dark);
-  color: var(--color-text-on-dark);
+.btn-primary {
+  background: var(--color-primary);
+  color: #fff;
 }
+.btn-primary:hover { background: #333; }
 
-.btn-dark {
-  display: inline-block;
-  background-color: var(--color-bg-dark);
-  color: var(--color-text-on-dark);
-  padding: 0.75rem 2rem;
+.btn-outline {
+  background: transparent;
+  color: var(--color-primary);
+  border: 1.5px solid var(--color-primary);
+}
+.btn-outline:hover { background: var(--color-primary); color: #fff; }
+
+.btn-gold-fill {
+  background: var(--color-gold);
+  color: #fff;
+}
+.btn-gold-fill:hover { background: var(--color-gold-dark); }
+
+.link-arrow {
+  font-size: 14px;
   font-weight: 600;
-  font-size: 0.875rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+  color: var(--color-primary);
   text-decoration: none;
-  transition: background-color 0.3s ease;
+  transition: color 0.2s;
 }
+.link-arrow:hover { color: var(--color-gold); }
 
-.btn-dark:hover {
-  background-color: #333333;
-  color: var(--color-text-on-dark);
-}
-
-.eyebrow {
-  font-family: var(--font-body);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--color-gold);
-}
-
-.section-padding {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-}
-
-@media (max-width: 768px) {
-  .section-padding {
-    padding-top: 3rem;
-    padding-bottom: 3rem;
-  }
+.img-placeholder {
+  background: #e8e4df;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #bbb;
+  font-size: 13px;
 }

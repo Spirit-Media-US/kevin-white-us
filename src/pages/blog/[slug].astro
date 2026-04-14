@@ -33,10 +33,7 @@ function renderPortableText(blocks: any[]): string {
 }
 
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-function formatDate(dateStr: string) {
-  const d = new Date(dateStr);
-  return `${MONTHS[d.getUTCMonth()]} ${d.getUTCDate()}, ${d.getUTCFullYear()}`;
-}
+function formatDate(d: string) { const dt = new Date(d); return `${MONTHS[dt.getUTCMonth()]} ${dt.getUTCDate()}, ${dt.getUTCFullYear()}`; }
 
 const author = post.author || 'Kevin White';
 const publishDate = formatDate(post.publishDate);
@@ -49,41 +46,30 @@ const bodyHtml = renderPortableText(post.body);
     <meta property="article:author" content={author} />
     <meta property="article:published_time" content={post.publishDate} />
     <script type="application/ld+json" set:html={JSON.stringify({
-      "@context": "https://schema.org",
-      "@type": "BlogPosting",
-      "headline": post.title,
-      "description": post.excerpt || post.title,
+      "@context": "https://schema.org", "@type": "BlogPosting",
+      "headline": post.title, "description": post.excerpt || post.title,
       "author": { "@type": "Person", "name": author },
       "publisher": { "@type": "Person", "name": "Kevin White", "url": "https://kevinwhite.us" },
-      "url": `https://kevinwhite.us/blog/${slug}`,
-      "datePublished": post.publishDate
+      "url": `https://kevinwhite.us/blog/${slug}`, "datePublished": post.publishDate
     })}></script>
   </Fragment>
 
   <main>
-    <section class="bg-[var(--color-bg-warm)] section-padding">
+    <section class="bg-white section-pad">
       <div class="container-site max-w-3xl mx-auto">
-        <a href="/blog" class="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--color-gold)] no-underline hover:text-[var(--color-gold-dark)] mb-6">&larr; Back to Magazines</a>
-        <h1>{post.title}</h1>
-        <div class="flex items-center gap-3 mt-4 text-sm text-[var(--color-text-light)]">
-          <span>By <strong class="text-[var(--color-text)]">{author}</strong></span>
-          <span>&middot;</span>
-          <span>{publishDate}</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="bg-white section-padding">
-      <div class="container-site max-w-3xl mx-auto">
+        <a href="/blog" class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-primary)]" style="transition: color 0.2s;">&larr; Back to Magazines</a>
+        <h1 class="mt-4 mb-2">{post.title}</h1>
+        <p class="text-sm text-[var(--color-text-muted)] mb-8">By {author} &middot; {publishDate}</p>
         <div class="prose-content" set:html={bodyHtml} />
       </div>
     </section>
 
-    <section class="bg-[var(--color-bg-dark)] text-white section-padding">
+    <!-- YouTube CTA -->
+    <section class="bg-white section-pad border-t border-[var(--color-border)]">
       <div class="container-site text-center max-w-2xl mx-auto">
-        <p class="text-[var(--color-text-muted)] mb-2">Watch The Kevin White Show</p>
-        <h2 class="text-white mb-6">Every Tuesday at 10 AM on YouTube</h2>
-        <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn-gold">Watch Now</a>
+        <p class="text-[var(--color-text-light)] mb-2">Watch The Kevin White Show</p>
+        <p class="text-lg font-semibold mb-5">Every Tuesday at 10 AM on YouTube</p>
+        <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Watch Now</a>
       </div>
     </section>
   </main>
@@ -93,25 +79,31 @@ const bodyHtml = renderPortableText(post.body);
   .prose-content :global(h2) {
     font-family: var(--font-heading);
     font-size: 1.75rem;
-    margin-top: 2.5rem;
-    margin-bottom: 1rem;
+    margin-top: 2rem;
+    margin-bottom: 0.75rem;
+    color: var(--color-primary);
   }
   .prose-content :global(h3) {
     font-family: var(--font-heading);
     font-size: 1.375rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--color-primary);
   }
   .prose-content :global(p) {
     color: var(--color-text-light);
-    font-size: 1.125rem;
+    font-size: 1.05rem;
     line-height: 1.8;
     margin-bottom: 1rem;
   }
-  .prose-content :global(strong) {
-    color: var(--color-text);
+  .prose-content :global(ol), .prose-content :global(ul) {
+    color: var(--color-text-light);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    padding-left: 1.5rem;
   }
-  .prose-content :global(em) {
-    color: var(--color-text);
-  }
+  .prose-content :global(li) { margin-bottom: 0.4rem; }
+  .prose-content :global(strong) { color: var(--color-primary); }
+  .prose-content :global(em) { color: var(--color-text); }
 </style>

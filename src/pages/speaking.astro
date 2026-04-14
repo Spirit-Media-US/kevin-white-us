@@ -3,74 +3,69 @@ import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import { sanityClient } from '../lib/sanity.ts';
 
-const keynotes = await sanityClient.fetch(`
-  *[_type == "keynote"] | order(order asc) {
-    title,
-    description,
-    videoUrl
-  }
-`);
+const keynotes = await sanityClient.fetch(`*[_type == "keynote"] | order(order asc) { title, description, videoUrl }`);
 ---
 
-<Layout title="Speaking — Kevin White" description="Kevin White equips leaders through keynote presentations on generosity, kingdom entrepreneurship, and faith-driven leadership.">
+<Layout title="Speaking — Kevin White" description="Book Kevin White for your next conference. Keynotes on generosity, kingdom entrepreneurship, and faith-driven leadership.">
   <main>
-    <section class="bg-[var(--color-bg-dark)] text-white min-h-[420px] md:min-h-[65vh] flex items-center">
-      <div class="container-site py-20 md:py-32">
-        <span class="eyebrow">Speaker</span>
-        <h1 class="mt-4 mb-6 text-white">Engage. Empower.<br />Excite.</h1>
-        <p class="text-xl text-[var(--color-text-muted)] max-w-2xl mb-8">
-          Kevin will move your audience. Keynotes designed to inspire leaders toward creating and living in the presence of God.
-        </p>
-        <a href="/contact" class="btn-gold">Book Kevin to Speak</a>
+    <!-- Hero with video background placeholder -->
+    <section class="bg-white section-pad">
+      <div class="container-site text-center">
+        <div class="img-placeholder rounded-lg aspect-video max-w-3xl mx-auto mb-8">Hero Video</div>
+        <h1 class="mb-2">Engage empower excite</h1>
+        <p class="text-lg text-[var(--color-text-light)] mb-6">Kevin will move your audience</p>
+        <a href="/contact" class="btn btn-primary">Book Kevin to Speak</a>
       </div>
     </section>
 
-    <section class="bg-white section-padding">
-      <div class="container-site max-w-3xl mx-auto text-center">
-        <p class="text-lg text-[var(--color-text-light)] leading-relaxed mb-4">
-          Kevin has written international bestsellers <em>Audacious Generosity</em> and <em>Get to the Point</em>. He is also the CEO of Spirit Media, a publishing and marketing company committed to disrupting the traditional publishing industry.
-        </p>
-        <p class="text-lg text-[var(--color-text-light)] leading-relaxed">
-          Kevin helps audiences engage, empower, and excite through practical solutions applicable to their communities. He also offers one-on-one consulting.
-        </p>
-      </div>
-    </section>
-
-    <section class="bg-[var(--color-bg-warm)] section-padding">
+    <!-- Featured Podcasts -->
+    <section class="bg-white section-pad border-t border-[var(--color-border)]">
       <div class="container-site">
-        <div class="text-center mb-12">
-          <span class="eyebrow">Keynote Presentations</span>
-          <h2 class="mt-3">Topics</h2>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {keynotes.map((k: any) => (
-            <div class="bg-white rounded-lg p-8 shadow-sm">
-              <h3 class="text-xl mb-4">{k.title}</h3>
-              <p class="text-[var(--color-text-light)] mb-6">{k.description}</p>
-              <a href="/contact" class="btn-gold text-sm">Book This Topic</a>
-            </div>
+        <h2 class="text-center mb-8">Featured Podcasts</h2>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
+          {['Chasing the Kingdom', 'Guys Who Do Stuff', 'Welcome Heart', 'Beyond the Rut', 'Seek Go Create', 'Eric Nevins', 'Ops Podcast', 'Kingdom Over Coffee', 'Apple Podcasts', 'YouTube'].map(name => (
+            <div class="img-placeholder rounded aspect-square text-[10px]">{name}</div>
           ))}
         </div>
       </div>
     </section>
 
-    <section class="bg-white section-padding">
-      <div class="container-site max-w-3xl mx-auto text-center">
-        <span class="eyebrow">As Heard On</span>
-        <h2 class="mt-3 mb-6">Featured Podcasts</h2>
-        <p class="text-[var(--color-text-light)] mb-8">
-          Kevin has been a guest on numerous podcasts including Chasing the Kingdom, Guys Who Do Stuff, Beyond the Rut, Seek Go Create, Kingdom Over Coffee, and many more.
-        </p>
-        <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn-gold">Watch on YouTube</a>
+    <!-- Bio: two-column -->
+    <section class="bg-white section-pad border-t border-[var(--color-border)]">
+      <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
+        <div>
+          <h2 class="mb-4">Bio</h2>
+          <p class="text-[var(--color-text-light)] leading-relaxed mb-4">
+            Kevin has written international bestsellers Audacious Generosity and Get to the Point. He is also the CEO of Spirit Media, a publishing and marketing company committed to disrupting the traditional publishing industry.
+          </p>
+          <p class="text-[var(--color-text-light)] leading-relaxed">
+            Kevin helps audiences engage, empower, and excite through solutions applicable to communities and offers one-on-one consulting.
+          </p>
+        </div>
+        <div class="img-placeholder rounded-lg aspect-[4/5]">Kevin White Headshot</div>
       </div>
     </section>
 
-    <section class="bg-[var(--color-bg-dark)] text-white section-padding">
-      <div class="container-site text-center max-w-2xl mx-auto">
-        <h2 class="text-white mb-4">Ready to Book Kevin?</h2>
-        <p class="text-[var(--color-text-muted)] mb-8">For more on speaking, contact Jeremy at Spirit Media.</p>
-        <a href="mailto:jeremy@spiritmedia.us" class="btn-gold">Send an Email</a>
+    <!-- "As heard on" -->
+    <section class="bg-white py-8 border-t border-[var(--color-border)]">
+      <div class="container-site text-center">
+        <p class="text-sm font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-4">As heard on</p>
+        <div class="img-placeholder rounded h-12 max-w-2xl mx-auto">Media Logos</div>
       </div>
     </section>
+
+    <!-- Keynote Presentations -->
+    {keynotes.map((k: any, i: number) => (
+      <section class:list={['section-pad border-t border-[var(--color-border)]', i % 2 === 0 ? 'bg-white' : 'bg-[var(--color-bg-light)]']}>
+        <div class="container-site max-w-3xl mx-auto">
+          <h2 class="mb-4 text-center">{k.title}</h2>
+          <div class="img-placeholder rounded-lg aspect-video mb-6">Video</div>
+          <p class="text-[var(--color-text-light)] leading-relaxed text-center mb-6">{k.description}</p>
+          <div class="text-center">
+            <a href="/contact" class="btn btn-primary">Book</a>
+          </div>
+        </div>
+      </section>
+    ))}
   </main>
 </Layout>
