@@ -19,17 +19,15 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
   </Fragment>
 
   <main>
-    <!-- Hero: background image with headings -->
+    <!-- Hero: background image with prayer text left-aligned -->
     <section
-      class="relative bg-cover bg-center flex items-center justify-center text-center text-white"
+      class="relative bg-cover bg-center flex items-center text-white"
       style={`background-image: url('${IMG.heroBg}?w=1440&auto=format'); min-height: 700px; padding: 4vw 2vw;`}
     >
-      <div class="relative z-10">
-        <h1 style="font-family: var(--font-heading); font-size: 80px; color: #fff;">Kevin White</h1>
-        <p style="font-family: var(--font-heading); font-size: 30px; line-height: 130%; color: #fff; margin-top: 10px;">
-          I'm a serial entrepreneur, author, speaker and the founder of
-          <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="underline" style="color: #fff;">Spirit Media</a>.
-        </p>
+      <div class="container-site relative z-10">
+        <h1 style="font-family: var(--font-heading); font-size: 80px; color: #fff; line-height: 1.05;">
+          NOTHING<br />CHANGES<br />OUR LIVES<br />MORE THAN<br />PRIORITIZING PRAYER
+        </h1>
       </div>
     </section>
 
