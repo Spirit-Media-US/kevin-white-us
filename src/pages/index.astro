@@ -22,9 +22,9 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     <!-- Hero: background image with prayer text left-aligned -->
     <section
       class="relative bg-cover bg-center flex items-center text-white"
-      style={`background-image: url('${IMG.heroBg}?w=1440&auto=format'); min-height: 700px; padding: 4vw 2vw;`}
+      style={`background-image: url('${IMG.heroBg}?w=1440&auto=format'); min-height: 700px;`}
     >
-      <div class="container-site relative z-10">
+      <div class="container-site relative z-10 py-16">
         <h1 style="font-family: var(--font-heading); font-size: 80px; color: #fff; line-height: 1.05;">
           NOTHING<br />CHANGES<br />OUR LIVES<br />MORE THAN<br />PRIORITIZING PRAYER
         </h1>
