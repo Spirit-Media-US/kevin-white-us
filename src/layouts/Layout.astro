@@ -84,8 +84,14 @@ const socialLinks = [
           ))}
         </div>
 
-        <!-- Mobile hamburger -->
-        <button id="mobile-menu-btn" class="lg:hidden p-2" aria-label="Open menu">
+      </div>
+
+      <!-- Mobile header -->
+      <div class="container-site flex lg:hidden items-center justify-between" style="padding-top: 3vw; padding-bottom: 3vw;">
+        <a href="/" class="shrink-0">
+          <img src={`${IMG.logo}?w=400&auto=format`} alt="Kevin White" style="height: 32px; width: auto;" />
+        </a>
+        <button id="mobile-menu-btn" class="p-2" aria-label="Open menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
           </svg>
