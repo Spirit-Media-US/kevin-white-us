@@ -9,4 +9,5 @@ export const IMG = {
   meeting2: 'https://cdn.sanity.io/images/kwhqwbb4/production/77a5d8c8fb519fcb38e1eb8e8f5b772a968b4013-1024x683.jpg',
   npoBanner: 'https://cdn.sanity.io/images/kwhqwbb4/production/68aede7bb23f37fa65f0b673eb23ad5882ebb08f-1024x289.png',
   kingsBook: 'https://cdn.sanity.io/images/kwhqwbb4/production/2a7eaa0bf2e8f1f4d1af87a3f65770f8afdb6f75-717x1024.jpg',
+  heroBg: 'https://cdn.sanity.io/images/kwhqwbb4/production/5751308142cca7852196a388c3d232a2cb5f5784-1200x700.jpg',
 } as const;

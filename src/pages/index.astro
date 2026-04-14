@@ -19,19 +19,17 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
   </Fragment>
 
   <main>
-    <!-- Hero: Kevin photo + intro text -->
-    <section class="bg-white" style="padding: 2vw;">
-      <div class="container-site flex flex-col md:flex-row items-center gap-8" style="padding: 2vw;">
-        <div class="md:w-1/2 text-center md:text-left">
-          <h1 class="mb-4" style="font-family: var(--font-heading); font-size: 80px;">Kevin White</h1>
-          <p style="font-family: var(--font-heading); font-size: 30px; line-height: 130%; margin-bottom: 20px;">
-            I'm a serial entrepreneur, author, speaker and the founder of
-            <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="underline">Spirit Media</a>.
-          </p>
-        </div>
-        <div class="md:w-1/2">
-          <img src={`${IMG.kevin}?w=768&auto=format`} alt="Kevin White" class="w-full max-w-md mx-auto rounded-lg" />
-        </div>
+    <!-- Hero: background image with headings -->
+    <section
+      class="relative bg-cover bg-center flex items-center justify-center text-center text-white"
+      style={`background-image: url('${IMG.heroBg}?w=1440&auto=format'); min-height: 700px; padding: 4vw 2vw;`}
+    >
+      <div class="relative z-10">
+        <h1 style="font-family: var(--font-heading); font-size: 80px; color: #fff;">Kevin White</h1>
+        <p style="font-family: var(--font-heading); font-size: 30px; line-height: 130%; color: #fff; margin-top: 10px;">
+          I'm a serial entrepreneur, author, speaker and the founder of
+          <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="underline" style="color: #fff;">Spirit Media</a>.
+        </p>
       </div>
     </section>
 
