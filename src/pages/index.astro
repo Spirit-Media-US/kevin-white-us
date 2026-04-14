@@ -1,20 +1,138 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
-
-// Example Sanity fetch — replace with real query for this site
-// import { sanityClient } from '../lib/sanity.ts';
-// const items = await sanityClient.fetch(`*[_type == "post"] | order(_createdAt desc)`);
 ---
 
-<Layout title="Site Name — Tagline">
-  <main class="flex min-h-screen flex-col items-center justify-center px-6 text-center">
-    <h1 class="text-4xl font-bold mb-4">
-      Site Name
-    </h1>
-    <p class="text-lg max-w-lg">
-      Replace this page with your site content. Connect to Sanity via
-      <code>src/lib/sanity.ts</code> and update the project ID.
-    </p>
+<Layout title="Kevin White — Author, Speaker, Entrepreneur">
+  <Fragment slot="head">
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Kevin White",
+      "url": "https://kevinwhite.us",
+      "jobTitle": "Founder & Chief Spiritual Officer",
+      "worksFor": { "@type": "Organization", "name": "Spirit Media" },
+      "description": "Serial entrepreneur, bestselling author, conference speaker, and Spirit Media founder.",
+      "sameAs": [
+        "https://www.youtube.com/@KevinWhiteTV",
+        "https://www.instagram.com/kevinwhiteus/",
+        "https://www.linkedin.com/in/kevinwhiteus/",
+        "https://twitter.com/kevinwhiteus"
+      ]
+    })}></script>
+  </Fragment>
+
+  <main>
+    <!-- Hero -->
+    <section class="bg-[var(--color-bg-warm)] min-h-[420px] md:min-h-[65vh] flex items-center">
+      <div class="container-site py-20 md:py-32">
+        <span class="eyebrow">Author &middot; Speaker &middot; Entrepreneur</span>
+        <h1 class="mt-4 mb-6 max-w-3xl">Kevin White</h1>
+        <p class="text-lg md:text-xl text-[var(--color-text-light)] max-w-2xl leading-relaxed">
+          Serial entrepreneur, author, speaker, and Spirit Media founder. Equipping and empowering leaders worldwide to live out God's Word while purposefully generating Kingdom wealth for Kingdom impact.
+        </p>
+        <div class="mt-8 flex flex-wrap gap-4">
+          <a href="/contact" class="btn-gold">Subscribe for Devotionals</a>
+          <a href="/about" class="btn-dark">Learn More</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Prayer Focus -->
+    <section class="bg-[var(--color-bg-dark)] text-white section-padding">
+      <div class="container-site text-center max-w-3xl mx-auto">
+        <span class="eyebrow">Prayer Focus</span>
+        <h2 class="mt-4 mb-6 text-white">Nothing Changes Our Lives More Than Prioritizing Prayer</h2>
+        <p class="text-[var(--color-text-muted)] text-lg leading-relaxed">
+          Kevin emphasizes prayer's transformative role in business, family, and spiritual life. Prayer is the foundation that fuels everything else.
+        </p>
+      </div>
+    </section>
+
+    <!-- Roles -->
+    <section class="bg-white section-padding">
+      <div class="container-site">
+        <div class="text-center mb-12">
+          <span class="eyebrow">What Kevin Does</span>
+          <h2 class="mt-3">Faith-Driven Leadership</h2>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--color-bg-warm)] flex items-center justify-center">
+              <svg class="w-7 h-7 text-[var(--color-gold)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582" />
+              </svg>
+            </div>
+            <h3 class="mb-3">Serial Entrepreneur</h3>
+            <p class="text-[var(--color-text-light)]">Founded multiple businesses and nonprofits globally. Helped launch hundreds of businesses internationally.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--color-bg-warm)] flex items-center justify-center">
+              <svg class="w-7 h-7 text-[var(--color-gold)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 18.75a6 6 0 0 0 6-6v-1.5m-6 7.5a6 6 0 0 1-6-6v-1.5m6 7.5v3.75m-3.75 0h7.5M12 15.75a3 3 0 0 1-3-3V4.5a3 3 0 1 1 6 0v8.25a3 3 0 0 1-3 3Z" />
+              </svg>
+            </div>
+            <h3 class="mb-3">Conference Speaker</h3>
+            <p class="text-[var(--color-text-light)]">Equips leaders on God's Word, prayer, and kingdom impact. Keynotes that engage, empower, and excite.</p>
+          </div>
+          <div class="text-center">
+            <div class="w-16 h-16 mx-auto mb-4 rounded-full bg-[var(--color-bg-warm)] flex items-center justify-center">
+              <svg class="w-7 h-7 text-[var(--color-gold)]" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" />
+              </svg>
+            </div>
+            <h3 class="mb-3">Bestselling Author</h3>
+            <p class="text-[var(--color-text-light)]">Seven published books in five years. Each book equips and empowers readers to live out God's Word.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- YouTube + Instagram -->
+    <section class="bg-[var(--color-bg-warm)] section-padding">
+      <div class="container-site">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+          <div class="bg-white rounded-lg p-8 shadow-sm">
+            <span class="eyebrow">YouTube</span>
+            <h3 class="mt-3 mb-4">The Kevin White Show</h3>
+            <p class="text-[var(--color-text-light)] mb-6">Weekly encouragement and guidance. Ideas, proverbs, and short stories to help you prosper in the presence of God.</p>
+            <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn-gold">Watch on YouTube</a>
+          </div>
+          <div class="bg-white rounded-lg p-8 shadow-sm">
+            <span class="eyebrow">Instagram</span>
+            <h3 class="mt-3 mb-4">Follow Along</h3>
+            <p class="text-[var(--color-text-light)] mb-6">Latest updates, encouragement, and engagement. Join the community and stay connected daily.</p>
+            <a href="https://www.instagram.com/kevinwhiteus/" target="_blank" rel="noopener noreferrer" class="btn-gold">Follow @kevinwhiteus</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Fundraising -->
+    <section class="bg-white section-padding">
+      <div class="container-site max-w-3xl mx-auto text-center">
+        <span class="eyebrow">Fundraising</span>
+        <h2 class="mt-3 mb-6">Articulating Vision for Financial Support</h2>
+        <p class="text-[var(--color-text-light)] text-lg leading-relaxed mb-4">
+          Kevin coaches startups and nonprofits on raising capital. His track record includes guiding nonprofits that have raised over $100M collectively.
+        </p>
+        <p class="text-[var(--color-text-light)] text-lg leading-relaxed mb-8">
+          Specializing in helping leaders articulate their vision to attract the financial support they need to fulfill their mission.
+        </p>
+        <a href="/contact" class="btn-gold">Get in Touch</a>
+      </div>
+    </section>
+
+    <!-- Books Preview -->
+    <section class="bg-[var(--color-bg-dark)] text-white section-padding">
+      <div class="container-site text-center">
+        <span class="eyebrow">Books</span>
+        <h2 class="mt-3 mb-4 text-white">Nurture Your Spiritual Journey</h2>
+        <p class="text-[var(--color-text-muted)] mb-8 max-w-2xl mx-auto">
+          These books will help you connect with God, deepen your relationships with Him and other people, and help you live in abundance.
+        </p>
+        <a href="/books" class="btn-gold">View All Books</a>
+      </div>
+    </section>
   </main>
 </Layout>
