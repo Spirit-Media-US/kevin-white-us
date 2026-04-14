@@ -1,52 +1,49 @@
-# Spirit Media Template
+# Kevin White
 
 > **CLAUDE.md belongs in version control — NEVER add it to .gitignore. This file is the shared source of truth for all developers and all Claude Code sessions.**
 
-This site: Spirit Media Template | Repo: github.com/Spirit-Media-US/spirit-media-template | Domain: TBD | Sanity ID: TBD
+This site: Kevin White | Repo: github.com/Spirit-Media-US/kevin-white-us | Domain: kevinwhite.us | Sanity ID: kwhqwbb4
 
 **Migration protocol:** /home/deploy/bin/tools-api/pipelines/migration/CLAUDE.md
+**Original site:** https://kevinwhite.us/
 
 ## Dev Commands
 
-- `npm run dev` -- local preview
+- `npm run dev` -- local preview (port 4331)
 - `npm run build` -- production build to dist/
 
 ## Mandatory -- Before Starting Work
 Always start Claude sessions from inside this directory:
 ```
-cd ~/Sites/spirit-media-template && claude
+cd ~/Sites/kevin-white-us && claude
 ```
-Running Claude from ~/ or ~/Sites/ bypasses this project's CLAUDE.md. A pre-edit hook enforces this, but following the workflow prevents warnings and ensures all project rules are loaded.
-
 Then run: `git checkout dev && git pull origin dev`
 
 ## Stack
 
 - Astro 5 + Tailwind CSS v4
-- Sanity Studio (to be configured per new site)
+- Sanity Studio at kevin-white-us.sanity.studio
+- Cloudflare Pages: kevin-white-us.pages.dev
+- Dev preview: dev.kevin-white-us.pages.dev
 
-## Purpose
+## Status -- as of 2026-04-14
 
-This is the **template repo** used as the starting point for all new SMP client sites. It contains the standard Astro + Tailwind + Sanity scaffold with Lefthook hooks, Biome config, and .gitignore pre-configured.
+### Completed & Live on Main
+- (nothing yet)
 
-When creating a new site, clone this template and customize the CLAUDE.md with the site-specific details (domain, Sanity ID, port, etc.).
-
-## Status -- as of 2026-04-08
-
-### Completed
-- Astro 5 + Tailwind v4 scaffold
-- Lefthook hooks (block-main-push, large-file blocker, secret scanner)
-- Biome config
-- Standard .gitignore (blocks media, .env, node_modules)
-- Template CLAUDE.md ready for customization
+### Completed on Dev
+- Phase 1: Infrastructure — repo, Sanity project, CF Pages, dev branch, scaffold
 
 ### Still Pending
-- None -- this is a template, not a live site
+- Phase 2: Content + CSS Extraction
+- Phase 3: Design + Build
+- Phase 4: Wire Sanity CMS
+- Phase 5: CAR / Transformation Layer Report
+- Phase 6: Design Refinement
+- Phase 7: QA
+- Phase 8: Launch
 
 ## Rules
 
 - All work goes to the **dev** branch -- never push directly to main
 - Only merge dev to main when Kevin says "push to main"
-- Every site cloned from this template must have a customized CLAUDE.md
-- netlify.toml must include [[headers]] with CSP and security headers
-- 404 page should have noindex meta tag
