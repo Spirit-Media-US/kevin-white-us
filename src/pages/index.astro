@@ -246,6 +246,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
 
     <!-- Magazines — cloned from brxe-xakeuv -->
     <section class="mag-section">
+      <div style="width: 1200px; max-width: 100%; margin: 0 auto;">
       <h3 class="mag-heading">Magazines</h3>
       <div class="mag-row">
         {posts.map((post: any) => (
@@ -265,6 +266,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
       <div class="mag-btn-wrap">
         <a href="/blog" class="mag-btn">View More</a>
+      </div>
       </div>
     </section>
   </main>
