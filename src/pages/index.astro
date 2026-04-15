@@ -74,14 +74,22 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </p>
     </section>
 
-    <!-- Serial Entrepreneur -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site max-w-4xl mx-auto">
-        <h2 style="font-family: var(--font-heading); font-size: 74px; margin-bottom: 20px;">Serial Entrepreneur</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px;">
-          Kevin White is God's startup guy. Driven by the Spirit, his drive for entrepreneurship has pushed him to launch, manage, and succeed in multiple businesses, including Spirit Media, a publishing and marketing company that provides holistic business consulting to amplify your mission. Kevin is a bestselling author who has published seven books in five years. A serial entrepreneur, Kevin has helped launch hundreds of businesses and nonprofits globally.
-        </p>
-        <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="link-more">Learn More &rarr;</a>
+    <!-- Serial Entrepreneur — cloned from live site CSS -->
+    <section class="se-section">
+      <div class="se-row">
+        <!-- Text column -->
+        <div class="se-text-col">
+          <p class="se-paragraph">
+            Kevin is known as "God's startup guy." God has used Kevin to bring hundreds of businesses, nonprofits, and churches to life globally. Kevin is a visionary leader who measures success through spiritual transformation. His work as the founder of <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer">Spirit Media</a> and other companies within White Enterprise allows him to empower businesses worldwide to lead with impact.
+          </p>
+          <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="se-button">Learn More</a>
+        </div>
+        <!-- Video column -->
+        <div class="se-video-col">
+          <video autoplay loop playsinline muted class="se-video">
+            <source src="https://kevinwhite.us/wp-content/uploads/2024/07/3.mp4" type="video/mp4" />
+          </video>
+        </div>
       </div>
     </section>
 
@@ -180,3 +188,115 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     </section>
   </main>
 </Layout>
+
+<style is:inline>
+  /* Serial Entrepreneur — exact values from brxe-ldwriz / brxe-tdzzpt */
+  .se-section {
+    display: flex;
+    flex-direction: column;
+  }
+  .se-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+    row-gap: 40px;
+    margin: 0 auto;
+    width: 1200px;
+    max-width: 100%;
+    align-items: stretch;
+    padding-bottom: 50px;
+  }
+  /* Text column — brxe-ycicih */
+  .se-text-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 50px;
+    padding-left: 50px;
+    min-height: 400px;
+  }
+  /* Paragraph — brxe-anxalw */
+  .se-paragraph {
+    font-size: 20px;
+    font-family: "Almarai", sans-serif;
+    line-height: 30px;
+    color: #000;
+    font-weight: 400;
+  }
+  .se-paragraph a {
+    font-size: 20px;
+    font-family: "Almarai", sans-serif;
+    line-height: 30px;
+    color: #000;
+    font-weight: 400;
+    text-decoration: underline;
+  }
+  /* Button — brxe-youglj */
+  .se-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #88cff1;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 30px;
+    margin-top: 50px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border-width: 0;
+    text-align: center;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+  .se-button:hover {
+    opacity: 0.85;
+  }
+  /* Video column — brxe-evknpf */
+  .se-video-col {
+    flex: 1;
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+  .se-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /* Mobile — matches @media max-width: 478px */
+  @media (max-width: 478px) {
+    .se-row {
+      flex-direction: column-reverse;
+      padding-right: 20px;
+      padding-bottom: 0;
+      padding-left: 20px;
+    }
+    .se-text-col {
+      padding-top: 0;
+      padding-right: 20px;
+      padding-left: 20px;
+      font-size: 16px;
+      margin-top: -40px;
+      min-height: auto;
+    }
+    .se-paragraph {
+      margin-top: 10px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .se-paragraph a {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .se-video-col {
+      min-height: 400px;
+    }
+  }
+</style>
