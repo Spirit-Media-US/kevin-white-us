@@ -163,17 +163,25 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
           </div>
         </div>
 
-        {/* Download text */}
+        {/* Download text — brxe-dziwfs */}
         <p class="ba-download">
           <a href="https://drive.google.com/file/d/1GVJGb50cSwhotRYbf1doRz8BHUVrYerf/view" target="_blank" rel="noopener noreferrer">
             Download my international bestseller
           </a>
         </p>
 
-        {/* Sample book images — brxe-pnfzog */}
-        <div class="ba-sample-row">
-          <img src={`${IMG.getToPointSample}?w=300&auto=format`} alt="Get to the Point sample" class="ba-sample-main" />
-          <img src={books[1]?.coverImage ? `${books[1].coverImage}?w=300&auto=format` : ''} alt="Get to the Point" class="ba-sample-rotated" />
+        {/* Overlapping book composition — brxe-pnfzog / brxe-fxwymo / brxe-oglwmg */}
+        <div class="ba-book-comp">
+          <img
+            src={`${IMG.getToPointSample}?w=400&auto=format`}
+            alt="Get to the Point sample page"
+            class="ba-book-back"
+          />
+          <img
+            src={books[1]?.coverImage ? `${books[1].coverImage}?w=400&auto=format` : `${IMG.getToPointSample}?w=400&auto=format`}
+            alt="Get to the Point"
+            class="ba-book-front"
+          />
         </div>
 
 
@@ -424,23 +432,29 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     color: #000;
     text-decoration: underline;
   }
-  /* Sample books — brxe-pnfzog / brxe-fxwymo / brxe-oglwmg */
-  .ba-sample-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: flex-start;
-  }
-  .ba-sample-main {
-    width: 200px;
-    z-index: 9;
+  /* Overlapping book composition — brxe-pnfzog / brxe-fxwymo / brxe-oglwmg */
+  .ba-book-comp {
     position: relative;
+    width: 280px;
+    height: 380px;
+    margin: 10px auto 0;
   }
-  .ba-sample-rotated {
+  /* Back page — rotated, behind — brxe-oglwmg */
+  .ba-book-back {
+    position: absolute;
     width: 200px;
+    top: 35px;
+    left: 110px;
     transform: rotate(15deg);
-    margin-top: 35px;
-    margin-left: -70px;
+    z-index: 1;
+  }
+  /* Front book — upright, in front — brxe-fxwymo */
+  .ba-book-front {
+    position: absolute;
+    width: 200px;
+    top: 0;
+    left: 0;
+    z-index: 9;
   }
   @media (max-width: 478px) {
     .ba-section { padding-top: 7vw; padding-bottom: 7vw; }
@@ -450,8 +464,9 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     .ba-row { column-gap: 20px; row-gap: 20px; }
     .ba-book-figure { height: 200px; min-height: 200px; }
     .ba-download { font-size: 4vw; }
-    .ba-sample-main { width: 40%; }
-    .ba-sample-rotated { width: 40%; }
+    .ba-book-comp { width: 200px; height: 280px; }
+    .ba-book-front { width: 140px; }
+    .ba-book-back { width: 140px; top: 25px; left: 70px; }
   }
 
   /* Conference Speaker — exact values from brxe-czmhlo / brxe-vlhlfy / brxe-fnekom */
