@@ -4,7 +4,7 @@ import '../styles/global.css';
 import { sanityClient } from '../lib/sanity.ts';
 import { IMG } from '../lib/images.ts';
 
-const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) { title, "coverImage": coverImage.asset->url }`);
+const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) { title, amazonUrl, "coverImage": coverImage.asset->url }`);
 const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDate desc) [0...3] { "slug": slug.current, title, "image": heroImage.asset->url }`);
 ---
 
@@ -16,166 +16,203 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       "worksFor": { "@type": "Organization", "name": "Spirit Media" },
       "sameAs": ["https://www.youtube.com/@KevinWhiteTV","https://www.instagram.com/kevinwhiteus/","https://www.linkedin.com/in/kevinwhiteus/","https://twitter.com/kevinwhiteus"]
     })}></script>
+    <style is:inline>
+      @media (max-width: 767px) {
+        .hero-desktop { display: none !important; }
+        .hero-mobile { display: flex !important; }
+        .yt-insta-grid { grid-template-columns: 1fr !important; }
+        .entrepreneur-row { flex-direction: column !important; }
+        .entrepreneur-row > * { width: 100% !important; }
+        .entrepreneur-heading { font-size: 6vw !important; }
+        .speaker-heading { font-size: 6vw !important; }
+        .author-heading { font-size: 6vw !important; }
+        .book-grid { grid-template-columns: repeat(4, 1fr) !important; }
+        .generously-section { padding-left: 20px !important; padding-right: 20px !important; }
+        .magazines-heading { font-size: 6vw !important; padding-top: 14vw !important; }
+        .footer-section { padding: 10vw 0 !important; }
+      }
+    </style>
   </Fragment>
 
   <main>
-    <!-- Hero: background image with prayer text left-aligned -->
+    {/* ===== SECTION 1: Hero - Prayer (Desktop) ===== */}
     <section
-      class="relative bg-cover bg-center flex items-center text-white"
-      style={`background-image: url('${IMG.heroBg}?w=1440&auto=format'); height: 100vh;`}
+      class="hero-desktop relative bg-cover flex items-center"
+      style={`background-image: url('${IMG.heroBg}?w=1920&auto=format'); background-position: center left; background-size: cover; min-height: 800px;`}
     >
-      <div class="container-site relative z-10 py-16">
-        <h1 style="font-family: var(--font-heading); font-size: 80px; color: #fff; line-height: 1.05;">
-          NOTHING<br />CHANGES<br />OUR LIVES<br />MORE THAN<br />PRIORITIZING PRAYER
-        </h1>
+      <div style="width: 1400px; max-width: 100%; margin: 0 auto; display: flex; flex-direction: row; align-items: center; min-height: 688px; padding: 2vw;">
+        <div style="width: 60%; padding-right: 2vw; padding-left: 2vw;">
+          <h1 class="entrepreneur-heading" style="font-family: 'Black Han Sans', sans-serif; font-weight: 400; font-size: 74px; line-height: 96px; color: #fff; text-transform: uppercase; text-align: left; margin-left: 20px;">
+            NOTHING<br />CHANGES<br />OUR LIVES<br />MORE THAN<br />PRIORITIZING<br />PRAYER
+          </h1>
+        </div>
+        <div style="width: 40%; padding-left: 50px;">
+          <p style="font-family: 'Almarai', sans-serif; font-size: 20px; color: #000; line-height: 30px; font-weight: 800; text-align: left;">
+            I'm a serial entrepreneur, author, speaker and the founder of <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" style="color: #000; text-decoration: underline;">Spirit Media</a>.
+          </p>
+          <p style="font-family: 'Crimson Text', serif; font-size: 20px; color: #000; margin-top: 10px;">
+            Subscribe to get a free pick-me-up devotion.
+          </p>
+        </div>
       </div>
     </section>
 
-    <!-- Kevin White Quote -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site text-center max-w-4xl mx-auto">
-        <p style="font-family: var(--font-serif); font-size: 20px; line-height: 1.6; color: var(--color-text);">
-          "I have valued prayer my whole life, but when I prioritized prayer above everything else on my calendar I immediately witnessed God's miracles in my life, marriage, family, companies, and world. You can too! Allow me to empower you in prioritizing prayer."
+    {/* ===== SECTION 1b: Hero (Mobile only) ===== */}
+    <section
+      class="hero-mobile relative bg-cover"
+      style={`display: none; background-image: url('${IMG.heroMobile}?w=1024&auto=format'); background-size: cover; background-position: top left; flex-direction: column; justify-content: flex-end; padding-bottom: 20px; min-height: 400px;`}
+    >
+      <div style="padding: 20px;">
+        <p style="font-family: 'Almarai', sans-serif; font-size: 16px; color: #000; line-height: 1.5; font-weight: 800; padding-top: 20px; padding-bottom: 16px;">
+          I'm a serial entrepreneur, author, speaker and the founder of <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" style="color: #000;">Spirit Media</a>.
         </p>
-        <p style="font-family: var(--font-body); font-size: 16px; margin-top: 12px; color: var(--color-gray);">- Kevin White</p>
       </div>
     </section>
 
-    <!-- YouTube + Instagram: 2 column with background image -->
-    <section class="relative bg-cover bg-center" style={`background-image: url('${IMG.ytInstaBg}?w=1920&auto=format'); padding: 4vw 2vw;`}>
-      <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-8">
-        <!-- YouTube -->
-        <div class="text-center" style="padding: 3vw 2vw;">
-          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 mb-4" style="font-family: var(--font-heading); font-size: 25px; color: #fff; font-weight: 700; text-transform: uppercase;">
-            <svg style="width: 40px; height: 40px; flex-shrink: 0;" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
-            <span>&rarr;</span> Learn More
-          </a>
-          <p style="font-family: var(--font-heading); font-size: 16px; line-height: 150%; color: #fff; text-transform: uppercase; font-weight: 700;">
+    {/* ===== SECTION 2: Kevin White Quote ===== */}
+    <section style="margin-top: 50px; margin-bottom: 50px;">
+      <div style="width: 1400px; max-width: 100%; margin: 0 auto; padding: 0 2vw; display: flex; justify-content: center;">
+        <p style="font-family: 'Crimson Text', serif; font-size: 30px; color: #fff; line-height: 130%; font-weight: 600; text-align: center; max-width: 900px;">
+          "I have valued prayer my whole life, but when I prioritized prayer above everything else on my calendar I immediately witnessed God's miracles in my life, marriage, family, companies, and world. You can too! Allow me to empower you in prioritizing prayer." &nbsp;- Kevin White
+        </p>
+      </div>
+    </section>
+
+    {/* ===== SECTION 3: YouTube + Instagram ===== */}
+    <section style={`background-image: url('${IMG.ytInstaBg}?w=1920&auto=format'); background-size: cover; background-position: center center; margin-bottom: 20px;`}>
+      <div class="yt-insta-grid" style="width: 1400px; max-width: 100%; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr;">
+        {/* YouTube */}
+        <div style="display: flex; flex-direction: column; align-items: center; justify-content: space-around; padding: 40px 10px;">
+          <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px;">
+            <svg style="width: 30px; height: 30px; flex-shrink: 0;" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" style="font-family: 'Almarai', sans-serif; font-weight: 800; font-size: 20px; line-height: 30px; color: #fff; text-transform: uppercase;">
+              &rarr; Learn More
+            </a>
+          </div>
+          <p style="font-family: 'Almarai', sans-serif; font-weight: 800; font-size: 19px; line-height: 30px; color: #fff; text-transform: uppercase; text-align: center; margin-top: 39px;">
             Stay connected and receive encouragement every week on Kevin's YouTube channel
           </p>
         </div>
-        <!-- Instagram -->
-        <div class="text-center" style="padding: 3vw 2vw;">
-          <a href="https://www.instagram.com/kevinwhiteus/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 mb-4" style="font-family: var(--font-heading); font-size: 25px; color: #fff; font-weight: 700; text-transform: uppercase;">
+        {/* Instagram */}
+        <div style="display: flex; flex-direction: column; align-items: flex-start; justify-content: space-around; margin-left: 20px; padding: 40px 10px;">
+          <div style="display: flex; flex-direction: row; align-items: center; justify-content: center; gap: 10px;">
             <svg style="width: 40px; height: 40px; flex-shrink: 0;" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
-            <span>&rarr;</span> Learn More
-          </a>
-          <p style="font-family: var(--font-heading); font-size: 16px; line-height: 150%; color: #fff; text-transform: uppercase; font-weight: 700;">
+            <a href="https://www.instagram.com/kevinwhiteus/" target="_blank" rel="noopener noreferrer" style="font-family: 'Almarai', sans-serif; font-weight: 800; font-size: 20px; line-height: 30px; color: #fff; text-transform: uppercase;">
+              &rarr; Learn More
+            </a>
+          </div>
+          <p style="font-family: 'Almarai', sans-serif; font-weight: 800; font-size: 19px; line-height: 30px; color: #fff; text-transform: uppercase; text-align: left; margin-top: 39px;">
             See the latest on Kevin's Instagram page
           </p>
         </div>
       </div>
     </section>
 
-    <!-- Tagline -->
-    <section class="bg-white text-center" style="padding: 2vw;">
-      <p style="font-family: var(--font-display); font-size: 40px; color: var(--color-black);">
-        Multiplying Kingdom Wealth for Kingdom Good
-      </p>
-    </section>
-
-    <!-- Serial Entrepreneur -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site max-w-4xl mx-auto">
-        <h2 style="font-family: var(--font-heading); font-size: 74px; margin-bottom: 20px;">Serial Entrepreneur</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px;">
-          Kevin White is God's startup guy. Driven by the Spirit, his drive for entrepreneurship has pushed him to launch, manage, and succeed in multiple businesses, including Spirit Media, a publishing and marketing company that provides holistic business consulting to amplify your mission. Kevin is a bestselling author who has published seven books in five years. A serial entrepreneur, Kevin has helped launch hundreds of businesses and nonprofits globally.
-        </p>
-        <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="link-more">Learn More &rarr;</a>
+    {/* ===== SECTION 4: Serial Entrepreneur ===== */}
+    <section style="padding: 2.5vw 4vw;">
+      <div class="entrepreneur-row" style="width: 1400px; max-width: 100%; margin: 0 auto; display: flex; flex-direction: row; align-items: center;">
+        <div style="width: 50%;">
+          <img src={`${IMG.meeting2}?w=800&auto=format`} alt="Corporate meeting" style="width: 100%; height: 400px; object-fit: cover;" />
+        </div>
+        <div style="width: 50%; padding-left: 50px;">
+          <p style="font-family: 'Almarai', sans-serif; font-size: 20px; color: #000; line-height: 30px; font-weight: 400;">
+            Kevin is known as "God's startup guy." God has used Kevin to bring hundreds of businesses, nonprofits, and churches to life globally. Kevin is a visionary leader who measures success through spiritual transformation. His work as the founder of Spirit Media and other companies within White Enterprise allows him to empower businesses worldwide to lead with impact.
+          </p>
+          <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" style="display: inline-block; background-color: #88cff1; font-family: 'Almarai', sans-serif; font-size: 20px; color: #fff; font-weight: 400; line-height: 30px; margin-top: 50px; padding: 12px 30px; border-radius: 50px;">
+            Learn More
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- Conference Speaker -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site max-w-4xl mx-auto">
-        <h2 style="font-family: var(--font-display); font-size: 74px; text-transform: uppercase; margin-bottom: 20px;">Conference Speaker</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px;">
-          Kevin is a dynamic conference speaker who equips and empowers leaders to live out God's Word while purposefully generating Kingdom wealth for Kingdom impact. His keynotes are designed to inspire audiences toward creating and living in the presence of God.
-        </p>
-        <a href="/speaking" class="link-more">Learn More &rarr;</a>
+    {/* ===== SECTION 5: Conference Speaker ===== */}
+    <section style="padding-bottom: 70px; display: flex; flex-direction: column; gap: 40px;">
+      <div style="width: 1400px; max-width: 100%; margin: 0 auto; display: flex; flex-direction: row; align-items: center; padding: 0 4vw;">
+        <div style="flex: 1;">
+          <img src={`${IMG.onStage}?w=800&auto=format`} alt="Kevin White on stage" style="width: 100%; height: auto; object-fit: cover;" />
+        </div>
+      </div>
+      <div style="width: 1400px; max-width: 100%; margin: 0 auto; padding: 0 4vw;">
+        <h2 class="speaker-heading" style="font-family: 'Black Han Sans', sans-serif; font-size: 74px; color: #000; line-height: 50px; text-transform: uppercase; font-weight: 400;">
+          Conference Speaker
+        </h2>
+        <div style="padding: 73px 0 64px;">
+          <p style="font-size: 20px; font-family: 'Almarai', sans-serif; line-height: 30px; color: #000; font-weight: 400;">
+            Kevin actively equips and empowers leaders all over the world to live out God's Word in their everyday lives. He loves to guide people into God's presence, Word, kingdom, generosity, mission, and purpose. Kevin regularly empowers and equips all Believers in prioritizing prayer, the fear of God, and kingdom impact through business and nonprofit development. Schedule Kevin to bring value to your audience.
+          </p>
+          <a href="/speaking" style="display: inline-block; background-color: #88cff1; font-family: 'Almarai', sans-serif; font-size: 20px; color: #fff; font-weight: 400; line-height: 30px; margin-top: 50px; padding: 12px 30px; border-radius: 50px;">
+            Learn More
+          </a>
+        </div>
       </div>
     </section>
 
-    <!-- Bestselling Author + Book Covers -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site">
-        <h2 style="font-family: var(--font-heading); font-size: 74px; margin-bottom: 10px;">Bestselling Author</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; margin-bottom: 30px;">
-          Kevin has published seven books in five years. His eighth book will be released in 2025. Each book equips and empowers believers to live out God's Word in their everyday lives.
+    {/* ===== SECTION 6: Bestselling Author + Books ===== */}
+    <section style="padding-top: 4vw; padding-bottom: 0;">
+      <div style="width: 1400px; max-width: 100%; margin: 0 auto; padding: 0 4vw;">
+        <h2 class="author-heading" style="font-family: 'Black Han Sans', sans-serif; font-size: 74px; color: #000; line-height: 92px; text-transform: uppercase; font-weight: 400; padding-bottom: 50px;">
+          Bestselling Author
+        </h2>
+        <p style="font-size: 20px; font-family: 'Almarai', sans-serif; line-height: 30px; color: #000; font-weight: 400; margin-bottom: 30px;">
+          Kevin has published seven books in five years. His eighth book will be released in 2025.&nbsp;Each book equips and empowers believers to live out God's Word in their everyday lives.
         </p>
-        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3">
+        <div class="book-grid" style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 12px; margin-bottom: 30px;">
           {books.map((book: any) => (
-            <a href="/books" class="block">
+            <a href={book.amazonUrl || '/books'} target={book.amazonUrl ? '_blank' : '_self'} rel="noopener noreferrer">
               {book.coverImage ? (
-                <img src={`${book.coverImage}?w=200&auto=format`} alt={book.title} class="w-full rounded" />
+                <img src={`${book.coverImage}?w=300&auto=format`} alt={book.title} style="width: 100%; border-radius: 4px;" />
               ) : (
-                <div class="img-placeholder rounded aspect-[3/4] text-[10px]">{book.title}</div>
+                <div class="img-placeholder" style="aspect-ratio: 3/4; border-radius: 4px;">{book.title}</div>
               )}
             </a>
           ))}
         </div>
-      </div>
-    </section>
-
-    <!-- Fundraiser -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site max-w-4xl mx-auto">
-        <h2 style="font-family: var(--font-heading); font-size: 74px; margin-bottom: 20px;">Fundraiser</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 16px;">
-          Kevin has personally coached leaders and entrepreneurs in startup capital and nonprofit fundraising. His track record includes guiding organizations that have collectively raised over $100 million.
+        <p style="font-family: 'Almarai', sans-serif; font-size: 16px; color: #000;">
+          <a href="https://drive.google.com/file/d/1GVJGb50cSwhotRYbf1doRz8BHUVrYerf/view" target="_blank" rel="noopener noreferrer" style="text-decoration: underline;">Download my international bestseller</a>
         </p>
-        <ul style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px; padding-left: 24px; list-style: disc;">
-          <li>Guided nonprofits raising $100M+</li>
-          <li>Coached hundreds of startups internationally</li>
-          <li>Specializes in articulating vision for financial support</li>
-        </ul>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px;">
-          Kevin has mastered the art of articulating and selling vision. He helps leaders express their mission in a way that attracts the financial support they need to fulfill their calling.
+      </div>
+    </section>
+
+    {/* ===== SECTION 7: NPO Coaching Banner ===== */}
+    <section style="padding: 3vw 4vw;">
+      <div style="width: 1400px; max-width: 100%; margin: 0 auto;">
+        <a href="https://drive.google.com/file/d/1GVJGb50cSwhotRYbf1doRz8BHUVrYerf/view" target="_blank" rel="noopener noreferrer">
+          <img src={`${IMG.npoBanner}?w=1200&auto=format`} alt="NPO Coaching" style="width: 100%; height: auto;" />
+        </a>
+      </div>
+    </section>
+
+    {/* ===== SECTION 8: Generously Blessed ===== */}
+    <section
+      class="generously-section"
+      style={`margin-top: 50px; background-image: url('${IMG.gradientBg}?w=1920&auto=format'); background-size: cover; min-height: 700px; display: flex; align-items: center; justify-content: center;`}
+    >
+      <div style="text-align: center; padding: 4vw 2vw;">
+        <h2 style="font-family: 'Lexend', sans-serif; font-size: 40px; color: #000; line-height: 50px; margin-bottom: 20px;">
+          Generously Blessed
+        </h2>
+        <p style="font-family: 'Crimson Text', serif; font-size: 30px; color: #fff; line-height: 130%; font-weight: 600;">
+          1 minute devotions that will fire up your spirit. Delivered straight to your inbox.
         </p>
-        <a href="/contact" class="btn btn-black">Start Your Fundraising Coaching</a>
       </div>
     </section>
 
-    <!-- Blogs: 3 column grid with images -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site">
-        <h3 style="font-family: var(--font-display); font-size: 30px; text-transform: uppercase; margin-bottom: 20px;">Blogs</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {posts.map((post: any) => (
-            <a href={`/blog/${post.slug}`} class="block group">
-              {post.image ? (
-                <img src={`${post.image}?w=600&h=400&fit=crop&auto=format`} alt={post.title} class="w-full aspect-[3/2] object-cover rounded mb-3" />
-              ) : (
-                <div class="img-placeholder rounded aspect-[3/2] mb-3">{post.title}</div>
-              )}
-            </a>
-          ))}
-        </div>
-        <div class="mt-4">
-          <a href="/blog" class="link-more">Read More &rarr;</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- Magazines: 3 column grid -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site">
-        <h3 style="font-family: var(--font-heading); font-size: 30px; margin-bottom: 20px;">Magazines</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {posts.map((post: any) => (
-            <a href={`/blog/${post.slug}`} class="block group text-center">
-              {post.image ? (
-                <img src={`${post.image}?w=600&h=400&fit=crop&auto=format`} alt={post.title} class="w-full aspect-[3/2] object-cover rounded mb-3" />
-              ) : (
-                <div class="img-placeholder rounded aspect-[3/2] mb-3">{post.title}</div>
-              )}
-              <h3 style="font-family: var(--font-body); font-size: 20px;">{post.title}</h3>
-            </a>
-          ))}
-        </div>
-        <div class="text-center mt-4">
-          <a href="/blog" class="link-more">View More &rarr;</a>
-        </div>
+    {/* ===== SECTION 9: Magazines ===== */}
+    <section style="padding-top: 9vw; padding-right: 4vw; padding-bottom: 100px; padding-left: 4vw; width: 100%;">
+      <h3 class="magazines-heading" style="font-family: 'Black Han Sans', sans-serif; font-weight: 400; font-size: 74px; line-height: 92px; color: #000; text-transform: uppercase; padding-bottom: 50px;">
+        Magazines
+      </h3>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px;">
+        {posts.map((post: any) => (
+          <a href={`/blog/${post.slug}`} style="text-decoration: none;">
+            {post.image ? (
+              <img src={`${post.image}?w=600&h=400&fit=crop&auto=format`} alt={post.title} style="width: 100%; aspect-ratio: 3/2; object-fit: cover;" />
+            ) : (
+              <div class="img-placeholder" style="aspect-ratio: 3/2;">{post.title}</div>
+            )}
+            <h4 style="font-family: 'Almarai', sans-serif; font-size: 20px; color: #000; font-weight: 700; margin-top: 10px;">{post.title}</h4>
+          </a>
+        ))}
       </div>
     </section>
   </main>
