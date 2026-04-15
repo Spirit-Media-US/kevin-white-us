@@ -113,23 +113,67 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
 
-    <!-- Bestselling Author + Book Covers -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site">
-        <h2 style="font-family: var(--font-heading); font-size: 74px; margin-bottom: 10px;">Bestselling Author</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; margin-bottom: 30px;">
-          Kevin has published seven books in five years. His eighth book will be released in 2025. Each book equips and empowers believers to live out God's Word in their everyday lives.
+    <!-- Bestselling Author — cloned from live site CSS -->
+    <section class="ba-section">
+      <div class="ba-container">
+        <h2 class="ba-heading">Bestselling Author</h2>
+        <p class="ba-description">
+          Kevin has published seven books in five years. His eighth book will be released in 2025.&nbsp;Each book equips and empowers believers to live out God's Word in their everyday lives.
         </p>
-        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3">
-          {books.map((book: any) => (
-            <a href="/books" class="block">
-              {book.coverImage ? (
-                <img src={`${book.coverImage}?w=200&auto=format`} alt={book.title} class="w-full rounded" />
-              ) : (
-                <div class="img-placeholder rounded aspect-[3/4] text-[10px]">{book.title}</div>
-              )}
-            </a>
+
+        {/* Row 1: 4 books */}
+        <div class="ba-row">
+          {books.slice(0, 4).map((book: any) => (
+            <div class="ba-book-block">
+              <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer">
+                <figure class="ba-book-figure">
+                  {book.coverImage ? (
+                    <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="ba-book-img" />
+                  ) : (
+                    <div class="img-placeholder" style="width: 100%; height: 100%;">{book.title}</div>
+                  )}
+                </figure>
+              </a>
+            </div>
           ))}
+        </div>
+
+        {/* Row 2: remaining books + Kings of the King */}
+        <div class="ba-row">
+          {books.slice(4).map((book: any) => (
+            <div class="ba-book-block">
+              <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer">
+                <figure class="ba-book-figure">
+                  {book.coverImage ? (
+                    <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="ba-book-img" />
+                  ) : (
+                    <div class="img-placeholder" style="width: 100%; height: 100%;">{book.title}</div>
+                  )}
+                </figure>
+              </a>
+            </div>
+          ))}
+          {/* 8th book: Kings of the King */}
+          <div class="ba-book-block">
+            <a href="/books">
+              <figure class="ba-book-figure">
+                <img src={`${IMG.kingsBook}?w=400&auto=format`} alt="Kings of the King" class="ba-book-img" />
+              </figure>
+            </a>
+          </div>
+        </div>
+
+        {/* Download text */}
+        <p class="ba-download">
+          <a href="https://drive.google.com/file/d/1GVJGb50cSwhotRYbf1doRz8BHUVrYerf/view" target="_blank" rel="noopener noreferrer">
+            Download my international bestseller
+          </a>
+        </p>
+
+        {/* Sample book images */}
+        <div class="ba-sample-row">
+          <img src={`${IMG.getToPointSample}?w=300&auto=format`} alt="Get to the Point sample" class="ba-sample-main" />
+          <img src={books[1]?.coverImage ? `${books[1].coverImage}?w=300&auto=format` : ''} alt="Get to the Point" class="ba-sample-rotated" />
         </div>
       </div>
     </section>
@@ -308,6 +352,116 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       min-height: 400px;
     }
   }
+  /* Bestselling Author — exact values from brxe-mnwlya / brxe-nlnnpw */
+  .ba-section {
+    padding-top: 4vw;
+    padding-bottom: 0;
+  }
+  .ba-container {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 0 4vw 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  /* Heading — brxe-mhvwnv */
+  .ba-heading {
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 74px;
+    color: #000;
+    line-height: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+  /* Description — brxe-srfzhy */
+  .ba-description {
+    font-family: "Almarai", sans-serif;
+    color: #000;
+    line-height: 1.5;
+    font-weight: 800;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  /* Book rows — brxe-sowhvf / brxe-oahemj */
+  .ba-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 50px;
+    row-gap: 50px;
+    width: 100%;
+    justify-content: center;
+  }
+  /* Book block — brxe-pzmeay etc */
+  .ba-book-block {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Book figure — brxe-pjonhb etc */
+  .ba-book-figure {
+    height: 330px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+  .ba-book-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+  /* Download text — brxe-dziwfs */
+  .ba-download {
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 800;
+    color: #000;
+    text-transform: uppercase;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .ba-download a {
+    color: #000;
+    text-decoration: underline;
+  }
+  /* Sample books — brxe-pnfzog / brxe-fxwymo / brxe-oglwmg */
+  .ba-sample-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .ba-sample-main {
+    width: 200px;
+    z-index: 9;
+    position: relative;
+  }
+  .ba-sample-rotated {
+    width: 200px;
+    transform: rotate(15deg);
+    margin-top: 35px;
+    margin-left: -70px;
+  }
+  @media (max-width: 478px) {
+    .ba-section { padding-top: 7vw; padding-bottom: 7vw; }
+    .ba-container { padding-right: 20px; padding-left: 20px; }
+    .ba-heading { font-size: 6vw; margin-bottom: 0; }
+    .ba-description { margin-top: 10px; }
+    .ba-row { column-gap: 20px; row-gap: 20px; }
+    .ba-book-figure { height: 200px; min-height: 200px; }
+    .ba-download { font-size: 4vw; }
+    .ba-sample-main { width: 40%; }
+    .ba-sample-rotated { width: 40%; }
+  }
+
   /* Conference Speaker — exact values from brxe-czmhlo / brxe-vlhlfy / brxe-fnekom */
   .cs-heading-wrap {
     display: flex;
