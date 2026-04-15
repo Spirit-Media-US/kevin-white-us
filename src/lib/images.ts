@@ -10,4 +10,5 @@ export const IMG = {
   npoBanner: 'https://cdn.sanity.io/images/kwhqwbb4/production/68aede7bb23f37fa65f0b673eb23ad5882ebb08f-1024x289.png',
   kingsBook: 'https://cdn.sanity.io/images/kwhqwbb4/production/2a7eaa0bf2e8f1f4d1af87a3f65770f8afdb6f75-717x1024.jpg',
   heroBg: 'https://cdn.sanity.io/images/kwhqwbb4/production/5751308142cca7852196a388c3d232a2cb5f5784-1200x700.jpg',
+  ytInstaBg: 'https://cdn.sanity.io/images/kwhqwbb4/production/d4e27107db3a661a83b73edce68d01dae465b9ef-2560x1440.jpg',
 } as const;
