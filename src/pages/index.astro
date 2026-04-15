@@ -244,46 +244,27 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
 
-    <!-- Blogs: 3 column grid with images -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site">
-        <h3 style="font-family: var(--font-display); font-size: 30px; text-transform: uppercase; margin-bottom: 20px;">Blogs</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {posts.map((post: any) => (
-            <a href={`/blog/${post.slug}`} class="block group">
-              {post.image ? (
-                <img src={`${post.image}?w=600&h=400&fit=crop&auto=format`} alt={post.title} class="w-full aspect-[3/2] object-cover rounded mb-3" />
-              ) : (
-                <div class="img-placeholder rounded aspect-[3/2] mb-3">{post.title}</div>
-              )}
+    <!-- Magazines — cloned from brxe-xakeuv -->
+    <section class="mag-section">
+      <h3 class="mag-heading">Magazines</h3>
+      <div class="mag-row">
+        {posts.map((post: any) => (
+          <div class="mag-card">
+            <a href={`/blog/${post.slug}`}>
+              <figure class="mag-image-wrap">
+                {post.image ? (
+                  <img src={`${post.image}?w=1024&h=683&fit=crop&auto=format`} alt={post.title} class="mag-image" />
+                ) : (
+                  <div class="img-placeholder" style="width:100%;height:100%;">{post.title}</div>
+                )}
+              </figure>
             </a>
-          ))}
-        </div>
-        <div class="mt-4">
-          <a href="/blog" class="link-more">Read More &rarr;</a>
-        </div>
+            <h4 class="mag-title"><a href={`/blog/${post.slug}`}>{post.title}</a></h4>
+          </div>
+        ))}
       </div>
-    </section>
-
-    <!-- Magazines: 3 column grid -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site">
-        <h3 style="font-family: var(--font-heading); font-size: 30px; margin-bottom: 20px;">Magazines</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {posts.map((post: any) => (
-            <a href={`/blog/${post.slug}`} class="block group text-center">
-              {post.image ? (
-                <img src={`${post.image}?w=600&h=400&fit=crop&auto=format`} alt={post.title} class="w-full aspect-[3/2] object-cover rounded mb-3" />
-              ) : (
-                <div class="img-placeholder rounded aspect-[3/2] mb-3">{post.title}</div>
-              )}
-              <h3 style="font-family: var(--font-body); font-size: 20px;">{post.title}</h3>
-            </a>
-          ))}
-        </div>
-        <div class="text-center mt-4">
-          <a href="/blog" class="link-more">View More &rarr;</a>
-        </div>
+      <div class="mag-btn-wrap">
+        <a href="/blog" class="mag-btn">View More</a>
       </div>
     </section>
   </main>
@@ -782,6 +763,94 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     .gb-card { padding: 40px 24px; }
     .gb-heading { font-size: 30px; }
     .gb-subtext { font-size: 20px; }
+  }
+
+  /* Magazines — brxe-xakeuv */
+  .mag-section {
+    padding-top: 9vw;
+    padding-right: 4vw;
+    padding-bottom: 100px;
+    padding-left: 4vw;
+    width: 100%;
+  }
+  .mag-heading {
+    font-family: "Black Han Sans", sans-serif;
+    font-weight: 400;
+    font-size: 74px;
+    line-height: 92px;
+    color: #000;
+    text-transform: uppercase;
+    padding-bottom: 50px;
+  }
+  /* Card row — brxe-ngrvtj */
+  .mag-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+  /* Card block — .brxe-fzulfa */
+  .mag-card {
+    flex: 1;
+  }
+  /* Card image — .brxe-cxzyou */
+  .mag-image-wrap {
+    height: 270px;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid #000;
+    margin: 0;
+  }
+  .mag-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+  }
+  /* Card title — .brxe-ovigyk */
+  .mag-title {
+    font-size: 20px;
+    font-family: "Almarai", sans-serif;
+    line-height: 30px;
+    font-weight: 800;
+    color: #000;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+  .mag-title a {
+    color: #000;
+    text-decoration: none;
+  }
+  /* View More button — brxe-qcazhi */
+  .mag-btn-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  .mag-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    font-family: "Almarai", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    color: #ffffff;
+    background-color: #88cff1;
+    border-radius: 0;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    text-align: center;
+  }
+  .mag-btn:hover { opacity: 0.85; }
+  @media (max-width: 478px) {
+    .mag-section { padding-top: 14vw; padding-bottom: 50px; }
+    .mag-heading { padding-bottom: 0; font-size: 6vw; }
+    .mag-row { flex-direction: column; gap: 20px; }
+    .mag-image-wrap { height: 200px; }
+    .mag-title { text-align: center; }
+    .mag-btn-wrap { margin-top: 20px; }
   }
 
   /* CTA Button — brxe-bbgdht / brxe-hhlmjl */
