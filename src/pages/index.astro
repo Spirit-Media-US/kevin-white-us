@@ -197,6 +197,45 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
 
+    <!-- Fundraiser — cloned from brxe-hhoquz -->
+    <section class="fr-section">
+      <div class="fr-outer">
+        <div class="fr-content">
+          {/* Two-column row — brxe-ornmgx flex-direction: row */}
+          <div class="fr-columns">
+            {/* Left sub-column — brxe-jirzaa */}
+            <div class="fr-col-left">
+              <h2 class="fr-heading">Fundraiser</h2>
+              <p class="fr-text">
+                As a young boy, Kevin was always one of the top fundraisers in the Royal Rangers. God's anointing for fundraising has been on Kevin his whole life. God has used Kevin to:
+              </p>
+              <ul class="fr-list">
+                <li><span class="fr-arrow">&rarr;</span><span>Start hundreds of nonprofits and guide them to raise $100M+ in donations.</span></li>
+                <li><span class="fr-arrow">&rarr;</span><span>Strengthen hundreds of startup companies worldwide.</span></li>
+                <li><span class="fr-arrow">&rarr;</span><span>Empower hundreds of ministers and missionaries around the world to start income generation projects.</span></li>
+              </ul>
+            </div>
+            {/* Right sub-column — brxe-fqgshn */}
+            <div class="fr-col-right">
+              <p class="fr-text">
+                In doing so, Kevin knows the art of articulating and selling vision. The Bible teaches that money follows vision. Every money problem is a lack of vision. Unfortunately, most people struggle to articulate and sell the vision God has given them. Let Kevin help you:
+              </p>
+              <ul class="fr-list">
+                <li><span class="fr-arrow">&rarr;</span><span>Secure funds for your start-up business.</span></li>
+                <li><span class="fr-arrow">&rarr;</span><span>Raise funds for your nonprofit.</span></li>
+              </ul>
+            </div>
+          </div>
+          {/* Bottom paragraph — brxe-shofck */}
+          <p class="fr-bottom-text">
+            Kevin is committed to training an army of believers worldwide to multiply kingdom wealth for kingdom impact. Contact us today and let Kevin and his team train you.
+          </p>
+        </div>
+        {/* CTA button — brxe-hhlmjl */}
+        <a href="/contact" class="fr-cta">Start Your Fundraising Coaching</a>
+      </div>
+    </section>
+
     <!-- Blogs: 3 column grid with images -->
     <section class="bg-white" style="padding: 3vw 2vw;">
       <div class="container-site">
@@ -578,6 +617,125 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       line-height: 1.5;
     }
   }
+  /* Fundraiser — brxe-hhoquz structure */
+  .fr-section {
+    width: 100%;
+  }
+  .fr-outer {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 5vw 0 4vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .fr-content {
+    padding: 0 4vw;
+    width: 100%;
+  }
+  /* Two-column row — brxe-ornmgx */
+  .fr-columns {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  /* Left column — brxe-jirzaa */
+  .fr-col-left {
+    flex: 1;
+    padding: 0 2vw;
+  }
+  /* Right column — brxe-fqgshn */
+  .fr-col-right {
+    flex: 1;
+    padding: 0 2vw;
+    padding-top: 150px;
+  }
+  /* Heading — brxe-yrbduu */
+  .fr-heading {
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 74px;
+    font-weight: 400;
+    color: #000;
+    line-height: 50px;
+    text-transform: uppercase;
+    margin-top: 50px;
+  }
+  /* Paragraph — brxe-vkcjgy / brxe-jvgyox / brxe-shofck */
+  .fr-text {
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+  .fr-col-right .fr-text {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .fr-bottom-text {
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0 2vw;
+  }
+  /* Arrow list — brxe-eqpkao / brxe-lipohf */
+  .fr-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .fr-list li {
+    font-family: "Almarai", sans-serif;
+    font-size: 18px;
+    color: #000;
+    padding: 5px 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .fr-arrow {
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  /* CTA — brxe-hhlmjl */
+  .fr-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #89cff0;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 30px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border: none;
+    text-decoration: none;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    align-self: center;
+  }
+  .fr-cta:hover { opacity: 0.85; }
+  @media (max-width: 478px) {
+    .fr-heading { font-size: 6vw; }
+    .fr-columns { flex-direction: column; }
+    .fr-col-right { padding-top: 10px; }
+    .fr-text { font-size: 16px; line-height: 1.5; margin-top: 10px; }
+    .fr-col-right .fr-text { padding-top: 0; }
+    .fr-bottom-text { font-size: 16px; line-height: 1.5; }
+    .fr-list li { font-size: 16px; line-height: 1.5; }
+  }
+
   /* CTA Button — brxe-bbgdht / brxe-hhlmjl */
   .ba-cta-button {
     display: inline-flex;
