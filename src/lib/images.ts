@@ -11,4 +11,5 @@ export const IMG = {
   kingsBook: 'https://cdn.sanity.io/images/kwhqwbb4/production/2a7eaa0bf2e8f1f4d1af87a3f65770f8afdb6f75-717x1024.jpg',
   heroBg: 'https://cdn.sanity.io/images/kwhqwbb4/production/5751308142cca7852196a388c3d232a2cb5f5784-1200x700.jpg',
   ytInstaBg: 'https://cdn.sanity.io/images/kwhqwbb4/production/d4e27107db3a661a83b73edce68d01dae465b9ef-2560x1440.jpg',
+  getToPointSample: 'https://cdn.sanity.io/images/kwhqwbb4/production/d7f28c49548b8b964950787519c5400b53a8bc9b-640x1024.jpg',
 } as const;
