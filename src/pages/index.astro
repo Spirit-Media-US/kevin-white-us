@@ -89,14 +89,27 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
 
-    <!-- Conference Speaker -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site max-w-4xl mx-auto">
-        <h2 style="font-family: var(--font-display); font-size: 74px; text-transform: uppercase; margin-bottom: 20px;">Conference Speaker</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px;">
-          Kevin is a dynamic conference speaker who equips and empowers leaders to live out God's Word while purposefully generating Kingdom wealth for Kingdom impact. His keynotes are designed to inspire audiences toward creating and living in the presence of God.
-        </p>
-        <a href="/speaking" class="link-more">Learn More &rarr;</a>
+    <!-- Conference Speaker heading — brxe-fnekom -->
+    <div class="cs-heading-wrap">
+      <h2 class="cs-heading">Conference Speaker</h2>
+    </div>
+
+    <!-- Conference Speaker section — brxe-czmhlo -->
+    <section class="cs-section">
+      <div class="cs-row">
+        <!-- Video column (left) — brxe-zcafxp -->
+        <div class="cs-video-col">
+          <video autoplay loop playsinline muted class="cs-video">
+            <source src="https://kevinwhite.us/wp-content/uploads/2024/07/8.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <!-- Text column (right) — brxe-yqknsm -->
+        <div class="cs-text-col">
+          <p class="cs-paragraph">
+            Kevin actively equips and empowers leaders all over the world to live out God's Word in their everyday lives. He loves to guide people into God's presence, Word, kingdom, generosity, mission, and purpose. Kevin regularly empowers and equips all Believers in prioritizing prayer, the fear of God, and kingdom impact through business and nonprofit development. Schedule Kevin to bring value to your audience.
+          </p>
+          <a href="/speaking" class="cs-button">Learn More</a>
+        </div>
       </div>
     </section>
 
@@ -293,6 +306,115 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     }
     .se-video-col {
       min-height: 400px;
+    }
+  }
+  /* Conference Speaker — exact values from brxe-czmhlo / brxe-vlhlfy / brxe-fnekom */
+  .cs-heading-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 73px;
+    padding-bottom: 64px;
+  }
+  .cs-heading {
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 74px;
+    color: #000;
+    line-height: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    text-align: center;
+  }
+  .cs-section {
+    padding-bottom: 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .cs-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+    row-gap: 40px;
+    margin: 0 auto;
+    width: 1200px;
+    max-width: 100%;
+    align-items: stretch;
+  }
+  .cs-video-col {
+    flex: 1;
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cs-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .cs-text-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 50px;
+    padding-left: 50px;
+    min-height: 400px;
+  }
+  .cs-paragraph {
+    font-family: "Almarai", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    margin-top: 50px;
+  }
+  .cs-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #88cff1;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 30px;
+    margin-top: 50px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border-width: 0;
+    text-align: center;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+  .cs-button:hover { opacity: 0.85; }
+
+  @media (max-width: 478px) {
+    .cs-heading-wrap {
+      padding: 20px;
+    }
+    .cs-heading {
+      font-size: 6vw;
+    }
+    .cs-section {
+      padding: 0 20px 0;
+    }
+    .cs-row {
+      flex-direction: column;
+    }
+    .cs-text-col {
+      padding: 0 20px;
+      margin-top: -40px;
+      min-height: auto;
+    }
+    .cs-paragraph {
+      margin-top: 0;
+      font-size: 16px;
+      line-height: 1.5;
     }
   }
 </style>
