@@ -237,10 +237,10 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     </section>
 
     <!-- Generously Blessed — brxe-ypbgzh -->
-    <section style={`margin-top: 50px; background-image: url('${IMG.gradientBg}?w=1920&auto=format'); background-size: cover; background-position: center center; min-height: 700px; display: flex; align-items: center; justify-content: center;`}>
-      <div style="text-align: center; padding: 4vw 2vw;">
-        <h2 style="font-family: 'Lexend', sans-serif; font-size: 40px; color: #000; line-height: 50px; margin-bottom: 20px;">Generously Blessed</h2>
-        <p style="font-family: 'Crimson Text', serif; font-size: 30px; color: #fff; line-height: 130%; font-weight: 600;">1 minute devotions that will fire up your spirit. Delivered straight to your inbox.</p>
+    <section class="gb-section">
+      <div class="gb-card">
+        <h2 class="gb-heading">Generously Blessed</h2>
+        <p class="gb-subtext">1 minute devotions that will fire up your spirit. Delivered straight to your inbox.</p>
       </div>
     </section>
 
@@ -742,6 +742,46 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     .fr-col-right .fr-text { padding-top: 0; }
     .fr-bottom-text { font-size: 16px; line-height: 1.5; }
     .fr-list li { font-size: 16px; line-height: 1.5; }
+  }
+
+  /* Generously Blessed — brxe-ypbgzh */
+  .gb-section {
+    margin-top: 50px;
+    background: url('https://kevinwhite.us/wp-content/uploads/2024/06/KWI-Gradient-1-scaled.jpg') center/cover no-repeat;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vw 2vw;
+  }
+  .gb-card {
+    background-color: #000;
+    border-radius: 16px;
+    padding: 60px 50px;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+  .gb-heading {
+    font-family: "Lexend", sans-serif;
+    font-size: 40px;
+    color: #fff;
+    line-height: 50px;
+    margin-bottom: 20px;
+  }
+  .gb-subtext {
+    font-family: "Crimson Text", serif;
+    font-size: 25px;
+    color: #fff;
+    line-height: 130%;
+    font-weight: 600;
+  }
+  @media (max-width: 478px) {
+    .gb-section { padding: 4vw 20px; }
+    .gb-card { padding: 40px 24px; }
+    .gb-heading { font-size: 30px; }
+    .gb-subtext { font-size: 20px; }
   }
 
   /* CTA Button — brxe-bbgdht / brxe-hhlmjl */
