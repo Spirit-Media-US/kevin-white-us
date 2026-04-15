@@ -170,30 +170,24 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
           </a>
         </p>
 
-        {/* Sample book images */}
+        {/* Sample book images — brxe-pnfzog */}
         <div class="ba-sample-row">
           <img src={`${IMG.getToPointSample}?w=300&auto=format`} alt="Get to the Point sample" class="ba-sample-main" />
           <img src={books[1]?.coverImage ? `${books[1].coverImage}?w=300&auto=format` : ''} alt="Get to the Point" class="ba-sample-rotated" />
         </div>
+
+        {/* Start Your Fundraising Coaching buttons — brxe-bbgdht / brxe-hhlmjl */}
+        <a href="/contact" class="ba-cta-button" style="margin-top: 50px; margin-bottom: 50px;">Start Your Fundraising Coaching</a>
+        <a href="/contact" class="ba-cta-button" style="margin-top: 10px; margin-bottom: 50px; align-self: center;">Start Your Fundraising Coaching</a>
       </div>
     </section>
 
-    <!-- Fundraiser -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site max-w-4xl mx-auto">
-        <h2 style="font-family: var(--font-heading); font-size: 74px; margin-bottom: 20px;">Fundraiser</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 16px;">
-          Kevin has personally coached leaders and entrepreneurs in startup capital and nonprofit fundraising. His track record includes guiding organizations that have collectively raised over $100 million.
-        </p>
-        <ul style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px; padding-left: 24px; list-style: disc;">
-          <li>Guided nonprofits raising $100M+</li>
-          <li>Coached hundreds of startups internationally</li>
-          <li>Specializes in articulating vision for financial support</li>
-        </ul>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px;">
-          Kevin has mastered the art of articulating and selling vision. He helps leaders express their mission in a way that attracts the financial support they need to fulfill their calling.
-        </p>
-        <a href="/contact" class="btn btn-black">Start Your Fundraising Coaching</a>
+    <!-- NPO Coaching Banner — brxe-mrxnju -->
+    <section class="npo-section">
+      <div class="npo-container">
+        <a href="https://drive.google.com/file/d/1GVJGb50cSwhotRYbf1doRz8BHUVrYerf/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="npo-image-link">
+          <img src={`${IMG.npoBanner}?w=1200&auto=format`} alt="NPO Coaching Banner" class="npo-image" />
+        </a>
       </div>
     </section>
 
@@ -569,6 +563,56 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       margin-top: 0;
       font-size: 16px;
       line-height: 1.5;
+    }
+  }
+  /* CTA Button — brxe-bbgdht / brxe-hhlmjl */
+  .ba-cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #89cff0;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 30px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border-width: 0;
+    text-align: center;
+    text-decoration: none;
+  }
+  .ba-cta-button:hover { opacity: 0.85; }
+
+  /* NPO Coaching Banner — brxe-mrxnju */
+  .npo-section {
+    padding: 0;
+  }
+  .npo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2vw 4vw;
+  }
+  .npo-image-link {
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.62);
+    overflow: hidden;
+  }
+  .npo-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  @media (max-width: 478px) {
+    .npo-image-link {
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .npo-container {
+      padding: 2vw 0;
     }
   }
 </style>
