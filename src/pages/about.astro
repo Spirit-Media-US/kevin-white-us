@@ -1,84 +1,308 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import { sanityClient } from '../lib/sanity.ts';
+import { IMG } from '../lib/images.ts';
+
+const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0...5] { title, "coverImage": coverImage.asset->url, amazonUrl }`);
 ---
 
 <Layout title="About — Kevin White" description="Kevin White is driven by his deep love for Jesus. Founder of Spirit Media and bestselling author.">
   <main>
-    <!-- Hero: two-column, image left, text right -->
-    <section class="bg-[var(--color-bg-light)] section-pad">
-      <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        <div class="img-placeholder rounded-lg aspect-[3/4] md:aspect-[4/5]">Kevin White Photo</div>
-        <div>
-          <h1 class="mb-4">About</h1>
-          <p class="text-[var(--color-text-light)] leading-relaxed mb-4">
-            Kevin White is driven by his deep love for Jesus, his wife, children, and grandchildren. He is the Founder and Chief Spiritual Officer of SpiritMedia.US and owner of White Enterprise.
+
+    {/* ===== SECTION 1: About Intro — brxe-tqcsmt ===== */}
+    <section class="about-intro">
+      <div class="about-intro-inner">
+        <div class="about-intro-img">
+          <img src={`${IMG.kevinCenter}?w=568&auto=format`} alt="Kevin White" class="about-kevin-img" />
+        </div>
+        <div class="about-intro-text">
+          <h1 class="about-heading">About</h1>
+          <p class="about-paragraph">
+            Kevin White is driven by his deep love for Jesus, his wife, children, and grandchildren. He is the Founder and Chief Spiritual Officer of SpiritMedia.US and owner of White Enterprise. As a serial entrepreneur, bestselling author, and conference speaker, he has helped start hundreds of businesses, churches, and nonprofits worldwide. Through his books, live TV show, and conference speaking events Kevin actively equips and empowers leaders worldwide to live out God's Word while purposefully generating Kingdom wealth for Kingdom impact.
           </p>
-          <p class="text-[var(--color-text-light)] leading-relaxed mb-5">
-            As a serial entrepreneur and bestselling author, Kevin helps leaders globally equip and empower leaders worldwide to live out God's Word while purposefully generating Kingdom wealth for Kingdom impact.
-          </p>
-          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn btn-primary">In Action</a>
+          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="about-btn">In Action</a>
         </div>
       </div>
     </section>
 
-    <!-- Key Points -->
-    <section class="bg-white section-pad border-t border-[var(--color-border)]">
-      <div class="container-site max-w-3xl mx-auto">
-        <ul class="space-y-3 text-[var(--color-text-light)] list-disc pl-5">
-          <li>Serial entrepreneur who has helped launch hundreds of businesses internationally</li>
-          <li>Hosts a highly-ranked podcast across streaming platforms</li>
-          <li>Father of three children</li>
-          <li>Married thirty years to his high school sweetheart</li>
-          <li>Traveled to India 48 times and visited 30 countries in the past two decades</li>
+    {/* ===== SECTION 2: Key Points — brxe-iahcaq ===== */}
+    <section class="about-keypoints">
+      <div class="about-keypoints-inner">
+        <h2 class="about-kp-heading">Key Points</h2>
+        <ul class="about-kp-list">
+          <li><span class="about-kp-arrow">&rarr;</span><span>As a serial entrepreneur, Kevin has helped start hundreds of businesses worldwide.</span></li>
+          <li><span class="about-kp-arrow">&rarr;</span><span>He has a highly-ranked podcast streaming on all platforms.</span></li>
+          <li><span class="about-kp-arrow">&rarr;</span><span>He's the father of three radiant souls.</span></li>
+          <li><span class="about-kp-arrow">&rarr;</span><span>He married his high school sweetheart, going thirty years strong.</span></li>
+          <li><span class="about-kp-arrow">&rarr;</span><span>In the past twenty years, he has traveled to India four dozen times and traveled to thirty countries.</span></li>
         </ul>
       </div>
     </section>
 
-    <!-- Podcast: two-column, text left, image right -->
-    <section class="bg-white section-pad border-t border-[var(--color-border)]">
-      <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        <div>
-          <h2 class="mb-4">A weekly podcast to motivate</h2>
-          <p class="text-[var(--color-text-light)] leading-relaxed mb-5">
-            The Kevin White Show offers weekly episodes since 2020 with ideas, proverbs, or short stories to help listeners prosper in the presence of God.
+    {/* ===== SECTION 3: Podcast — brxe-ysceva ===== */}
+    <section class="about-podcast">
+      <div class="about-podcast-row">
+        <div class="about-podcast-img-col">
+          <img src={`${IMG.familyPhoto}?w=600&auto=format`} alt="Kevin with family" class="about-family-img" />
+        </div>
+        <div class="about-podcast-text-col">
+          <h2 class="about-podcast-heading">A weekly podcast to motivate</h2>
+          <p class="about-podcast-text">
+            Every week since 2020, the Kevin White Show has offered a new idea, proverb, or short story to help listeners prosper in the presence of God.
           </p>
-          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Listen</a>
-        </div>
-        <div class="img-placeholder rounded-lg aspect-[4/3]">Podcast Image</div>
-      </div>
-    </section>
-
-    <!-- Services: three-column cards -->
-    <section class="bg-white section-pad border-t border-[var(--color-border)]">
-      <div class="container-site">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div>
-            <h3 class="mb-3">Conference Speaker</h3>
-            <p class="text-[var(--color-text-light)] leading-relaxed mb-4">Keynotes designed to inspire audiences toward creating and living in the presence of God.</p>
-            <a href="/speaking" class="link-arrow">Learn More &rarr;</a>
-          </div>
-          <div>
-            <h3 class="mb-3">Serial Entrepreneur</h3>
-            <p class="text-[var(--color-text-light)] leading-relaxed mb-4">Spirit Media provides publishing and marketing services to amplify your mission and visibility.</p>
-            <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="link-arrow">Learn More &rarr;</a>
-          </div>
-          <div>
-            <h3 class="mb-3">Fundraiser</h3>
-            <p class="text-[var(--color-text-light)] leading-relaxed mb-4">Hands-on workshops and coaching for business development, startup capital, and nonprofit fundraising.</p>
-            <a href="/contact" class="link-arrow">Learn More &rarr;</a>
-          </div>
+          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="about-podcast-btn">Listen</a>
         </div>
       </div>
     </section>
 
-    <!-- Books -->
-    <section class="bg-[var(--color-bg-light)] section-pad">
-      <div class="container-site text-center">
-        <h2 class="mb-2">Nurture Your Spiritual Journey</h2>
-        <p class="text-[var(--color-text-light)] mb-6">Seven published books, each equipping readers to live out God's Word.</p>
-        <a href="/books" class="btn btn-primary">View All Books</a>
+    {/* ===== SECTION 4: Services — brxe-scbrek ===== */}
+    <section class="about-services">
+      <h2 class="about-services-heading">Together, Let's Find a Way</h2>
+      <div class="about-services-grid">
+        <div class="about-service-card">
+          <h3 class="about-service-title">Conference Speaker</h3>
+          <p class="about-service-text">Curated keynotes will spark an audience and move them to begin creating and living in the presence of God.</p>
+          <a href="/speaking" class="about-service-btn">Learn More</a>
+        </div>
+        <div class="about-service-card">
+          <h3 class="about-service-title">Serial Entrepreneur</h3>
+          <p class="about-service-text">Through strategic and results-oriented marketing, Spirit Media is putting businesses on the map every day.</p>
+          <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="about-service-btn">Learn More</a>
+        </div>
+        <div class="about-service-card">
+          <h3 class="about-service-title">Fundraiser</h3>
+          <p class="about-service-text">These are hands-on workshops for building your business from the ground up with lesson plans, tips, and resources.</p>
+          <a href="/contact" class="about-service-btn">Learn More</a>
+        </div>
       </div>
     </section>
+
+    {/* ===== SECTION 5: Books — brxe-pxmruk ===== */}
+    <section class="about-books">
+      <div class="about-books-inner">
+        <h2 class="about-books-heading">Books</h2>
+        <p class="about-books-subtext">Nurture Your Spiritual Journey</p>
+        <div class="about-books-row">
+          {books.map((book: any) => (
+            <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer" class="about-book-item">
+              {book.coverImage ? (
+                <img src={`${book.coverImage}?w=300&auto=format`} alt={book.title} class="about-book-img" />
+              ) : (
+                <div class="img-placeholder" style="width:100%;height:100%;">{book.title}</div>
+              )}
+            </a>
+          ))}
+        </div>
+        <a href="/books" class="about-books-btn">View All Books</a>
+      </div>
+    </section>
+
+    {/* ===== SECTION 6: Generously Blessed — brxe-b6ac05 ===== */}
+    <section class="about-gb">
+      <div class="about-gb-card">
+        <h2 class="about-gb-heading">Generously Blessed</h2>
+        <p class="about-gb-subtext">1 minute devotions that will fire up your spirit. Delivered straight to your inbox.</p>
+      </div>
+    </section>
+
   </main>
 </Layout>
+
+<style is:inline>
+  /* === SECTION 1: About Intro — brxe-tqcsmt === */
+  .about-intro { padding-top: 4vw; padding-bottom: 0; }
+  .about-intro-inner {
+    display: flex; flex-direction: column; align-items: center;
+    padding: 0 2vw;
+  }
+  /* Image block — brxe-wzdzjt: width 60%, centered */
+  .about-intro-img {
+    width: 60%; display: flex; flex-direction: column; align-items: center;
+  }
+  .about-kevin-img { width: 100%; max-width: 568px; border-radius: 10px; object-fit: cover; }
+  /* Text block — brxe-ceypbc */
+  .about-intro-text {
+    width: 800px; max-width: 100%; align-self: center; padding-top: 100px; padding-bottom: 4vw;
+    display: flex; flex-direction: column; align-items: flex-start;
+  }
+  .about-heading {
+    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+    line-height: 50px; text-transform: uppercase; font-weight: 400;
+  }
+  .about-paragraph {
+    font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px; color: #000;
+    margin-top: 30px; margin-bottom: 20px; text-align: left;
+  }
+  .about-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 15px 35px; background-color: #88cff1; color: #fff;
+    font-size: 18px; width: 300px; text-decoration: none;
+  }
+  @media (max-width: 478px) {
+    .about-intro-img { width: 100%; }
+    .about-kevin-img { border-radius: 0; }
+    .about-intro-text { width: 100%; padding-top: 50px; padding-right: 20px; padding-left: 20px; margin-left: 0; }
+    .about-heading { font-size: 6vw; padding-top: 40px; }
+    .about-paragraph { padding: 0; margin-top: 0; }
+  }
+
+  /* === SECTION 2: Key Points — brxe-iahcaq === */
+  .about-keypoints { margin-top: 100px; }
+  .about-keypoints-inner {
+    width: 1200px; max-width: 100%; margin: 0 auto; padding: 0 2vw;
+  }
+  .about-kp-heading {
+    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+    line-height: 50px; text-transform: uppercase; font-weight: 400;
+    margin-top: -16px; margin-left: 50px;
+  }
+  .about-kp-list {
+    list-style: none; padding: 100px 0 4vw; margin: 0;
+    display: flex; flex-direction: column; gap: 44px;
+    align-self: flex-start; width: 80%;
+  }
+  .about-kp-list li {
+    font-family: "Lexend", sans-serif; color: #000; font-size: 25px;
+    font-weight: 400; padding: 5px 0 5px 15px;
+    display: flex; align-items: flex-start; gap: 20px;
+  }
+  .about-kp-arrow { flex-shrink: 0; }
+  @media (max-width: 478px) {
+    .about-keypoints { margin-top: 50px; }
+    .about-kp-heading { font-size: 6vw; padding-top: 40px; margin-left: 0; }
+    .about-kp-list { width: 100%; padding: 50px 20px; gap: 10px; }
+    .about-kp-list li { font-size: 18px; gap: 10px; }
+  }
+
+  /* === SECTION 3: Podcast — brxe-ysceva === */
+  .about-podcast { padding: 6vw 4vw 4vw; }
+  .about-podcast-row {
+    width: 1200px; max-width: 100%; margin: 50px auto 0;
+    display: flex; flex-direction: row; align-items: stretch; padding-top: 2vw;
+  }
+  .about-podcast-img-col { flex: 1; }
+  .about-family-img { width: 100%; height: 100%; object-fit: cover; }
+  .about-podcast-text-col {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; margin-top: 150px; padding: 0 2vw;
+  }
+  .about-podcast-heading {
+    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+    line-height: 90px; text-transform: uppercase; font-weight: 400; text-align: center;
+  }
+  .about-podcast-text {
+    font-family: "Lexend", sans-serif; line-height: 48px; color: #000;
+    font-weight: 400; font-size: 30px; margin-bottom: 20px;
+  }
+  .about-podcast-btn {
+    font-size: 18px; color: #fff; padding: 15px 35px;
+    background-color: #89cff0; border: none; text-decoration: none;
+  }
+  @media (max-width: 478px) {
+    .about-podcast { padding: 4vw; }
+    .about-podcast-row { flex-direction: column-reverse; margin-top: 20px; }
+    .about-podcast-text-col { margin-top: 0; }
+    .about-podcast-heading { font-size: 5vw; line-height: 30px; }
+    .about-podcast-text { font-size: 20px; line-height: 1.3; }
+    .about-podcast-btn { margin-bottom: 50px; }
+  }
+
+  /* === SECTION 4: Services — brxe-scbrek === */
+  .about-services { padding: 6vw 4vw; }
+  .about-services-heading {
+    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+    line-height: 90px; text-transform: uppercase; font-weight: 400; text-align: center;
+  }
+  .about-services-grid {
+    width: 1200px; max-width: 100%; margin: 50px auto 0;
+    display: flex; flex-direction: row; gap: 20px;
+    padding: 2vw; justify-content: center;
+  }
+  .about-service-card {
+    flex: 1; display: flex; flex-direction: column; align-items: center;
+    padding: 2vw; text-align: center;
+  }
+  .about-service-title {
+    font-family: "Lexend", sans-serif; font-size: 30px; color: #fff;
+    font-weight: 900; line-height: 48px; margin-top: 44px;
+    background-color: #000; padding: 10px 20px;
+  }
+  .about-service-text {
+    font-family: "Almarai", sans-serif; font-size: 20px; color: #fff;
+    text-align: center; line-height: 130%; font-weight: 400;
+    padding: 0 10px; margin-top: 30px;
+  }
+  .about-service-btn {
+    font-size: 18px; color: #fff; padding: 15px 35px;
+    background-color: #89cff0; border: none; text-decoration: none;
+    margin-top: 20px;
+  }
+  @media (max-width: 478px) {
+    .about-services { padding: 0 20px 10vw; }
+    .about-services-heading { font-size: 5vw; line-height: 50px; padding-top: 40px; }
+    .about-services-grid { flex-direction: column; margin-top: 20px; }
+    .about-service-title { font-size: 5vw; }
+    .about-service-text { font-size: 16px; }
+  }
+
+  /* === SECTION 5: Books — brxe-pxmruk === */
+  .about-books { padding: 4vw 4vw 10vw; }
+  .about-books-inner {
+    width: 1200px; max-width: 100%; margin: 0 auto;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .about-books-heading {
+    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+    line-height: 50px; text-transform: uppercase; font-weight: 400;
+  }
+  .about-books-subtext {
+    font-family: "Almarai", sans-serif; font-size: 20px; color: #000;
+    margin-top: 20px; margin-bottom: 30px;
+  }
+  .about-books-row {
+    display: flex; flex-direction: row; gap: 20px;
+    justify-content: center; flex-wrap: wrap;
+  }
+  .about-book-item { display: block; }
+  .about-book-img { height: 280px; width: auto; object-fit: contain; }
+  .about-books-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    background-color: #88cff1; color: #fff;
+    font-family: "Almarai", sans-serif; font-size: 20px; font-weight: 400;
+    padding: 0.5em 1.5em; text-decoration: none; margin-top: 40px;
+  }
+  @media (max-width: 478px) {
+    .about-books { padding: 7vw 4vw 15vw; }
+    .about-books-heading { font-size: 6vw; }
+    .about-book-img { height: 180px; }
+  }
+
+  /* === SECTION 6: Generously Blessed — brxe-b6ac05 === */
+  .about-gb {
+    margin-top: 50px;
+    background: url('https://kevinwhite.us/wp-content/uploads/2024/06/KWI-Gradient-1-scaled.jpg') center/cover no-repeat;
+    min-height: 700px;
+    display: flex; align-items: center; justify-content: center;
+    padding: 4vw 2vw;
+  }
+  .about-gb-card {
+    background-color: #000; border-radius: 16px;
+    padding: 60px 50px; max-width: 700px; width: 100%;
+    text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+  .about-gb-heading {
+    font-family: "Lexend", sans-serif; font-size: 40px; color: #fff;
+    line-height: 50px; margin-bottom: 20px;
+  }
+  .about-gb-subtext {
+    font-family: "Crimson Text", serif; font-size: 25px; color: #fff;
+    line-height: 130%; font-weight: 600;
+  }
+  @media (max-width: 478px) {
+    .about-gb { padding: 4vw 20px; }
+    .about-gb-card { padding: 40px 24px; }
+    .about-gb-heading { font-size: 30px; }
+    .about-gb-subtext { font-size: 20px; }
+  }
+</style>

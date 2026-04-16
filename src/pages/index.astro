@@ -41,134 +41,869 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
 
-    <!-- YouTube + Instagram: 2 column -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
+    <!-- YouTube + Instagram: 2 column with background image -->
+    <section class="relative bg-cover bg-center" style={`background-image: url('${IMG.ytInstaBg}?w=1920&auto=format'); padding: 4vw 2vw;`}>
       <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-8">
-        <div class="text-center" style="padding: 2vw;">
-          <p style="font-family: var(--font-heading); font-size: 30px; line-height: 130%; margin-bottom: 20px;">
+        <!-- YouTube -->
+        <div class="text-center" style="padding: 3vw 2vw;">
+          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 mb-4" style="font-family: var(--font-heading); font-size: 25px; color: #fff; font-weight: 700; text-transform: uppercase;">
+            <svg style="width: 40px; height: 40px; flex-shrink: 0;" fill="white" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            <span>&rarr;</span> Learn More
+          </a>
+          <p style="font-family: var(--font-heading); font-size: 16px; line-height: 150%; color: #fff; text-transform: uppercase; font-weight: 700;">
             Stay connected and receive encouragement every week on Kevin's YouTube channel
           </p>
-          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn btn-black">Learn More</a>
         </div>
-        <div class="text-center" style="padding: 2vw;">
-          <p style="font-family: var(--font-heading); font-size: 30px; line-height: 130%; margin-bottom: 20px;">
+        <!-- Instagram -->
+        <div class="text-center" style="padding: 3vw 2vw;">
+          <a href="https://www.instagram.com/kevinwhiteus/" target="_blank" rel="noopener noreferrer" class="flex items-center justify-center gap-3 mb-4" style="font-family: var(--font-heading); font-size: 25px; color: #fff; font-weight: 700; text-transform: uppercase;">
+            <svg style="width: 40px; height: 40px; flex-shrink: 0;" fill="white" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            <span>&rarr;</span> Learn More
+          </a>
+          <p style="font-family: var(--font-heading); font-size: 16px; line-height: 150%; color: #fff; text-transform: uppercase; font-weight: 700;">
             See the latest on Kevin's Instagram page
           </p>
-          <a href="https://www.instagram.com/kevinwhiteus/" target="_blank" rel="noopener noreferrer" class="btn btn-black">Learn More</a>
         </div>
       </div>
     </section>
 
-    <!-- Tagline -->
-    <section class="bg-white text-center" style="padding: 2vw;">
-      <p style="font-family: var(--font-display); font-size: 40px; color: var(--color-black);">
-        Multiplying Kingdom Wealth for Kingdom Good
-      </p>
-    </section>
-
-    <!-- Serial Entrepreneur -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site max-w-4xl mx-auto">
-        <h2 style="font-family: var(--font-heading); font-size: 74px; margin-bottom: 20px;">Serial Entrepreneur</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px;">
-          Kevin White is God's startup guy. Driven by the Spirit, his drive for entrepreneurship has pushed him to launch, manage, and succeed in multiple businesses, including Spirit Media, a publishing and marketing company that provides holistic business consulting to amplify your mission. Kevin is a bestselling author who has published seven books in five years. A serial entrepreneur, Kevin has helped launch hundreds of businesses and nonprofits globally.
-        </p>
-        <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="link-more">Learn More &rarr;</a>
+    <!-- Serial Entrepreneur — cloned from live site CSS -->
+    <section class="se-section">
+      <div style="width: 1200px; max-width: 100%; margin: 0 auto; text-align: center; padding: 4vw 4vw 3vw;">
+        <h2 style="font-family: 'Black Han Sans', sans-serif; font-size: 74px; color: #000; line-height: 50px; text-transform: uppercase; font-weight: 400;">Serial Entrepreneur</h2>
+      </div>
+      <div class="se-row">
+        <!-- Text column -->
+        <div class="se-text-col">
+          <p class="se-paragraph">
+            Kevin is known as "God's startup guy." God has used Kevin to bring hundreds of businesses, nonprofits, and churches to life globally. Kevin is a visionary leader who measures success through spiritual transformation. His work as the founder of <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer">Spirit Media</a> and other companies within White Enterprise allows him to empower businesses worldwide to lead with impact.
+          </p>
+          <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="se-button">Learn More</a>
+        </div>
+        <!-- Video column -->
+        <div class="se-video-col">
+          <video autoplay loop playsinline muted class="se-video">
+            <source src="https://kevinwhite.us/wp-content/uploads/2024/07/3.mp4" type="video/mp4" />
+          </video>
+        </div>
       </div>
     </section>
 
-    <!-- Conference Speaker -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site max-w-4xl mx-auto">
-        <h2 style="font-family: var(--font-display); font-size: 74px; text-transform: uppercase; margin-bottom: 20px;">Conference Speaker</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px;">
-          Kevin is a dynamic conference speaker who equips and empowers leaders to live out God's Word while purposefully generating Kingdom wealth for Kingdom impact. His keynotes are designed to inspire audiences toward creating and living in the presence of God.
-        </p>
-        <a href="/speaking" class="link-more">Learn More &rarr;</a>
+    <!-- Conference Speaker heading — brxe-fnekom -->
+    <div class="cs-heading-wrap">
+      <h2 class="cs-heading">Conference Speaker</h2>
+    </div>
+
+    <!-- Conference Speaker section — brxe-czmhlo -->
+    <section class="cs-section">
+      <div class="cs-row">
+        <!-- Video column (left) — brxe-zcafxp -->
+        <div class="cs-video-col">
+          <video autoplay loop playsinline muted class="cs-video">
+            <source src="https://kevinwhite.us/wp-content/uploads/2024/07/8.mp4" type="video/mp4" />
+          </video>
+        </div>
+        <!-- Text column (right) — brxe-yqknsm -->
+        <div class="cs-text-col">
+          <p class="cs-paragraph">
+            Kevin actively equips and empowers leaders all over the world to live out God's Word in their everyday lives. He loves to guide people into God's presence, Word, kingdom, generosity, mission, and purpose. Kevin regularly empowers and equips all Believers in prioritizing prayer, the fear of God, and kingdom impact through business and nonprofit development. Schedule Kevin to bring value to your audience.
+          </p>
+          <a href="/speaking" class="cs-button">Learn More</a>
+        </div>
       </div>
     </section>
 
-    <!-- Bestselling Author + Book Covers -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site">
-        <h2 style="font-family: var(--font-heading); font-size: 74px; margin-bottom: 10px;">Bestselling Author</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; margin-bottom: 30px;">
-          Kevin has published seven books in five years. His eighth book will be released in 2025. Each book equips and empowers believers to live out God's Word in their everyday lives.
+    <!-- Bestselling Author — cloned from live site CSS -->
+    <section class="ba-section">
+      <div class="ba-container">
+        <h2 class="ba-heading">Bestselling Author</h2>
+        <p class="ba-description">
+          Kevin has published seven books in five years. His eighth book will be released in 2025.&nbsp;Each book equips and empowers believers to live out God's Word in their everyday lives.
         </p>
-        <div class="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-7 gap-3">
-          {books.map((book: any) => (
-            <a href="/books" class="block">
-              {book.coverImage ? (
-                <img src={`${book.coverImage}?w=200&auto=format`} alt={book.title} class="w-full rounded" />
-              ) : (
-                <div class="img-placeholder rounded aspect-[3/4] text-[10px]">{book.title}</div>
-              )}
-            </a>
+
+        {/* Row 1: 4 books */}
+        <div class="ba-row">
+          {books.slice(0, 4).map((book: any) => (
+            <div class="ba-book-block">
+              <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer">
+                <figure class="ba-book-figure">
+                  {book.coverImage ? (
+                    <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="ba-book-img" />
+                  ) : (
+                    <div class="img-placeholder" style="width: 100%; height: 100%;">{book.title}</div>
+                  )}
+                </figure>
+              </a>
+            </div>
           ))}
         </div>
-      </div>
-    </section>
 
-    <!-- Fundraiser -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site max-w-4xl mx-auto">
-        <h2 style="font-family: var(--font-heading); font-size: 74px; margin-bottom: 20px;">Fundraiser</h2>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 16px;">
-          Kevin has personally coached leaders and entrepreneurs in startup capital and nonprofit fundraising. His track record includes guiding organizations that have collectively raised over $100 million.
-        </p>
-        <ul style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px; padding-left: 24px; list-style: disc;">
-          <li>Guided nonprofits raising $100M+</li>
-          <li>Coached hundreds of startups internationally</li>
-          <li>Specializes in articulating vision for financial support</li>
-        </ul>
-        <p style="font-family: var(--font-body); font-size: 20px; line-height: 1.6; margin-bottom: 20px;">
-          Kevin has mastered the art of articulating and selling vision. He helps leaders express their mission in a way that attracts the financial support they need to fulfill their calling.
-        </p>
-        <a href="/contact" class="btn btn-black">Start Your Fundraising Coaching</a>
-      </div>
-    </section>
-
-    <!-- Blogs: 3 column grid with images -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site">
-        <h3 style="font-family: var(--font-display); font-size: 30px; text-transform: uppercase; margin-bottom: 20px;">Blogs</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {posts.map((post: any) => (
-            <a href={`/blog/${post.slug}`} class="block group">
-              {post.image ? (
-                <img src={`${post.image}?w=600&h=400&fit=crop&auto=format`} alt={post.title} class="w-full aspect-[3/2] object-cover rounded mb-3" />
-              ) : (
-                <div class="img-placeholder rounded aspect-[3/2] mb-3">{post.title}</div>
-              )}
-            </a>
+        {/* Row 2: remaining books + Kings of the King */}
+        <div class="ba-row">
+          {books.slice(4).map((book: any) => (
+            <div class="ba-book-block">
+              <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer">
+                <figure class="ba-book-figure">
+                  {book.coverImage ? (
+                    <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="ba-book-img" />
+                  ) : (
+                    <div class="img-placeholder" style="width: 100%; height: 100%;">{book.title}</div>
+                  )}
+                </figure>
+              </a>
+            </div>
           ))}
+          {/* 8th book: Kings of the King */}
+          <div class="ba-book-block">
+            <a href="/books">
+              <figure class="ba-book-figure">
+                <img src={`${IMG.kingsBook}?w=400&auto=format`} alt="Kings of the King" class="ba-book-img" />
+              </figure>
+            </a>
+          </div>
         </div>
-        <div class="mt-4">
-          <a href="/blog" class="link-more">Read More &rarr;</a>
+
+        {/* Download text — brxe-dziwfs */}
+        <p class="ba-download">
+          <a href="https://drive.google.com/file/d/1GVJGb50cSwhotRYbf1doRz8BHUVrYerf/view" target="_blank" rel="noopener noreferrer">
+            Download my international bestseller
+          </a>
+        </p>
+
+        {/* Overlapping book composition — brxe-pnfzog / brxe-fxwymo / brxe-oglwmg */}
+        <div class="ba-book-comp">
+          <img
+            src={`${IMG.getToPointSample}?w=400&auto=format`}
+            alt="Get to the Point sample page"
+            class="ba-book-back"
+          />
+          <img
+            src={books[1]?.coverImage ? `${books[1].coverImage}?w=400&auto=format` : `${IMG.getToPointSample}?w=400&auto=format`}
+            alt="Get to the Point"
+            class="ba-book-front"
+          />
         </div>
+
+
       </div>
     </section>
 
-    <!-- Magazines: 3 column grid -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
-      <div class="container-site">
-        <h3 style="font-family: var(--font-heading); font-size: 30px; margin-bottom: 20px;">Magazines</h3>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {posts.map((post: any) => (
-            <a href={`/blog/${post.slug}`} class="block group text-center">
-              {post.image ? (
-                <img src={`${post.image}?w=600&h=400&fit=crop&auto=format`} alt={post.title} class="w-full aspect-[3/2] object-cover rounded mb-3" />
-              ) : (
-                <div class="img-placeholder rounded aspect-[3/2] mb-3">{post.title}</div>
-              )}
-              <h3 style="font-family: var(--font-body); font-size: 20px;">{post.title}</h3>
+    <!-- NPO Coaching Banner — brxe-mrxnju -->
+    <section class="npo-section">
+      <div class="npo-container">
+        <a href="https://drive.google.com/file/d/1GVJGb50cSwhotRYbf1doRz8BHUVrYerf/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="npo-image-link">
+          <img src={`${IMG.npoBanner}?w=1200&auto=format`} alt="NPO Coaching Banner" class="npo-image" />
+        </a>
+      </div>
+    </section>
+
+    <!-- Fundraiser — cloned from brxe-hhoquz -->
+    <section class="fr-section">
+      <div class="fr-outer">
+        <div class="fr-content">
+          {/* Two-column row — brxe-ornmgx flex-direction: row */}
+          <div class="fr-columns">
+            {/* Left sub-column — brxe-jirzaa */}
+            <div class="fr-col-left">
+              <h2 class="fr-heading">Fundraiser</h2>
+              <p class="fr-text">
+                As a young boy, Kevin was always one of the top fundraisers in the Royal Rangers. God's anointing for fundraising has been on Kevin his whole life. God has used Kevin to:
+              </p>
+              <ul class="fr-list">
+                <li><span class="fr-arrow">&rarr;</span><span>Start hundreds of nonprofits and guide them to raise $100M+ in donations.</span></li>
+                <li><span class="fr-arrow">&rarr;</span><span>Strengthen hundreds of startup companies worldwide.</span></li>
+                <li><span class="fr-arrow">&rarr;</span><span>Empower hundreds of ministers and missionaries around the world to start income generation projects.</span></li>
+              </ul>
+            </div>
+            {/* Right sub-column — brxe-fqgshn */}
+            <div class="fr-col-right">
+              <p class="fr-text">
+                In doing so, Kevin knows the art of articulating and selling vision. The Bible teaches that money follows vision. Every money problem is a lack of vision. Unfortunately, most people struggle to articulate and sell the vision God has given them. Let Kevin help you:
+              </p>
+              <ul class="fr-list">
+                <li><span class="fr-arrow">&rarr;</span><span>Secure funds for your start-up business.</span></li>
+                <li><span class="fr-arrow">&rarr;</span><span>Raise funds for your nonprofit.</span></li>
+              </ul>
+            </div>
+          </div>
+          {/* Bottom paragraph — brxe-shofck */}
+          <p class="fr-bottom-text">
+            Kevin is committed to training an army of believers worldwide to multiply kingdom wealth for kingdom impact. Contact us today and let Kevin and his team train you.
+          </p>
+        </div>
+        {/* CTA button — brxe-hhlmjl */}
+        <a href="/contact" class="fr-cta">Start Your Fundraising Coaching</a>
+      </div>
+    </section>
+
+    <!-- Generously Blessed — brxe-ypbgzh -->
+    <section class="gb-section">
+      <div class="gb-card">
+        <h2 class="gb-heading">Generously Blessed</h2>
+        <p class="gb-subtext">1 minute devotions that will fire up your spirit. Delivered straight to your inbox.</p>
+      </div>
+    </section>
+
+    <!-- Magazines — cloned from brxe-xakeuv -->
+    <section class="mag-section">
+      <div style="width: 1200px; max-width: 100%; margin: 0 auto;">
+      <h3 class="mag-heading">Magazines</h3>
+      <div class="mag-row">
+        {posts.map((post: any) => (
+          <div class="mag-card">
+            <a href={`/blog/${post.slug}`}>
+              <figure class="mag-image-wrap">
+                {post.image ? (
+                  <img src={`${post.image}?w=1024&h=683&fit=crop&auto=format`} alt={post.title} class="mag-image" />
+                ) : (
+                  <div class="img-placeholder" style="width:100%;height:100%;">{post.title}</div>
+                )}
+              </figure>
             </a>
-          ))}
-        </div>
-        <div class="text-center mt-4">
-          <a href="/blog" class="link-more">View More &rarr;</a>
-        </div>
+            <h4 class="mag-title"><a href={`/blog/${post.slug}`}>{post.title}</a></h4>
+          </div>
+        ))}
+      </div>
+      <div class="mag-btn-wrap">
+        <a href="/blog" class="mag-btn">View More</a>
+      </div>
       </div>
     </section>
   </main>
 </Layout>
+
+<style is:inline>
+  /* Serial Entrepreneur — exact values from brxe-ldwriz / brxe-tdzzpt */
+  .se-section {
+    display: flex;
+    flex-direction: column;
+  }
+  .se-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+    row-gap: 40px;
+    margin: 0 auto;
+    width: 1200px;
+    max-width: 100%;
+    align-items: stretch;
+    padding-bottom: 50px;
+  }
+  /* Text column — brxe-ycicih */
+  .se-text-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 50px;
+    padding-left: 50px;
+    min-height: 400px;
+  }
+  /* Paragraph — brxe-anxalw */
+  .se-paragraph {
+    font-size: 20px;
+    font-family: "Almarai", sans-serif;
+    line-height: 30px;
+    color: #000;
+    font-weight: 400;
+  }
+  .se-paragraph a {
+    font-size: 20px;
+    font-family: "Almarai", sans-serif;
+    line-height: 30px;
+    color: #000;
+    font-weight: 400;
+    text-decoration: underline;
+  }
+  /* Button — brxe-youglj */
+  .se-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #88cff1;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 30px;
+    margin-top: 50px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border-width: 0;
+    text-align: center;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+  .se-button:hover {
+    opacity: 0.85;
+  }
+  /* Video column — brxe-evknpf */
+  .se-video-col {
+    flex: 1;
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+  .se-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /* Mobile — matches @media max-width: 478px */
+  @media (max-width: 478px) {
+    .se-row {
+      flex-direction: column-reverse;
+      padding-right: 20px;
+      padding-bottom: 0;
+      padding-left: 20px;
+    }
+    .se-text-col {
+      padding-top: 0;
+      padding-right: 20px;
+      padding-left: 20px;
+      font-size: 16px;
+      margin-top: -40px;
+      min-height: auto;
+    }
+    .se-paragraph {
+      margin-top: 10px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .se-paragraph a {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .se-video-col {
+      min-height: 400px;
+    }
+  }
+  /* Bestselling Author — exact values from brxe-mnwlya / brxe-nlnnpw */
+  .ba-section {
+    padding-top: 4vw;
+    padding-bottom: 0;
+  }
+  .ba-container {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 0 4vw 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  /* Heading — brxe-mhvwnv */
+  .ba-heading {
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 74px;
+    color: #000;
+    line-height: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+  /* Description — brxe-srfzhy */
+  .ba-description {
+    font-family: "Almarai", sans-serif;
+    color: #000;
+    line-height: 1.5;
+    font-weight: 800;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  /* Book rows — brxe-sowhvf / brxe-oahemj */
+  .ba-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 50px;
+    row-gap: 50px;
+    width: 100%;
+    justify-content: center;
+  }
+  /* Book block — brxe-pzmeay etc */
+  .ba-book-block {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Book figure — brxe-pjonhb etc */
+  .ba-book-figure {
+    height: 330px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+  .ba-book-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+  /* Download text — brxe-dziwfs */
+  .ba-download {
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 800;
+    color: #000;
+    text-transform: uppercase;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .ba-download a {
+    color: #000;
+    text-decoration: underline;
+  }
+  /* Overlapping book composition — brxe-pnfzog / brxe-fxwymo / brxe-oglwmg */
+  .ba-book-comp {
+    position: relative;
+    width: 280px;
+    height: 380px;
+    margin: 10px auto 0;
+  }
+  /* Back page — rotated, behind — brxe-oglwmg */
+  .ba-book-back {
+    position: absolute;
+    width: 200px;
+    top: 35px;
+    left: 110px;
+    transform: rotate(15deg);
+    z-index: 1;
+  }
+  /* Front book — upright, in front — brxe-fxwymo */
+  .ba-book-front {
+    position: absolute;
+    width: 200px;
+    top: 0;
+    left: 0;
+    z-index: 9;
+  }
+  @media (max-width: 478px) {
+    .ba-section { padding-top: 7vw; padding-bottom: 7vw; }
+    .ba-container { padding-right: 20px; padding-left: 20px; }
+    .ba-heading { font-size: 6vw; margin-bottom: 0; }
+    .ba-description { margin-top: 10px; }
+    .ba-row { column-gap: 20px; row-gap: 20px; }
+    .ba-book-figure { height: 200px; min-height: 200px; }
+    .ba-download { font-size: 4vw; }
+    .ba-book-comp { width: 200px; height: 280px; }
+    .ba-book-front { width: 140px; }
+    .ba-book-back { width: 140px; top: 25px; left: 70px; }
+  }
+
+  /* Conference Speaker — exact values from brxe-czmhlo / brxe-vlhlfy / brxe-fnekom */
+  .cs-heading-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 73px;
+    padding-bottom: 64px;
+  }
+  .cs-heading {
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 74px;
+    color: #000;
+    line-height: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    text-align: center;
+  }
+  .cs-section {
+    padding-bottom: 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .cs-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+    row-gap: 40px;
+    margin: 0 auto;
+    width: 1200px;
+    max-width: 100%;
+    align-items: stretch;
+  }
+  .cs-video-col {
+    flex: 1;
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cs-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .cs-text-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 50px;
+    padding-left: 50px;
+    min-height: 400px;
+  }
+  .cs-paragraph {
+    font-family: "Almarai", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    margin-top: 50px;
+  }
+  .cs-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #88cff1;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 30px;
+    margin-top: 50px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border-width: 0;
+    text-align: center;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+  .cs-button:hover { opacity: 0.85; }
+
+  @media (max-width: 478px) {
+    .cs-heading-wrap {
+      padding: 20px;
+    }
+    .cs-heading {
+      font-size: 6vw;
+    }
+    .cs-section {
+      padding: 0 20px 0;
+    }
+    .cs-row {
+      flex-direction: column;
+    }
+    .cs-text-col {
+      padding: 0 20px;
+      margin-top: -40px;
+      min-height: auto;
+    }
+    .cs-paragraph {
+      margin-top: 0;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+  }
+  /* Fundraiser — brxe-hhoquz structure */
+  .fr-section {
+    width: 100%;
+  }
+  .fr-outer {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 5vw 0 4vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .fr-content {
+    padding: 0 4vw;
+    width: 100%;
+  }
+  /* Two-column row — brxe-ornmgx */
+  .fr-columns {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  /* Left column — brxe-jirzaa */
+  .fr-col-left {
+    flex: 1;
+    padding: 0 2vw;
+  }
+  /* Right column — brxe-fqgshn */
+  .fr-col-right {
+    flex: 1;
+    padding: 0 2vw;
+    padding-top: 150px;
+  }
+  /* Heading — brxe-yrbduu */
+  .fr-heading {
+    font-family: "Black Han Sans", sans-serif;
+    font-size: 74px;
+    font-weight: 400;
+    color: #000;
+    line-height: 50px;
+    text-transform: uppercase;
+    margin-top: 50px;
+  }
+  /* Paragraph — brxe-vkcjgy / brxe-jvgyox / brxe-shofck */
+  .fr-text {
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+  .fr-col-right .fr-text {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .fr-bottom-text {
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0 2vw;
+  }
+  /* Arrow list — brxe-eqpkao / brxe-lipohf */
+  .fr-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .fr-list li {
+    font-family: "Almarai", sans-serif;
+    font-size: 18px;
+    color: #000;
+    padding: 5px 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .fr-arrow {
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  /* CTA — brxe-hhlmjl */
+  .fr-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #89cff0;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 30px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border: none;
+    text-decoration: none;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    align-self: center;
+  }
+  .fr-cta:hover { opacity: 0.85; }
+  @media (max-width: 478px) {
+    .fr-heading { font-size: 6vw; }
+    .fr-columns { flex-direction: column; }
+    .fr-col-right { padding-top: 10px; }
+    .fr-text { font-size: 16px; line-height: 1.5; margin-top: 10px; }
+    .fr-col-right .fr-text { padding-top: 0; }
+    .fr-bottom-text { font-size: 16px; line-height: 1.5; }
+    .fr-list li { font-size: 16px; line-height: 1.5; }
+  }
+
+  /* Generously Blessed — brxe-ypbgzh */
+  .gb-section {
+    margin-top: 50px;
+    background: url('https://kevinwhite.us/wp-content/uploads/2024/06/KWI-Gradient-1-scaled.jpg') center/cover no-repeat;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vw 2vw;
+  }
+  .gb-card {
+    background-color: #000;
+    border-radius: 16px;
+    padding: 60px 50px;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+  .gb-heading {
+    font-family: "Lexend", sans-serif;
+    font-size: 40px;
+    color: #fff;
+    line-height: 50px;
+    margin-bottom: 20px;
+  }
+  .gb-subtext {
+    font-family: "Crimson Text", serif;
+    font-size: 25px;
+    color: #fff;
+    line-height: 130%;
+    font-weight: 600;
+  }
+  @media (max-width: 478px) {
+    .gb-section { padding: 4vw 20px; }
+    .gb-card { padding: 40px 24px; }
+    .gb-heading { font-size: 30px; }
+    .gb-subtext { font-size: 20px; }
+  }
+
+  /* Magazines — brxe-xakeuv */
+  .mag-section {
+    padding-top: 9vw;
+    padding-right: 4vw;
+    padding-bottom: 100px;
+    padding-left: 4vw;
+    width: 100%;
+  }
+  .mag-heading {
+    font-family: "Black Han Sans", sans-serif;
+    font-weight: 400;
+    font-size: 74px;
+    line-height: 92px;
+    color: #000;
+    text-transform: uppercase;
+    padding-bottom: 50px;
+    text-align: center;
+  }
+  /* Card row — brxe-ngrvtj */
+  .mag-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+  /* Card block — .brxe-fzulfa */
+  .mag-card {
+    flex: 1;
+  }
+  /* Card image — .brxe-cxzyou */
+  .mag-image-wrap {
+    height: 270px;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid #000;
+    margin: 0;
+  }
+  .mag-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+  }
+  /* Card title — .brxe-ovigyk */
+  .mag-title {
+    font-size: 20px;
+    font-family: "Almarai", sans-serif;
+    line-height: 30px;
+    font-weight: 800;
+    color: #000;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+  .mag-title a {
+    color: #000;
+    text-decoration: none;
+  }
+  /* View More button — brxe-qcazhi */
+  .mag-btn-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  .mag-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    font-family: "Almarai", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    color: #ffffff;
+    background-color: #88cff1;
+    border-radius: 0;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    text-align: center;
+  }
+  .mag-btn:hover { opacity: 0.85; }
+  @media (max-width: 478px) {
+    .mag-section { padding-top: 14vw; padding-bottom: 50px; }
+    .mag-heading { padding-bottom: 0; font-size: 6vw; }
+    .mag-row { flex-direction: column; gap: 20px; }
+    .mag-image-wrap { height: 200px; }
+    .mag-title { text-align: center; }
+    .mag-btn-wrap { margin-top: 20px; }
+  }
+
+  /* CTA Button — brxe-bbgdht / brxe-hhlmjl */
+  .ba-cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #89cff0;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #ffffff;
+    font-weight: 400;
+    line-height: 30px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border-width: 0;
+    text-align: center;
+    text-decoration: none;
+  }
+  .ba-cta-button:hover { opacity: 0.85; }
+
+  /* NPO Coaching Banner — brxe-mrxnju */
+  .npo-section {
+    padding: 0;
+  }
+  .npo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2vw 4vw;
+  }
+  .npo-image-link {
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.62);
+    overflow: hidden;
+  }
+  .npo-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  @media (max-width: 478px) {
+    .npo-image-link {
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .npo-container {
+      padding: 2vw 0;
+    }
+  }
+</style>
