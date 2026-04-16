@@ -33,8 +33,11 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
         <h2 class="kp-heading">Key Points</h2>
       </div>
 
-      {/* Two-column: bullets left, family image right — brxe-aqslwq */}
+      {/* Two-column: family image left, bullets right — brxe-aqslwq */}
       <div class="kp-row">
+        <div class="kp-image-col">
+          <img src={`${IMG.familyPhoto}?w=800&auto=format`} alt="Kevin with family" class="kp-family-img" />
+        </div>
         <div class="kp-bullets-col">
           <ul class="kp-list">
             <li><span class="kp-icon">&#9786;</span><span>As a serial entrepreneur, Kevin has helped start hundreds of businesses worldwide.</span></li>
@@ -43,9 +46,6 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
             <li><span class="kp-icon">&#9786;</span><span>He married his high school sweetheart, going thirty years strong.</span></li>
             <li><span class="kp-icon">&#9786;</span><span>In the past twenty years, he has traveled to India four dozen times and traveled to thirty countries.</span></li>
           </ul>
-        </div>
-        <div class="kp-image-col">
-          <img src={`${IMG.familyPhoto}?w=800&auto=format`} alt="Kevin with family" class="kp-family-img" />
         </div>
       </div>
 
@@ -161,7 +161,7 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
   .kp-heading {
     font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
     line-height: 50px; text-transform: uppercase; font-weight: 400;
-    margin-top: -16px; margin-left: 50px;
+    margin-top: -16px; margin-left: 50px; text-align: center;
   }
   /* Two-column row — brxe-aqslwq */
   .kp-row {
@@ -187,7 +187,7 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
   }
   /* Image column — brxe-sufyns (order: 1 = right side) */
   .kp-image-col {
-    flex: 1; order: 1; margin-bottom: 50px;
+    flex: 1; margin-bottom: 50px;
   }
   .kp-family-img { width: 100%; height: auto; object-fit: cover; }
 
