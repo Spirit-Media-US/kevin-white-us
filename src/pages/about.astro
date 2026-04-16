@@ -26,32 +26,40 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
       </div>
     </section>
 
-    {/* ===== SECTION 2: Key Points — brxe-iahcaq ===== */}
-    <section class="about-keypoints">
-      <div class="about-keypoints-inner">
-        <h2 class="about-kp-heading">Key Points</h2>
-        <ul class="about-kp-list">
-          <li><span class="about-kp-arrow">&rarr;</span><span>As a serial entrepreneur, Kevin has helped start hundreds of businesses worldwide.</span></li>
-          <li><span class="about-kp-arrow">&rarr;</span><span>He has a highly-ranked podcast streaming on all platforms.</span></li>
-          <li><span class="about-kp-arrow">&rarr;</span><span>He's the father of three radiant souls.</span></li>
-          <li><span class="about-kp-arrow">&rarr;</span><span>He married his high school sweetheart, going thirty years strong.</span></li>
-          <li><span class="about-kp-arrow">&rarr;</span><span>In the past twenty years, he has traveled to India four dozen times and traveled to thirty countries.</span></li>
-        </ul>
+    {/* ===== SECTION 2+3: Key Points + Podcast — brxe-iahcaq + brxe-ysceva ===== */}
+    <section class="kp-section">
+      {/* Key Points heading */}
+      <div class="kp-heading-wrap">
+        <h2 class="kp-heading">Key Points</h2>
       </div>
-    </section>
 
-    {/* ===== SECTION 3: Podcast — brxe-ysceva ===== */}
-    <section class="about-podcast">
-      <div class="about-podcast-row">
-        <div class="about-podcast-img-col">
-          <img src={`${IMG.familyPhoto}?w=600&auto=format`} alt="Kevin with family" class="about-family-img" />
+      {/* Two-column: bullets left, family image right — brxe-aqslwq */}
+      <div class="kp-row">
+        <div class="kp-bullets-col">
+          <ul class="kp-list">
+            <li><span class="kp-icon">&#9786;</span><span>As a serial entrepreneur, Kevin has helped start hundreds of businesses worldwide.</span></li>
+            <li><span class="kp-icon">&#9786;</span><span>He has a highly-ranked podcast streaming on all platforms.</span></li>
+            <li><span class="kp-icon">&#9786;</span><span>He's the father of three radiant souls.</span></li>
+            <li><span class="kp-icon">&#9786;</span><span>He married his high school sweetheart, going thirty years strong.</span></li>
+            <li><span class="kp-icon">&#9786;</span><span>In the past twenty years, he has traveled to India four dozen times and traveled to thirty countries.</span></li>
+          </ul>
         </div>
-        <div class="about-podcast-text-col">
-          <h2 class="about-podcast-heading">A weekly podcast to motivate</h2>
-          <p class="about-podcast-text">
+        <div class="kp-image-col">
+          <img src={`${IMG.familyPhoto}?w=800&auto=format`} alt="Kevin with family" class="kp-family-img" />
+        </div>
+      </div>
+
+      {/* Podcast: image left, text right — brxe-bnvfwp */}
+      <div class="kp-podcast-row">
+        <div class="kp-podcast-img-col">
+          <img src={`${IMG.podcastPhoto}?w=553&auto=format`} alt="A weekly podcast to motivate" class="kp-podcast-img" />
+        </div>
+        <div class="kp-podcast-text-col">
+          <h2 class="kp-podcast-heading">A weekly podcast to motivate</h2>
+          <p class="kp-podcast-text">
             Every week since 2020, the Kevin White Show has offered a new idea, proverb, or short story to help listeners prosper in the presence of God.
           </p>
-          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="about-podcast-btn">Listen</a>
+          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="kp-podcast-btn">Listen</a>
         </div>
       </div>
     </section>
@@ -147,65 +155,78 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
     .about-paragraph { padding: 0; margin-top: 0; }
   }
 
-  /* === SECTION 2: Key Points — brxe-iahcaq === */
-  .about-keypoints { margin-top: 100px; }
-  .about-keypoints-inner {
-    width: 1200px; max-width: 100%; margin: 0 auto; padding: 0 2vw;
-  }
-  .about-kp-heading {
+  /* === SECTION 2+3: Key Points + Podcast — brxe-iahcaq + brxe-ysceva === */
+  .kp-section { margin-top: 100px; padding: 6vw 0 4vw; }
+  .kp-heading-wrap { padding: 0 2vw; }
+  .kp-heading {
     font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
     line-height: 50px; text-transform: uppercase; font-weight: 400;
     margin-top: -16px; margin-left: 50px;
   }
-  .about-kp-list {
-    list-style: none; padding: 100px 0 4vw; margin: 0;
-    display: flex; flex-direction: column; gap: 44px;
-    align-self: flex-start; width: 80%;
+  /* Two-column row — brxe-aqslwq */
+  .kp-row {
+    width: 1200px; max-width: 100%; margin: 0 auto;
+    display: flex; flex-direction: row;
   }
-  .about-kp-list li {
+  /* Bullets column — brxe-gbfjlj */
+  .kp-bullets-col {
+    flex: 1; padding: 0 2vw 2vw;
+  }
+  /* List — brxe-iukeaa */
+  .kp-list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 44px;
+  }
+  .kp-list li {
     font-family: "Lexend", sans-serif; color: #000; font-size: 25px;
     font-weight: 400; padding: 5px 0 5px 15px;
     display: flex; align-items: flex-start; gap: 20px;
   }
-  .about-kp-arrow { flex-shrink: 0; }
-  @media (max-width: 478px) {
-    .about-keypoints { margin-top: 50px; }
-    .about-kp-heading { font-size: 6vw; padding-top: 40px; margin-left: 0; }
-    .about-kp-list { width: 100%; padding: 50px 20px; gap: 10px; }
-    .about-kp-list li { font-size: 18px; gap: 10px; }
+  .kp-icon {
+    flex-shrink: 0; font-size: 25px; line-height: 1;
   }
+  /* Image column — brxe-sufyns (order: 1 = right side) */
+  .kp-image-col {
+    flex: 1; order: 1; margin-bottom: 50px;
+  }
+  .kp-family-img { width: 100%; height: auto; object-fit: cover; }
 
-  /* === SECTION 3: Podcast — brxe-ysceva === */
-  .about-podcast { padding: 6vw 4vw 4vw; }
-  .about-podcast-row {
+  /* Podcast row — brxe-bnvfwp */
+  .kp-podcast-row {
     width: 1200px; max-width: 100%; margin: 50px auto 0;
     display: flex; flex-direction: row; align-items: stretch; padding-top: 2vw;
   }
-  .about-podcast-img-col { flex: 1; }
-  .about-family-img { width: 100%; height: 100%; object-fit: cover; }
-  .about-podcast-text-col {
+  .kp-podcast-img-col { flex: 1; }
+  .kp-podcast-img { width: 100%; height: auto; }
+  .kp-podcast-text-col {
     flex: 1; display: flex; flex-direction: column;
-    align-items: center; margin-top: 150px; padding: 0 2vw;
+    align-items: center; justify-content: center;
+    margin-top: 150px; padding: 0 2vw;
   }
-  .about-podcast-heading {
+  .kp-podcast-heading {
     font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
     line-height: 90px; text-transform: uppercase; font-weight: 400; text-align: center;
   }
-  .about-podcast-text {
+  .kp-podcast-text {
     font-family: "Lexend", sans-serif; line-height: 48px; color: #000;
     font-weight: 400; font-size: 30px; margin-bottom: 20px;
   }
-  .about-podcast-btn {
+  .kp-podcast-btn {
     font-size: 18px; color: #fff; padding: 15px 35px;
     background-color: #89cff0; border: none; text-decoration: none;
   }
   @media (max-width: 478px) {
-    .about-podcast { padding: 4vw; }
-    .about-podcast-row { flex-direction: column-reverse; margin-top: 20px; }
-    .about-podcast-text-col { margin-top: 0; }
-    .about-podcast-heading { font-size: 5vw; line-height: 30px; }
-    .about-podcast-text { font-size: 20px; line-height: 1.3; }
-    .about-podcast-btn { margin-bottom: 50px; }
+    .kp-section { margin-top: 50px; }
+    .kp-heading { font-size: 6vw; padding-top: 40px; margin-left: 0; }
+    .kp-row { flex-direction: column-reverse; }
+    .kp-list { gap: 10px; }
+    .kp-list li { font-size: 18px; gap: 10px; }
+    .kp-bullets-col { padding-bottom: 10vw; }
+    .kp-podcast-row { flex-direction: column-reverse; margin-top: 20px; }
+    .kp-podcast-text-col { margin-top: 0; }
+    .kp-podcast-heading { font-size: 5vw; line-height: 30px; padding-top: 40px; }
+    .kp-podcast-text { font-size: 20px; line-height: 1.3; }
+    .kp-podcast-btn { margin-bottom: 50px; }
   }
 
   /* === SECTION 4: Services — brxe-scbrek === */
