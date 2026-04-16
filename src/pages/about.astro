@@ -121,31 +121,30 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
     width: 60%; display: flex; flex-direction: column; align-items: center;
   }
   .about-kevin-img { width: 100%; max-width: 568px; border-radius: 10px; object-fit: cover; }
-  /* Text block — brxe-ceypbc: width 80%, align-self flex-start, padding-top 100px */
+  /* Text block — brxe-ceypbc */
   .about-intro-text {
-    width: 80%; align-self: flex-start; padding-top: 100px; padding-bottom: 4vw;
+    width: 80%; align-self: center; padding-top: 100px; padding-bottom: 4vw;
+    display: flex; flex-direction: column; align-items: center;
   }
   .about-heading {
     font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
     line-height: 50px; text-transform: uppercase; font-weight: 400;
-    margin-top: -16px; margin-left: 50px;
   }
   .about-paragraph {
     font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px; color: #000;
-    margin-top: 30px; margin-bottom: 20px; padding-right: 10vw; padding-left: 10vw;
+    margin-top: 30px; margin-bottom: 20px; text-align: center;
   }
   .about-btn {
     display: inline-flex; align-items: center; justify-content: center;
     padding: 15px 35px; background-color: #88cff1; color: #fff;
-    font-size: 18px; width: 300px; text-decoration: none; margin-left: 10vw;
+    font-size: 18px; width: 300px; text-decoration: none;
   }
   @media (max-width: 478px) {
     .about-intro-img { width: 100%; }
     .about-kevin-img { border-radius: 0; }
     .about-intro-text { width: 100%; padding-top: 50px; padding-right: 20px; padding-left: 20px; }
-    .about-heading { font-size: 6vw; margin-top: 0; margin-left: 0; padding-top: 40px; }
+    .about-heading { font-size: 6vw; padding-top: 40px; }
     .about-paragraph { padding: 0; margin-top: 0; }
-    .about-btn { margin-left: 0; align-self: center; }
   }
 
   /* === SECTION 2: Key Points — brxe-iahcaq === */
