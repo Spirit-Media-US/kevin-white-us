@@ -113,21 +113,6 @@ const socials = [
       <div class="ct-ba-inner">
         <h2 class="ct-ba-heading">Bestselling Author</h2>
         <p class="ct-ba-desc">Kevin has published seven books in 5 years. His eighth book will be released this fall.<br />Each book equips and empowers readers to live out God&rsquo;s Word.</p>
-        <div class="ct-ba-row">
-          {gridBooks.slice(0, 4).map(b => (
-            <a href={b.link} target="_blank" rel="noopener noreferrer" class="ct-ba-item">
-              <img src={b.img} alt={b.title} class="ct-ba-img" />
-            </a>
-          ))}
-        </div>
-        <div class="ct-ba-row">
-          {gridBooks.slice(4).map(b => (
-            <a href={b.link} target="_blank" rel="noopener noreferrer" class="ct-ba-item">
-              <img src={b.img} alt={b.title} class="ct-ba-img" />
-            </a>
-          ))}
-          <div class="ct-ba-item ct-ba-item-empty"></div>
-        </div>
       </div>
     </section>
 
@@ -157,8 +142,8 @@ const socials = [
     color: #000; line-height: 1; text-transform: uppercase; margin: 0 0 20px;
   }
   .ct-hero-sub {
-    font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
-    color: #000; font-weight: 400;
+    font-family: "Almarai", sans-serif; font-size: 22px; line-height: 32px;
+    color: #000; font-weight: 800;
   }
 
   /* === INFO (Mailing + Socials) === */
@@ -169,8 +154,8 @@ const socials = [
   }
   .ct-info-col { flex: 1; padding: 0 20px; }
   .ct-info-heading {
-    font-family: "Lexend", sans-serif; font-weight: 900; font-size: 30px;
-    color: #000; text-transform: uppercase; margin: 0 0 20px;
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 48px;
+    color: #000; line-height: 1; text-transform: uppercase; margin: 0 0 24px;
   }
   .ct-info-text {
     font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
@@ -236,8 +221,8 @@ const socials = [
     display: flex; flex-direction: column; align-items: center; gap: 30px;
   }
   .ct-ba-heading {
-    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 74px;
-    color: #000; line-height: 50px; text-transform: uppercase; margin: 0;
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 100px;
+    color: #000; line-height: 1; text-transform: uppercase; margin: 0;
     text-align: center;
   }
   .ct-ba-desc {
