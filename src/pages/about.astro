@@ -33,20 +33,16 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
         <h2 class="kp-heading">Key Points</h2>
       </div>
 
-      {/* Two-column: bullets left, family image right — brxe-aqslwq */}
-      <div class="kp-row">
-        <div class="kp-bullets-col">
-          <ul class="kp-list">
-            <li><span class="kp-icon">&#9786;</span><span>As a serial entrepreneur, Kevin has helped start hundreds of businesses worldwide.</span></li>
-            <li><span class="kp-icon">&#9786;</span><span>He has a highly-ranked podcast streaming on all platforms.</span></li>
-            <li><span class="kp-icon">&#9786;</span><span>He's the father of three radiant souls.</span></li>
-            <li><span class="kp-icon">&#9786;</span><span>He married his high school sweetheart, going thirty years strong.</span></li>
-            <li><span class="kp-icon">&#9786;</span><span>In the past twenty years, he has traveled to India four dozen times and traveled to thirty countries.</span></li>
-          </ul>
-        </div>
-        <div class="kp-image-col">
-          <img src={`${IMG.familyPhoto}?w=800&auto=format`} alt="Kevin with family" class="kp-family-img" />
-        </div>
+      {/* Image floated right, bullets wrap around it */}
+      <div class="kp-content">
+        <img src={`${IMG.familyPhoto}?w=800&auto=format`} alt="Kevin with family" class="kp-family-img" />
+        <ul class="kp-list">
+          <li><span class="kp-icon">&#9786;</span><span>As a serial entrepreneur, Kevin has helped start hundreds of businesses worldwide.</span></li>
+          <li><span class="kp-icon">&#9786;</span><span>He has a highly-ranked podcast streaming on all platforms.</span></li>
+          <li><span class="kp-icon">&#9786;</span><span>He's the father of three radiant souls.</span></li>
+          <li><span class="kp-icon">&#9786;</span><span>He married his high school sweetheart, going thirty years strong.</span></li>
+          <li><span class="kp-icon">&#9786;</span><span>In the past twenty years, he has traveled to India four dozen times and traveled to thirty countries.</span></li>
+        </ul>
       </div>
 
       {/* Podcast: image left, text right — brxe-bnvfwp */}
@@ -163,14 +159,15 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
     line-height: 50px; text-transform: uppercase; font-weight: 400;
     margin-top: -16px; margin-left: 50px; text-align: center; margin-bottom: 50px;
   }
-  /* Two-column row — brxe-aqslwq */
-  .kp-row {
+  /* Content wrapper */
+  .kp-content {
     width: 900px; max-width: 100%; margin: 0 auto;
-    display: flex; flex-direction: row; align-items: center;
+    padding: 0 2vw; overflow: hidden;
   }
-  /* Bullets column — brxe-gbfjlj */
-  .kp-bullets-col {
-    flex: 1; padding: 0 2vw 2vw;
+  /* Image floated right */
+  .kp-family-img {
+    float: right; width: 350px; max-width: 40%; height: auto; object-fit: cover;
+    margin: 0 0 30px 30px;
   }
   /* List — brxe-iukeaa */
   .kp-list {
@@ -185,11 +182,6 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
   .kp-icon {
     flex-shrink: 0; font-size: 35px; line-height: 1;
   }
-  /* Image column — brxe-sufyns (order: 1 = right side) */
-  .kp-image-col {
-    flex: 1; margin-bottom: 50px; display: flex; justify-content: flex-end;
-  }
-  .kp-family-img { width: 80%; max-width: 500px; height: auto; object-fit: cover; }
 
   /* Podcast row — brxe-bnvfwp */
   .kp-podcast-row {
@@ -218,10 +210,9 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
   @media (max-width: 478px) {
     .kp-section { margin-top: 50px; }
     .kp-heading { font-size: 6vw; padding-top: 40px; margin-left: 0; }
-    .kp-row { flex-direction: column-reverse; }
+    .kp-family-img { float: none; width: 100%; max-width: 100%; margin: 0 0 20px 0; }
     .kp-list { gap: 10px; }
     .kp-list li { font-size: 18px; gap: 10px; }
-    .kp-bullets-col { padding-bottom: 10vw; }
     .kp-podcast-row { flex-direction: column-reverse; margin-top: 20px; }
     .kp-podcast-text-col { margin-top: 0; }
     .kp-podcast-heading { font-size: 5vw; line-height: 30px; padding-top: 40px; }
