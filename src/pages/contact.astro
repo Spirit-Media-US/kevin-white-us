@@ -1,69 +1,300 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
-import { sanityClient } from '../lib/sanity.ts';
 
-const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0...5] { title, "coverImage": coverImage.asset->url }`);
+const WP = 'https://kevinwhite.us/wp-content/uploads';
+
+const kevinImg = `${WP}/2024/05/Kevin-white-1.png`;
+const phoneImg = `${WP}/2024/05/phone.png`;
+const gradientBg = `${WP}/2024/06/KWI-Gradient-1-scaled.jpg`;
+
+// Intermediate book row (5 covers just above Bestselling Author)
+const rowBooks = [
+  { title: 'Get to the Point',             img: `${WP}/2024/05/Book_Get-to-the-Point-min.jpg`,             link: 'https://www.amazon.com/Get-Point-Guidance-Provision-Presence-ebook/dp/B09GG8G8MK' },
+  { title: 'Audacious Generosity',         img: `${WP}/2024/05/Book_Audacious-Generosity-min.jpg`,         link: 'https://www.amazon.com/Audacious-Generosity-Experience-Receive-Possible-ebook/dp/B08LRZSL6Y' },
+  { title: 'Ultimate Book Marketing Guide',img: `${WP}/2024/05/Book_Ultimate-Book-Marketing-Guide-min.jpg`,link: 'https://www.amazon.com/SMs-Ultimate-Book-Marketing-Guide/dp/1958304514' },
+  { title: 'Only God Works',               img: `${WP}/2024/05/Book_Only-God-Works-min.jpg`,               link: 'https://www.amazon.com/Only-God-Works-Investing-Matters/dp/195830476X' },
+  { title: "What's Your Word?",            img: `${WP}/2024/05/Book_What_s-Your-Word-min.jpg`,             link: 'https://www.amazon.com/Whats-Your-Word-Choosing-Path/dp/1958304123' },
+];
+
+// Bestselling Author grid — 2 rows × 4, with a final empty slot on live
+const gridBooks = [
+  { title: 'Audacious Generosity',          img: `${WP}/2024/06/AG-2.jpg`,                           link: 'https://www.amazon.com/Audacious-Generosity-Experience-Receive-Possible-ebook/dp/B08LRZSL6Y' },
+  { title: 'Get to the Point',              img: `${WP}/2024/05/Book_Get-to-the-Point-min.jpg`,      link: 'https://www.amazon.com/Get-Point-Guidance-Provision-Presence-ebook/dp/B09GG8G8MK' },
+  { title: "What's Your Word?",             img: `${WP}/2024/05/Book_What_s-Your-Word-min.jpg`,      link: 'https://www.amazon.com/Whats-Your-Word-Choosing-Path/dp/1958304123' },
+  { title: 'Ultimate Book Marketing Guide', img: `${WP}/2024/05/Book_Ultimate-Book-Marketing-Guide-min.jpg`, link: 'https://www.amazon.com/SMs-Ultimate-Book-Marketing-Guide/dp/1958304514' },
+  { title: 'Only God Works',                img: `${WP}/2024/06/only-god-works-1.png`,               link: 'https://www.amazon.com/Only-God-Works-Investing-Matters/dp/195830476X' },
+  { title: "Your Very Own Children's Book", img: `${WP}/2024/06/YVOCB-2.jpg`,                        link: 'https://www.amazon.com/Your-Very-Own-Childrens-Book-ebook/dp/B0D6GTVKQQ' },
+  { title: 'Gifts',                         img: `${WP}/2024/06/GIFTS-2.jpg`,                        link: 'https://www.amazon.com/GIFTS-Everything-Promises-Give-Bible/dp/B0D69RPBWY' },
+];
+
+const socials = [
+  { icon: 'youtube',   label: '@kevinwhitetv',  href: 'https://www.youtube.com/@KevinWhiteTV' },
+  { icon: 'twitter',   label: '@kevinwhiteus',  href: 'https://twitter.com/kevinwhiteus' },
+  { icon: 'instagram', label: '@kevinwhiteus',  href: 'https://www.instagram.com/kevinwhiteus/' },
+  { icon: 'linkedin',  label: '@kevinwhiteus',  href: 'https://www.linkedin.com/in/kevinwhiteus/' },
+  { icon: 'facebook',  label: '@kevinwhiteus',  href: 'https://www.facebook.com/kevinwhite.usa' },
+];
 ---
 
 <Layout title="Contact — Kevin White" description="Get in touch with Kevin White. Speaking inquiries, collaboration, or general contact.">
   <main>
-    <section class="bg-white section-pad">
-      <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-12">
-        <!-- Left: Contact Info -->
-        <div>
-          <h1 class="mb-6">Let's Talk</h1>
-          <p class="text-[var(--color-text-light)] leading-relaxed mb-8">
-            I enjoy hearing from readers and new friends. Please send a message if you want to collaborate or work together.
-          </p>
 
-          <div class="space-y-6">
-            <div>
-              <h3 class="text-base font-semibold mb-1" style="font-family: var(--font-body);">Mailing Address</h3>
-              <p class="text-[var(--color-text-light)]">PO Box 3251<br />Cary, NC 27519</p>
-            </div>
-
-            <div>
-              <h3 class="text-base font-semibold mb-1" style="font-family: var(--font-body);">Phone</h3>
-              <p><a href="tel:+18888578685" class="text-[var(--color-text-light)] hover:text-[var(--color-primary)]">+1-888-857-8685</a></p>
-            </div>
-
-            <div>
-              <h3 class="text-base font-semibold mb-1" style="font-family: var(--font-body);">Socials</h3>
-              <div class="flex flex-col gap-1 text-[var(--color-text-light)]">
-                <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-primary)]">@kevinwhitetv</a>
-                <a href="https://www.instagram.com/kevinwhiteus/" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-primary)]">@kevinwhiteus</a>
-                <a href="https://www.linkedin.com/in/kevinwhiteus/" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-primary)]">@kevinwhiteus</a>
-                <a href="https://twitter.com/kevinwhiteus" target="_blank" rel="noopener noreferrer" class="hover:text-[var(--color-primary)]">@kevinwhiteus</a>
-              </div>
-            </div>
-
-            <div>
-              <h3 class="text-base font-semibold mb-1" style="font-family: var(--font-body);">For more on speaking, contact Jeremy</h3>
-              <a href="mailto:jeremy@spiritmedia.us" class="btn btn-primary mt-2">Send an email</a>
-            </div>
-          </div>
+    {/* ===== HERO — Let's Talk ===== */}
+    <section class="ct-hero">
+      <div class="ct-hero-inner">
+        <div class="ct-hero-img-col">
+          <img src={kevinImg} alt="Kevin White" class="ct-hero-img" />
         </div>
-
-        <!-- Right: Book covers + author blurb -->
-        <div>
-          <div class="grid grid-cols-2 sm:grid-cols-3 gap-3 mb-6">
-            {books.map((book: any) => (
-              <a href="/books" class="block">
-                {book.coverImage ? (
-                  <img src={`${book.coverImage}?w=200&auto=format`} alt={book.title} class="w-full rounded shadow-sm" />
-                ) : (
-                  <div class="img-placeholder rounded aspect-[3/4] text-[10px]">{book.title}</div>
-                )}
-              </a>
-            ))}
-          </div>
-          <h3 class="text-base font-semibold mb-2" style="font-family: var(--font-body);">Bestselling Author</h3>
-          <p class="text-[var(--color-text-light)] leading-relaxed">
-            Kevin has published seven books in 5 years. His eighth book will be released this fall. Each book equips and empowers readers to live out God's Word.
-          </p>
+        <div class="ct-hero-text-col">
+          <h1 class="ct-hero-h1">Let&rsquo;s Talk</h1>
+          <p class="ct-hero-sub">I enjoy hearing from readers and new friends. Please send a message if you want to collaborate or work together.</p>
         </div>
       </div>
     </section>
+
+    {/* ===== MAILING ADDRESS + SOCIALS ===== */}
+    <section class="ct-info">
+      <div class="ct-info-inner">
+        <div class="ct-info-col">
+          <h3 class="ct-info-heading">Mailing Address</h3>
+          <p class="ct-info-text">PO Box 3251<br />Cary, NC 27519</p>
+          <p class="ct-info-text"><a href="tel:+18888578685">+1-888-857-8685</a></p>
+        </div>
+        <div class="ct-info-col">
+          <h3 class="ct-info-heading">Socials</h3>
+          <ul class="ct-social-list">
+            {socials.map(s => (
+              <li class="ct-social-row">
+                <span class="ct-social-icon">
+                  <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+                    {s.icon === 'youtube'   && <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/>}
+                    {s.icon === 'twitter'   && <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>}
+                    {s.icon === 'instagram' && <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/>}
+                    {s.icon === 'linkedin'  && <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>}
+                    {s.icon === 'facebook'  && <path d="M24 12.073C24 5.405 18.627 0 12 0S0 5.405 0 12.073C0 18.1 4.388 23.094 10.125 24v-8.437H7.078v-3.49h3.047V9.41c0-3.025 1.792-4.697 4.533-4.697 1.313 0 2.686.236 2.686.236v2.97h-1.513c-1.491 0-1.956.93-1.956 1.874v2.25h3.328l-.532 3.49h-2.796V24C19.612 23.094 24 18.1 24 12.073z"/>}
+                  </svg>
+                </span>
+                <a href={s.href} target="_blank" rel="noopener noreferrer" class="ct-social-link">{s.label}</a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    {/* ===== JEREMY CTA ===== */}
+    <section class="ct-jeremy">
+      <div class="ct-jeremy-inner">
+        <div class="ct-jeremy-img-col">
+          <img src={phoneImg} alt="Contact Jeremy" class="ct-jeremy-img" />
+        </div>
+        <div class="ct-jeremy-text-col">
+          <h3 class="ct-jeremy-heading">For more on speaking, contact Jeremy</h3>
+          <h3 class="ct-jeremy-email"><a href="mailto:jeremy@spiritmedia.us">jeremy@spiritmedia.us</a></h3>
+          <a href="mailto:jeremy@spiritmedia.us" class="ct-jeremy-btn">Send an email</a>
+        </div>
+      </div>
+    </section>
+
+    {/* ===== INTERMEDIATE BOOK ROW (5 covers) ===== */}
+    <section class="ct-bookrow">
+      <div class="ct-bookrow-inner">
+        {rowBooks.map(b => (
+          <a href={b.link} target="_blank" rel="noopener noreferrer" class="ct-bookrow-item">
+            <img src={b.img} alt={b.title} class="ct-bookrow-img" />
+          </a>
+        ))}
+      </div>
+    </section>
+
+    {/* ===== BESTSELLING AUTHOR ===== */}
+    <section class="ct-ba">
+      <div class="ct-ba-inner">
+        <h2 class="ct-ba-heading">Bestselling Author</h2>
+        <p class="ct-ba-desc">Kevin has published seven books in 5 years. His eighth book will be released this fall.<br />Each book equips and empowers readers to live out God&rsquo;s Word.</p>
+        <div class="ct-ba-row">
+          {gridBooks.slice(0, 4).map(b => (
+            <a href={b.link} target="_blank" rel="noopener noreferrer" class="ct-ba-item">
+              <img src={b.img} alt={b.title} class="ct-ba-img" />
+            </a>
+          ))}
+        </div>
+        <div class="ct-ba-row">
+          {gridBooks.slice(4).map(b => (
+            <a href={b.link} target="_blank" rel="noopener noreferrer" class="ct-ba-item">
+              <img src={b.img} alt={b.title} class="ct-ba-img" />
+            </a>
+          ))}
+          <div class="ct-ba-item ct-ba-item-empty"></div>
+        </div>
+      </div>
+    </section>
+
+    {/* ===== GENEROUSLY BLESSED ===== */}
+    <section class="ct-gb" style={`background-image: url('${gradientBg}');`}>
+      <div class="ct-gb-card">
+        <h2 class="ct-gb-heading">Generously<br />Blessed</h2>
+        <p class="ct-gb-sub">1 minute devotions that will fire up your spirit. Delivered straight to your inbox.</p>
+      </div>
+    </section>
+
   </main>
 </Layout>
+
+<style is:inline>
+  /* === HERO === */
+  .ct-hero { padding: 4vw 4vw 0; }
+  .ct-hero-inner {
+    width: 1200px; max-width: 100%; margin: 0 auto;
+    display: flex; flex-direction: row; align-items: center; gap: 40px;
+  }
+  .ct-hero-img-col { flex: 1; display: flex; justify-content: center; align-items: center; }
+  .ct-hero-img { width: 100%; max-width: 500px; height: auto; object-fit: contain; }
+  .ct-hero-text-col { flex: 1; padding: 0 20px; }
+  .ct-hero-h1 {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 74px;
+    color: #000; line-height: 1; text-transform: uppercase; margin: 0 0 20px;
+  }
+  .ct-hero-sub {
+    font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
+    color: #000; font-weight: 400;
+  }
+
+  /* === INFO (Mailing + Socials) === */
+  .ct-info { padding: 4vw 4vw; }
+  .ct-info-inner {
+    width: 1200px; max-width: 100%; margin: 0 auto;
+    display: flex; flex-direction: row; gap: 40px; align-items: flex-start;
+  }
+  .ct-info-col { flex: 1; padding: 0 20px; }
+  .ct-info-heading {
+    font-family: "Lexend", sans-serif; font-weight: 900; font-size: 30px;
+    color: #000; text-transform: uppercase; margin: 0 0 20px;
+  }
+  .ct-info-text {
+    font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
+    color: #000; margin: 0 0 10px;
+  }
+  .ct-info-text a { color: #000; text-decoration: none; }
+  .ct-info-text a:hover { text-decoration: underline; }
+
+  .ct-social-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 12px; }
+  .ct-social-row { display: flex; align-items: center; gap: 14px; }
+  .ct-social-icon {
+    width: 32px; height: 32px; display: inline-flex; align-items: center; justify-content: center;
+    color: #000;
+  }
+  .ct-social-link {
+    font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
+    color: #000; text-decoration: none;
+  }
+  .ct-social-link:hover { text-decoration: underline; }
+
+  /* === JEREMY CTA === */
+  .ct-jeremy { padding: 4vw 4vw; }
+  .ct-jeremy-inner {
+    width: 1200px; max-width: 100%; margin: 0 auto;
+    display: flex; flex-direction: row; align-items: center; gap: 40px;
+  }
+  .ct-jeremy-img-col { flex: 1; display: flex; justify-content: center; align-items: center; }
+  .ct-jeremy-img { width: 100%; max-width: 500px; height: auto; object-fit: contain; }
+  .ct-jeremy-text-col { flex: 1; padding: 0 20px; display: flex; flex-direction: column; align-items: flex-start; }
+  .ct-jeremy-heading {
+    font-family: "Lexend", sans-serif; font-weight: 900; font-size: 30px;
+    color: #000; line-height: 1.3; text-transform: capitalize; margin: 0 0 20px;
+  }
+  .ct-jeremy-email {
+    font-family: "Almarai", sans-serif; font-weight: 400; font-size: 22px;
+    color: #000; margin: 0 0 30px;
+  }
+  .ct-jeremy-email a { color: #000; text-decoration: underline; }
+  .ct-jeremy-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    background-color: #89cff0; color: #fff;
+    font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
+    padding: 0.5em 1em; letter-spacing: 0.5px; text-decoration: none;
+  }
+  .ct-jeremy-btn:hover { opacity: 0.85; }
+
+  /* === INTERMEDIATE BOOK ROW === */
+  .ct-bookrow { padding: 2vw 4vw; }
+  .ct-bookrow-inner {
+    width: 1200px; max-width: 100%; margin: 0 auto;
+    display: flex; flex-direction: row; justify-content: center; gap: 30px;
+  }
+  .ct-bookrow-item {
+    flex: 1; display: flex; justify-content: center; align-items: center;
+    max-width: 200px;
+  }
+  .ct-bookrow-img { width: 100%; height: auto; object-fit: contain; }
+
+  /* === BESTSELLING AUTHOR === */
+  .ct-ba { padding: 4vw 4vw 4vw; }
+  .ct-ba-inner {
+    width: 1200px; max-width: 100%; margin: 0 auto;
+    display: flex; flex-direction: column; align-items: center; gap: 30px;
+  }
+  .ct-ba-heading {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 74px;
+    color: #000; line-height: 50px; text-transform: uppercase; margin: 0;
+    text-align: center;
+  }
+  .ct-ba-desc {
+    font-family: "Almarai", sans-serif; font-weight: 800; font-size: 16px;
+    color: #000; line-height: 1.5; text-align: center; margin: 0;
+    max-width: 800px;
+  }
+  .ct-ba-row {
+    display: flex; flex-direction: row; width: 100%; justify-content: center;
+    gap: 40px; align-items: center;
+  }
+  .ct-ba-item {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+    height: 330px; max-width: 220px;
+  }
+  .ct-ba-img { height: 100%; width: auto; object-fit: contain; }
+  .ct-ba-item-empty { visibility: hidden; }
+
+  /* === GENEROUSLY BLESSED === */
+  .ct-gb {
+    margin-top: 50px;
+    background-size: cover; background-repeat: no-repeat; background-position: center;
+    min-height: 700px; display: flex; align-items: center; justify-content: center;
+    padding: 4vw 2vw;
+  }
+  .ct-gb-card {
+    background-color: #000; border-radius: 16px; padding: 60px 50px;
+    max-width: 700px; width: 100%; text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+  .ct-gb-heading {
+    font-family: "Lexend", sans-serif; font-size: 40px; color: #fff;
+    line-height: 50px; margin: 0 0 20px;
+  }
+  .ct-gb-sub {
+    font-family: "Crimson Text", serif; font-size: 25px; color: #fff;
+    line-height: 130%; font-weight: 600; margin: 0;
+  }
+
+  /* === MOBILE === */
+  @media (max-width: 900px) {
+    .ct-hero-inner,
+    .ct-info-inner,
+    .ct-jeremy-inner { flex-direction: column; gap: 30px; }
+    .ct-hero-img, .ct-jeremy-img { max-width: 360px; }
+    .ct-hero-h1 { font-size: 48px; text-align: center; }
+    .ct-hero-text-col, .ct-info-col, .ct-jeremy-text-col { padding: 0; text-align: center; }
+    .ct-jeremy-text-col { align-items: center; }
+    .ct-social-list { align-items: flex-start; display: inline-flex; }
+    .ct-bookrow-inner { flex-wrap: wrap; gap: 20px; }
+    .ct-bookrow-item { max-width: 140px; }
+    .ct-ba-heading { font-size: 40px; line-height: 1; }
+    .ct-ba-row { flex-wrap: wrap; gap: 20px; }
+    .ct-ba-item { height: 200px; max-width: 140px; }
+    .ct-ba-item-empty { display: none; }
+    .ct-gb-card { padding: 40px 24px; }
+    .ct-gb-heading { font-size: 30px; line-height: 1.1; }
+    .ct-gb-sub { font-size: 20px; }
+  }
+</style>
