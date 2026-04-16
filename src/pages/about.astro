@@ -86,22 +86,18 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
     </section>
 
     {/* ===== SECTION 5: Books — brxe-pxmruk ===== */}
-    <section class="about-books">
-      <div class="about-books-inner">
-        <h2 class="about-books-heading">Books</h2>
-        <p class="about-books-subtext">Nurture Your Spiritual Journey</p>
-        <div class="about-books-row">
-          {books.map((book: any) => (
-            <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer" class="about-book-item">
-              {book.coverImage ? (
-                <img src={`${book.coverImage}?w=300&auto=format`} alt={book.title} class="about-book-img" />
-              ) : (
-                <div class="img-placeholder" style="width:100%;height:100%;">{book.title}</div>
-              )}
-            </a>
-          ))}
-        </div>
-        <a href="/books" class="about-books-btn">View All Books</a>
+    <section class="ab-books">
+      <div class="ab-books-top">
+        <h2 class="ab-books-heading">Books</h2>
+        <p class="ab-books-sub">Nurture Your Spiritual Journey</p>
+        <a href="https://www.amazon.com/stores/author/B08LZYTR2B/allbooks" target="_blank" rel="noopener noreferrer" class="ab-books-btn">View All Books</a>
+      </div>
+      <div class="ab-books-row">
+        <div class="ab-book-block"><img src={`${books.find((b:any)=>b.title==='Get to the Point')?.coverImage}?w=400&auto=format`} alt="Get to the Point" class="ab-book-img" /></div>
+        <div class="ab-book-block"><img src={`${IMG.bookAG}?w=400&auto=format`} alt="Audacious Generosity" class="ab-book-img" /></div>
+        <div class="ab-book-block"><img src={`${books.find((b:any)=>b.title==='Ultimate Book Marketing Guide')?.coverImage}?w=400&auto=format`} alt="Ultimate Book Marketing Guide" class="ab-book-img" /></div>
+        <div class="ab-book-block"><img src={`${books.find((b:any)=>b.title==='Only God Works')?.coverImage}?w=400&auto=format`} alt="Only God Works" class="ab-book-img" /></div>
+        <div class="ab-book-block"><img src={`${books.find((b:any)=>b.title?.includes('Your Word'))?.coverImage}?w=400&auto=format`} alt="What's Your Word?" class="ab-book-img" /></div>
       </div>
     </section>
 
@@ -277,35 +273,43 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
   }
 
   /* === SECTION 5: Books — brxe-pxmruk === */
-  .about-books { padding: 4vw 4vw 10vw; }
-  .about-books-inner {
-    width: 1200px; max-width: 100%; margin: 0 auto;
+  .ab-books { padding: 4vw 4vw 10vw; }
+  .ab-books-top {
     display: flex; flex-direction: column; align-items: center;
+    padding: 0 4vw 4vw; gap: 30px;
   }
-  .about-books-heading {
+  .ab-books-heading {
     font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
-    line-height: 50px; text-transform: uppercase; font-weight: 400;
+    line-height: 90px; text-transform: uppercase; font-weight: 400; text-align: center;
   }
-  .about-books-subtext {
-    font-family: "Almarai", sans-serif; font-size: 20px; color: #000;
-    margin-top: 20px; margin-bottom: 30px;
+  .ab-books-sub {
+    font-family: "Lexend", sans-serif; font-size: 30px; line-height: 48px;
+    font-weight: 900; color: #000; margin-bottom: 10px;
   }
-  .about-books-row {
-    display: flex; flex-direction: row; gap: 20px;
-    justify-content: center; flex-wrap: wrap;
-  }
-  .about-book-item { display: block; }
-  .about-book-img { height: 280px; width: auto; object-fit: contain; }
-  .about-books-btn {
+  .ab-books-btn {
     display: inline-flex; align-items: center; justify-content: center;
-    background-color: #88cff1; color: #fff;
-    font-family: "Almarai", sans-serif; font-size: 20px; font-weight: 400;
-    padding: 0.5em 1.5em; text-decoration: none; margin-top: 40px;
+    font-size: 18px; color: #fff; padding: 15px 35px;
+    background-color: #89cff0; border: none; text-decoration: none;
+    margin-bottom: 50px;
+  }
+  .ab-books-btn:hover { opacity: 0.85; }
+  /* Book row — brxe-gslfbz */
+  .ab-books-row {
+    display: flex; flex-direction: row; gap: 50px; padding-top: 10px;
+    justify-content: center; align-items: center;
+  }
+  .ab-book-block { width: 45%; }
+  .ab-book-img {
+    width: 100%; height: auto; object-fit: cover;
+    transform: rotate(20deg);
   }
   @media (max-width: 478px) {
-    .about-books { padding: 7vw 4vw 15vw; }
-    .about-books-heading { font-size: 6vw; }
-    .about-book-img { height: 180px; }
+    .ab-books { padding: 7vw 4vw 15vw; }
+    .ab-books-heading { font-size: 6vw; line-height: 10px; }
+    .ab-books-sub { font-size: 19px; font-family: "Almarai", sans-serif; font-weight: 800; line-height: 1; text-align: center; }
+    .ab-books-row { gap: 20px; flex-wrap: wrap; }
+    .ab-book-block { width: 40%; }
+    .ab-book-img { transform: rotate(0deg); object-fit: scale-down; }
   }
 
   /* === SECTION 6: Generously Blessed — brxe-b6ac05 === */
