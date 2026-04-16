@@ -161,7 +161,7 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
   .kp-heading {
     font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
     line-height: 50px; text-transform: uppercase; font-weight: 400;
-    margin-top: -16px; margin-left: 50px; text-align: center;
+    margin-top: -16px; margin-left: 50px; text-align: center; margin-bottom: 50px;
   }
   /* Two-column row — brxe-aqslwq */
   .kp-row {
@@ -189,7 +189,7 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
   .kp-image-col {
     flex: 1; margin-bottom: 50px;
   }
-  .kp-family-img { width: 100%; height: auto; object-fit: cover; }
+  .kp-family-img { width: 80%; max-width: 500px; height: auto; object-fit: cover; }
 
   /* Podcast row — brxe-bnvfwp */
   .kp-podcast-row {
