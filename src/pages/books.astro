@@ -1,50 +1,188 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
-import { sanityClient } from '../lib/sanity.ts';
 
-const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) { title, description, amazonUrl, "coverImage": coverImage.asset->url }`);
+const S = 'https://cdn.sanity.io/images/kwhqwbb4/production';
+const heroBg = `${S}/7c27e0c873006c6018e190cb335433748292381f-2560x1138.jpg`;
+const kevinCutout = `${S}/8f5353c3fc586645154bbaaa065b67513fa63431-1000x1024.png`;
+const bookAG = `${S}/fe0c7dbc8dccfae29fedd9a66397f00ab2920c42-1375x2125.jpg`;
+const bookGTP = `${S}/198648873446b5f23b710ced378459ef2825af6b-1000x1600.jpg`;
+const bookWYW = 'https://cdn.sanity.io/images/kwhqwbb4/production/ec2651c2161029babb268eb2a3057404dfb2d658-640x1024.jpg';
+const bookUBM = 'https://cdn.sanity.io/images/kwhqwbb4/production/462a0f7a3c90816d820e575a2a3443bc2eaeed6b-640x1024.jpg';
+const bookOGW = `${S}/670c771be0d7e97acc08bdde9ce83bb942ed4c91-731x1024.jpg`;
+const bookYVOCB = `${S}/53d78e479808a53a701226699dc61c861d607a05-1500x2100.jpg`;
+const bookGifts = `${S}/68a0c208908f24d6120fd52aaf4b3891879c4291-1575x2175.jpg`;
+
+const books = [
+  { title: 'Audacious Generosity', img: bookAG, link: 'https://www.amazon.com/Audacious-Generosity-Experience-Receive-Possible-ebook/dp/B08LRZSL6Y', desc: 'If you desire to give more selflessly, exchanging pressure for genuine confidence and satisfaction, this is a read for you. Discover what happens when you open your hands to God and commit to using what He puts into those hands.' },
+  { title: 'Get to the Point', img: bookGTP, link: 'https://www.amazon.com/Get-Point-Guidance-Provision-Presence-ebook/dp/B09GG8G8MK', desc: "Distilled into one easy-to-read book are the most valuable lessons Kevin has learned to fully live in God's presence, hear His voice, and receive His provision. Kevin wants you to Get to the Point by nurturing a heart for Jesus and living in the center of His will." },
+  { title: "What's Your Word?", img: bookWYW, link: 'https://www.amazon.com/Whats-Your-Word-Choosing-Path-ebook/dp/B0BNNXBZYP', desc: 'Words are more than characters uttered or written. They are vehicles that channel our aspirations and ambitions. When we listen to God speaking His word in our lives and identify how we fit into that context, the keys to the ignition are on.' },
+  { title: 'Ultimate Book Marketing Guide', img: bookUBM, link: 'https://www.amazon.com/SMs-Ultimate-Book-Marketing-Guide/dp/1958304514', desc: "In today's dog-eat-dog world, many authors can only dream of getting noticed, much less read. Kevin learned this firsthand when trying to publish his first bestselling book. Kevin shares his marketing formula for getting your book jumping off the shelves." },
+  { title: 'Only God Works', img: bookOGW, link: 'https://www.amazon.com/Only-God-Works-Investing-Matters/dp/195830476X', desc: 'We all behave like workaholics nowadays, burning the midnight oil to get that competitive edge. Unfortunately, this mindset can work us straight to the ground! In chasing a life of abundance, Kevin reveals why you should permit yourself to rely on God to provide.' },
+  { title: 'Your Very Own Children\'s Book', img: bookYVOCB, link: 'https://www.amazon.com/Your-Very-Own-Childrens-Book-ebook/dp/B0D6GTVKQQ', desc: 'Many authors aspire to publish a children\'s book, and partnering with the right team can turn your story into reality. Spirit Media provides a professional touch to help you achieve your publishing dreams by providing support and guidance to create Your Very Own Children\'s Book.' },
+  { title: 'Gifts', img: bookGifts, link: 'https://www.amazon.com/GIFTS-Everything-Promises-Give-Bible/dp/B0D69RPBWY', desc: "God has physical blessings and spiritual gifts waiting for you in the Scriptures and this book. Kevin reminds us God's love knows no bounds. The gift of salvation is only one thing God wants to give us as His faithful children who fully trust Him." },
+];
 ---
 
 <Layout title="Books — Kevin White" description="Kevin White's bestselling books on generosity, faith, entrepreneurship, and spiritual growth.">
   <main>
-    <!-- Hero -->
-    <section class="bg-white section-pad">
-      <div class="container-site text-center max-w-3xl mx-auto">
-        <h1 class="mb-4">Authorship</h1>
-        <p class="text-lg text-[var(--color-text-light)] leading-relaxed mb-2">
-          These books will help you connect with God, deepen your relationships with Him and other people, and help you live in abundance.
-        </p>
-        <p class="text-sm text-[var(--color-text-light)] mb-4">
-          <a href="#" class="text-[var(--color-gold)] hover:underline">Click here to check out Kevin's Amazon author page</a>
-        </p>
-        <p class="text-sm font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-2">Bestselling Author</p>
-        <p class="italic text-[var(--color-text-light)]" style="font-family: var(--font-heading);">"God says we are transformed as we change our minds"</p>
+
+    {/* ===== HERO — brxe-kmykhz ===== */}
+    <section class="bk-hero" style={`background-image: url('${heroBg}?w=1920&auto=format');`}>
+      <div class="bk-hero-inner">
+        <div class="bk-hero-text">
+          <h1 class="bk-hero-h1">Bestselling Author</h1>
+          <p class="bk-hero-sub">God says we are transformed as we change our minds</p>
+          <a href="https://www.amazon.com/stores/author/B08LZYTR2B/allbooks" target="_blank" rel="noopener noreferrer" class="bk-hero-btn">Read Now</a>
+        </div>
+        <div class="bk-hero-img" style={`background-image: url('${kevinCutout}?w=800&auto=format');`}></div>
       </div>
     </section>
 
-    <!-- Books: alternating layout -->
-    {books.map((book: any, i: number) => (
-      <section class:list={['section-pad border-t border-[var(--color-border)]', i % 2 === 0 ? 'bg-white' : 'bg-[var(--color-bg-light)]']}>
-        <div class:list={['container-site grid grid-cols-1 md:grid-cols-2 gap-8 items-center', i % 2 === 1 && 'md:[direction:rtl] md:[&>*]:[direction:ltr]']}>
-          <div>
-            {book.coverImage ? (
-              <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="w-48 mx-auto md:mx-0 rounded shadow-md" />
-            ) : (
-              <div class="img-placeholder rounded aspect-[3/4] w-48 mx-auto md:mx-0">{book.title}</div>
-            )}
+    {/* ===== INTRO TEXT — brxe-fjdfvh ===== */}
+    <section class="bk-intro">
+      <p class="bk-intro-text">These books will help you connect with God, deepen your relationships with Him and other people, and help you live in abundance.</p>
+    </section>
+
+    {/* ===== BOOKS — brxe-b19a80 ===== */}
+    <section class="bk-books">
+      {books.map((book, i) => (
+        <div class:list={['bk-book-row', i % 2 === 1 && 'bk-book-row-reverse']}>
+          <div class="bk-book-img-col">
+            <img src={`${book.img}?w=500&auto=format`} alt={book.title} class="bk-book-cover" />
           </div>
-          <div>
-            <h2 class="mb-3">{book.title}</h2>
-            <p class="text-[var(--color-text-light)] leading-relaxed mb-5">{book.description}</p>
-            {book.amazonUrl ? (
-              <a href={book.amazonUrl} target="_blank" rel="noopener noreferrer" class="btn btn-primary">Read Now</a>
-            ) : (
-              <span class="btn btn-primary opacity-70 cursor-default">Read Now</span>
-            )}
+          <div class="bk-book-text-col">
+            <h2 class="bk-book-title">{book.title}</h2>
+            <p class="bk-book-desc">{book.desc}</p>
+            <a href={book.link} target="_blank" rel="noopener noreferrer" class="bk-book-btn">Read Now</a>
           </div>
         </div>
-      </section>
-    ))}
+      ))}
+    </section>
+
+    {/* ===== GENEROUSLY BLESSED — brxe-4c4dcc ===== */}
+    <section class="bk-gb">
+      <div class="bk-gb-card">
+        <h2 class="bk-gb-heading">Generously Blessed</h2>
+        <p class="bk-gb-sub">1 minute devotions that will fire up your spirit. Delivered straight to your inbox.</p>
+      </div>
+    </section>
+
   </main>
 </Layout>
+
+<style is:inline>
+  /* === HERO — brxe-kmykhz === */
+  .bk-hero {
+    background-size: cover; background-repeat: no-repeat; background-position: center right;
+    height: 720px; display: flex; align-items: center; justify-content: center;
+    padding: 6vw;
+  }
+  .bk-hero-inner {
+    width: 1200px; max-width: 100%; display: flex; flex-direction: row;
+    align-items: stretch;
+  }
+  .bk-hero-text {
+    flex: 1; display: flex; flex-direction: column; justify-content: center;
+    padding: 0 20px;
+  }
+  .bk-hero-h1 {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 74px;
+    color: #fff; text-transform: uppercase;
+  }
+  .bk-hero-sub {
+    font-family: "Lexend", sans-serif; font-weight: 900; font-size: 30px;
+    color: #fff; margin-top: 10px;
+  }
+  .bk-hero-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 15px 35px; color: #fff; font-size: 18px; width: 200px;
+    border: 1px solid #fff; background-color: #89cff0;
+    text-decoration: none; margin-top: 40px;
+  }
+  .bk-hero-btn:hover { opacity: 0.85; }
+  .bk-hero-img {
+    flex: 1; background-size: contain; background-repeat: no-repeat;
+    background-position: bottom left; margin-top: -9.7%; margin-bottom: -13.5%;
+  }
+
+  /* === INTRO — brxe-fjdfvh === */
+  .bk-intro { padding-top: 4vw; text-align: center; }
+  .bk-intro-text {
+    font-family: "Lexend", sans-serif; font-size: 20px; color: #000;
+    max-width: 800px; margin: 0 auto; padding: 0 4vw; line-height: 1.6;
+  }
+
+  /* === BOOKS — brxe-b19a80 === */
+  .bk-books { padding-bottom: 50px; margin-top: 100px; }
+  .bk-book-row {
+    display: flex; flex-direction: row; width: 1200px; max-width: 100%;
+    margin: 0 auto; padding: 4vw 0; align-items: center;
+  }
+  .bk-book-row-reverse { flex-direction: row-reverse; }
+  .bk-book-img-col {
+    flex: 1; display: flex; justify-content: center; align-items: center;
+  }
+  .bk-book-cover {
+    width: 300px; max-width: 100%; height: auto; object-fit: contain;
+  }
+  .bk-book-text-col {
+    flex: 1; padding: 2vw; display: flex; flex-direction: column;
+  }
+  .bk-book-title {
+    font-family: "Lexend", sans-serif; font-size: 40px; color: #000;
+    text-transform: uppercase; line-height: 50px; font-weight: 700;
+  }
+  .bk-book-desc {
+    font-family: "Lexend", sans-serif; font-size: 20px; color: #000;
+    margin-bottom: 20px; margin-top: 20px; line-height: 1.6;
+  }
+  .bk-book-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    background-color: #89cff0; color: #fff; font-size: 18px;
+    margin-top: 40px; width: 150px; padding: 12px 20px;
+    text-decoration: none;
+  }
+  .bk-book-btn:hover { opacity: 0.85; }
+
+  /* === GENEROUSLY BLESSED — brxe-4c4dcc === */
+  .bk-gb {
+    margin-top: 50px;
+    background: url('https://kevinwhite.us/wp-content/uploads/2024/06/KWI-Gradient-1-scaled.jpg') center/cover no-repeat;
+    min-height: 700px; display: flex; align-items: center; justify-content: center;
+    padding: 4vw 2vw;
+  }
+  .bk-gb-card {
+    background-color: #000; border-radius: 16px; padding: 60px 50px;
+    max-width: 700px; width: 100%; text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+  .bk-gb-heading {
+    font-family: "Lexend", sans-serif; font-size: 40px; color: #fff;
+    line-height: 50px; margin-bottom: 20px;
+  }
+  .bk-gb-sub {
+    font-family: "Crimson Text", serif; font-size: 25px; color: #fff;
+    line-height: 130%; font-weight: 600;
+  }
+
+  /* === MOBILE === */
+  @media (max-width: 478px) {
+    .bk-hero { height: 706px; padding: 0; background-size: cover; }
+    .bk-hero-inner { flex-direction: column-reverse; }
+    .bk-hero-text { padding: 20px; }
+    .bk-hero-h1 { font-size: 40px; }
+    .bk-hero-sub { font-size: 19px; margin-top: 10px; }
+    .bk-hero-btn { margin-top: 20px; }
+    .bk-hero-img { min-height: 400px; margin: 0 0 -13%; background-size: contain; }
+    .bk-books { margin-top: 50px; padding-bottom: 0; }
+    .bk-book-row { flex-direction: column !important; padding: 4vw 20px; }
+    .bk-book-title { text-align: center; font-size: 6vw; font-family: "Black Han Sans", sans-serif; margin-top: 20px; }
+    .bk-book-desc { text-align: left; }
+    .bk-book-btn { margin-top: 0; margin-bottom: 40px; align-self: center; }
+    .bk-gb { margin-top: 0; padding: 4vw 20px; }
+    .bk-gb-card { padding: 40px 24px; }
+    .bk-gb-heading { font-size: 30px; }
+    .bk-gb-sub { font-size: 20px; }
+  }
+</style>
