@@ -113,16 +113,22 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
   /* === SECTION 1: About Intro — brxe-tqcsmt === */
   .about-intro { padding-top: 4vw; padding-bottom: 0; }
   .about-intro-inner {
-    width: 1200px; max-width: 100%; margin: 0 auto;
     display: flex; flex-direction: column; align-items: center;
     padding: 0 2vw;
   }
-  .about-intro-img { width: auto; align-self: flex-start; }
-  .about-kevin-img { width: 568px; max-width: 100%; border-radius: 10px; object-fit: cover; }
-  .about-intro-text { width: 60%; margin-right: 0; padding-left: 0; }
+  /* Image block — brxe-wzdzjt: width 60%, centered */
+  .about-intro-img {
+    width: 60%; display: flex; flex-direction: column; align-items: center;
+  }
+  .about-kevin-img { width: 100%; max-width: 568px; border-radius: 10px; object-fit: cover; }
+  /* Text block — brxe-ceypbc: width 80%, align-self flex-start, padding-top 100px */
+  .about-intro-text {
+    width: 80%; align-self: flex-start; padding-top: 100px; padding-bottom: 4vw;
+  }
   .about-heading {
     font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
-    line-height: 50px; text-transform: uppercase; font-weight: 400; padding-left: 10vw;
+    line-height: 50px; text-transform: uppercase; font-weight: 400;
+    margin-top: -16px; margin-left: 50px;
   }
   .about-paragraph {
     font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px; color: #000;
@@ -134,9 +140,10 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
     font-size: 18px; width: 300px; text-decoration: none; margin-left: 10vw;
   }
   @media (max-width: 478px) {
+    .about-intro-img { width: 100%; }
     .about-kevin-img { border-radius: 0; }
-    .about-intro-text { width: 100%; }
-    .about-heading { font-size: 6vw; padding-left: 0; }
+    .about-intro-text { width: 100%; padding-top: 50px; padding-right: 20px; padding-left: 20px; }
+    .about-heading { font-size: 6vw; margin-top: 0; margin-left: 0; padding-top: 40px; }
     .about-paragraph { padding: 0; margin-top: 0; }
     .about-btn { margin-left: 0; align-self: center; }
   }
