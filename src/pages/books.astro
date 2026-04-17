@@ -75,7 +75,7 @@ const books = [
   /* === HERO — brxe-kmykhz === */
   .bk-hero {
     background-size: cover; background-repeat: no-repeat; background-position: center right;
-    height: 720px; display: flex; align-items: center; justify-content: center;
+    min-height: clamp(520px, 80vh, 720px); height: auto; display: flex; align-items: center; justify-content: center;
     padding: 6vw;
   }
   .bk-hero-inner {
@@ -87,11 +87,11 @@ const books = [
     padding: 0 20px;
   }
   .bk-hero-h1 {
-    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 74px;
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: clamp(36px, 7.5vw, 74px);
     color: #fff; text-transform: uppercase;
   }
   .bk-hero-sub {
-    font-family: "Lexend", sans-serif; font-weight: 900; font-size: 30px;
+    font-family: "Lexend", sans-serif; font-weight: 900; font-size: clamp(18px, 3vw, 30px);
     color: #fff; margin-top: 10px;
   }
   .bk-hero-btn {
@@ -130,7 +130,7 @@ const books = [
     flex: 1; padding: 2vw; display: flex; flex-direction: column;
   }
   .bk-book-title {
-    font-family: "Lexend", sans-serif; font-size: 40px; color: #000;
+    font-family: "Lexend", sans-serif; font-size: clamp(22px, 4.5vw, 40px); color: #000;
     text-transform: uppercase; line-height: 50px; font-weight: 700;
   }
   .bk-book-desc {
@@ -158,11 +158,11 @@ const books = [
     box-shadow: 0 8px 30px rgba(0,0,0,0.4);
   }
   .bk-gb-heading {
-    font-family: "Lexend", sans-serif; font-size: 40px; color: #fff;
+    font-family: "Lexend", sans-serif; font-size: clamp(22px, 4.5vw, 40px); color: #fff;
     line-height: 50px; margin-bottom: 20px;
   }
   .bk-gb-sub {
-    font-family: "Crimson Text", serif; font-size: 25px; color: #fff;
+    font-family: "Crimson Text", serif; font-size: clamp(16px, 2.5vw, 25px); color: #fff;
     line-height: 130%; font-weight: 600;
   }
 
@@ -171,7 +171,7 @@ const books = [
     .bk-hero { height: 706px; padding: 0; background-size: cover; }
     .bk-hero-inner { flex-direction: column-reverse; }
     .bk-hero-text { padding: 20px; }
-    .bk-hero-h1 { font-size: 40px; }
+    .bk-hero-h1 { font-size: clamp(22px, 4.5vw, 40px); }
     .bk-hero-sub { font-size: 19px; margin-top: 10px; }
     .bk-hero-btn { margin-top: 20px; }
     .bk-hero-img { min-height: 400px; margin: 0 0 -13%; background-size: contain; }
@@ -182,7 +182,7 @@ const books = [
     .bk-book-btn { margin-top: 0; margin-bottom: 40px; align-self: center; }
     .bk-gb { margin-top: 0; padding: 4vw 20px; }
     .bk-gb-card { padding: 40px 24px; }
-    .bk-gb-heading { font-size: 30px; }
+    .bk-gb-heading { font-size: clamp(18px, 3vw, 30px); }
     .bk-gb-sub { font-size: 20px; }
   }
 </style>

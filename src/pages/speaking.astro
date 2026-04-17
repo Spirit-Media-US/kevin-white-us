@@ -164,7 +164,7 @@ const keynotes = [
   /* === HERO — brxe-ltbwdg === */
   .sp-hero {
     background-size: cover; background-repeat: no-repeat; background-position: center right;
-    height: 720px; display: flex; align-items: center; justify-content: center;
+    min-height: clamp(520px, 80vh, 720px); height: auto; display: flex; align-items: center; justify-content: center;
     padding: 6vw 4vw;
   }
   .sp-hero-inner {
@@ -172,11 +172,11 @@ const keynotes = [
   }
   .sp-hero-text { flex: 1; padding-left: 20px; display: flex; flex-direction: column; justify-content: center; }
   .sp-hero-h1 {
-    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 74px;
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: clamp(36px, 7.5vw, 74px);
     color: #fff; text-transform: uppercase;
   }
   .sp-hero-sub {
-    font-family: "Lexend", sans-serif; font-weight: 900; font-size: 30px; color: #fff;
+    font-family: "Lexend", sans-serif; font-weight: 900; font-size: clamp(18px, 3vw, 30px); color: #fff;
   }
   .sp-hero-btn {
     display: inline-flex; align-items: center; justify-content: center;
@@ -197,7 +197,7 @@ const keynotes = [
   /* === PODCASTS — brxe-sptqpd === */
   .sp-pods { margin-top: 181px; padding: 0 4vw; }
   .sp-pods-heading {
-    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+    font-family: "Black Han Sans", sans-serif; font-size: clamp(36px, 7.5vw, 74px); color: #000;
     line-height: 50px; text-transform: uppercase; font-weight: 400;
     width: 1200px; max-width: 100%; margin: 0 auto;
   }
@@ -220,7 +220,7 @@ const keynotes = [
     width: 1200px; max-width: 100%; margin: 0 auto;
   }
   .sp-keynotes-heading {
-    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+    font-family: "Black Han Sans", sans-serif; font-size: clamp(36px, 7.5vw, 74px); color: #000;
     line-height: 50px; text-transform: uppercase; font-weight: 400;
   }
   .sp-keynote-row {
@@ -237,7 +237,7 @@ const keynotes = [
   }
   .sp-keynote-text-col { width: 70%; }
   .sp-keynote-title {
-    font-family: "Lexend", sans-serif; font-weight: 900; font-size: 30px;
+    font-family: "Lexend", sans-serif; font-weight: 900; font-size: clamp(18px, 3vw, 30px);
     line-height: 48px; color: #000; text-transform: capitalize; margin-bottom: 20px;
     text-align: left;
   }
@@ -275,11 +275,11 @@ const keynotes = [
     box-shadow: 0 8px 30px rgba(0,0,0,0.4);
   }
   .sp-gb-heading {
-    font-family: "Lexend", sans-serif; font-size: 40px; color: #fff;
+    font-family: "Lexend", sans-serif; font-size: clamp(22px, 4.5vw, 40px); color: #fff;
     line-height: 50px; margin-bottom: 20px;
   }
   .sp-gb-sub {
-    font-family: "Crimson Text", serif; font-size: 25px; color: #fff;
+    font-family: "Crimson Text", serif; font-size: clamp(16px, 2.5vw, 25px); color: #fff;
     line-height: 130%; font-weight: 600;
   }
 
@@ -288,7 +288,7 @@ const keynotes = [
     .sp-hero { height: 800px; padding: 0; flex-direction: column-reverse; background-size: auto; background-position: bottom center; }
     .sp-hero-inner { flex-direction: column; justify-content: center; }
     .sp-hero-text { padding: 20px; }
-    .sp-hero-h1 { font-size: 40px; }
+    .sp-hero-h1 { font-size: clamp(22px, 4.5vw, 40px); }
     .sp-hero-sub { font-size: 19px; margin-top: 10px; }
     .sp-hero-btn { margin-top: 20px; }
     .sp-hero-vid { padding: 10px; }
@@ -305,7 +305,7 @@ const keynotes = [
     .sp-keynote-title { font-size: 5vw; line-height: 2; margin-top: 20px; }
     .sp-gb { margin-top: 0; padding: 4vw 20px; }
     .sp-gb-card { padding: 40px 24px; }
-    .sp-gb-heading { font-size: 30px; }
+    .sp-gb-heading { font-size: clamp(18px, 3vw, 30px); }
     .sp-gb-sub { font-size: 20px; }
   }
 </style>
