@@ -50,7 +50,10 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
           min-height: 70svh;
           background-position: right center;
           background-size: cover;
+          justify-content: flex-end;
         }
+        .home-hero .container-site { text-align: right; }
+        .home-hero-h1 { text-align: right; }
       }
       @media (max-width: 420px) {
         .home-hero { background-position: 72% center; }
