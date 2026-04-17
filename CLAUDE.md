@@ -29,7 +29,14 @@ Then run: `git checkout dev && git pull origin dev`
 ## Status -- as of 2026-04-17
 
 ### Completed & Live on Main
-- (nothing yet)
+- Phase 8: Launch — dev merged to main 2026-04-17. Production deploy triggered via `wrangler pages deploy --branch=main`. **Live at https://www.kevinwhite.us/** (HTTP 200 on all routes + Sanity Studio). UptimeRobot monitor #802869384 watching www. Portal updated with liveUrl.
+- **Apex (bare `kevinwhite.us`) pending** — GoDaddy can't flatten CNAME at apex; A records route to CF Pages but domain status stuck on "CNAME record not set". Either wait for CF Pages to flip active, or move NS to Cloudflare (Pattern 2) to get CNAME flattening. Pattern 2 needs Kevin's approval + email audit (Google Workspace MX + DKIM + SPF + DMARC + verification TXTs).
+
+DNS state (2026-04-17 18:28 UTC):
+- NS: ns67/68.domaincontrol.com (GoDaddy)
+- apex A: 172.66.44.206, 172.66.47.50 (CF Pages anycast) — status pending
+- www CNAME: kevin-white-us.pages.dev — ACTIVE
+- MX: Google Workspace 5-record (unchanged) ✓
 
 ### Completed on Dev
 - Phase 1: Infrastructure — repo, Sanity project, CF Pages, dev branch, scaffold
