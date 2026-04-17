@@ -8,7 +8,7 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) { 
 const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDate desc) [0...3] { "slug": slug.current, title, "image": heroImage.asset->url }`);
 ---
 
-<Layout title="Kevin White — Author, Speaker, Entrepreneur">
+<Layout title="Kevin White — Author, Speaker, Entrepreneur" description="Kevin White is a serial entrepreneur, bestselling author, and conference speaker who equips leaders to live out God's Word and prioritize prayer.">
   <Fragment slot="head">
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org", "@type": "Person", "name": "Kevin White",
