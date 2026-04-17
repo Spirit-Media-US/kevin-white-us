@@ -2,7 +2,7 @@
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import { sanityClient } from '../lib/sanity.ts';
-import { IMG } from '../lib/images.ts';
+import { IMG, VIDEO } from '../lib/images.ts';
 
 const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) { title, "coverImage": coverImage.asset->url }`);
 const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDate desc) [0...3] { "slug": slug.current, title, "image": heroImage.asset->url }`);
@@ -83,7 +83,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         <!-- Video column -->
         <div class="se-video-col">
           <video autoplay loop playsinline muted class="se-video">
-            <source src="https://kevinwhite.us/wp-content/uploads/2024/07/3.mp4" type="video/mp4" />
+            <source src={VIDEO.entrepreneurLoop} type="video/mp4" />
           </video>
         </div>
       </div>
@@ -100,7 +100,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         <!-- Video column (left) — brxe-zcafxp -->
         <div class="cs-video-col">
           <video autoplay loop playsinline muted class="cs-video">
-            <source src="https://kevinwhite.us/wp-content/uploads/2024/07/8.mp4" type="video/mp4" />
+            <source src={VIDEO.conferenceSpeakerLoop} type="video/mp4" />
           </video>
         </div>
         <!-- Text column (right) — brxe-yqknsm -->
@@ -730,7 +730,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
   /* Generously Blessed — brxe-ypbgzh */
   .gb-section {
     margin-top: 50px;
-    background: url('https://kevinwhite.us/wp-content/uploads/2024/06/KWI-Gradient-1-scaled.jpg') center/cover no-repeat;
+    background: url('https://cdn.sanity.io/images/kwhqwbb4/production/06946f8ab859ca9d6944c5f0c6d8d733f3ffee3a-2560x1344.jpg') center/cover no-repeat;
     min-height: 700px;
     display: flex;
     align-items: center;

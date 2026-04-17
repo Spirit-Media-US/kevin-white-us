@@ -64,3 +64,16 @@ Line 4: `// TODO: Replace with the new site's Sanity project ID` — the ID belo
 2. Re-run the external-URL scan to confirm zero.
 3. Commit to dev, push, and `inspect dev preview`.
 4. Advance registry to Phase 6 once scan is clean.
+
+---
+
+## Remediation Log — 2026-04-17
+
+- 3 images uploaded to Sanity (`kwhqwbb4`): KWI gradient, Kevin hero, phone.
+- 9 videos uploaded to R2 `smp/kevin-white-us/` (served at `assets.spiritmediapublishing.com/kevin-white-us/`).
+- `src/lib/images.ts` extended with `IMG.kevinHero`, `IMG.phone`, `IMG.kwiGradient`, and a `VIDEO` map for all 9 clips.
+- All wp-content references on `index`, `about`, `speaking`, `books`, and `contact` swapped to Sanity/R2 URLs.
+- `contact.astro` intermediate book row now fetches the 5 covers from Sanity via GROQ.
+- Stale `TODO` comment in `src/lib/sanity.ts` removed.
+- Re-scan: `grep` for external CDN refs and `wp-content` returns **zero**.
+- `npm run build` passes.

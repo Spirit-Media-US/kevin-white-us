@@ -1,32 +1,19 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
+import { IMG } from '../lib/images.ts';
+import { sanityClient } from '../lib/sanity.ts';
 
-const WP = 'https://kevinwhite.us/wp-content/uploads';
+const kevinImg = IMG.kevinHero;
+const phoneImg = IMG.phone;
+const gradientBg = IMG.kwiGradient;
 
-const kevinImg = `${WP}/2024/05/Kevin-white-1.png`;
-const phoneImg = `${WP}/2024/05/phone.png`;
-const gradientBg = `${WP}/2024/06/KWI-Gradient-1-scaled.jpg`;
-
-// Intermediate book row (5 covers just above Bestselling Author)
-const rowBooks = [
-  { title: 'Get to the Point',             img: `${WP}/2024/05/Book_Get-to-the-Point-min.jpg`,             link: 'https://www.amazon.com/Get-Point-Guidance-Provision-Presence-ebook/dp/B09GG8G8MK' },
-  { title: 'Audacious Generosity',         img: `${WP}/2024/05/Book_Audacious-Generosity-min.jpg`,         link: 'https://www.amazon.com/Audacious-Generosity-Experience-Receive-Possible-ebook/dp/B08LRZSL6Y' },
-  { title: 'Ultimate Book Marketing Guide',img: `${WP}/2024/05/Book_Ultimate-Book-Marketing-Guide-min.jpg`,link: 'https://www.amazon.com/SMs-Ultimate-Book-Marketing-Guide/dp/1958304514' },
-  { title: 'Only God Works',               img: `${WP}/2024/05/Book_Only-God-Works-min.jpg`,               link: 'https://www.amazon.com/Only-God-Works-Investing-Matters/dp/195830476X' },
-  { title: "What's Your Word?",            img: `${WP}/2024/05/Book_What_s-Your-Word-min.jpg`,             link: 'https://www.amazon.com/Whats-Your-Word-Choosing-Path/dp/1958304123' },
-];
-
-// Bestselling Author grid — 2 rows × 4, with a final empty slot on live
-const gridBooks = [
-  { title: 'Audacious Generosity',          img: `${WP}/2024/06/AG-2.jpg`,                           link: 'https://www.amazon.com/Audacious-Generosity-Experience-Receive-Possible-ebook/dp/B08LRZSL6Y' },
-  { title: 'Get to the Point',              img: `${WP}/2024/05/Book_Get-to-the-Point-min.jpg`,      link: 'https://www.amazon.com/Get-Point-Guidance-Provision-Presence-ebook/dp/B09GG8G8MK' },
-  { title: "What's Your Word?",             img: `${WP}/2024/05/Book_What_s-Your-Word-min.jpg`,      link: 'https://www.amazon.com/Whats-Your-Word-Choosing-Path/dp/1958304123' },
-  { title: 'Ultimate Book Marketing Guide', img: `${WP}/2024/05/Book_Ultimate-Book-Marketing-Guide-min.jpg`, link: 'https://www.amazon.com/SMs-Ultimate-Book-Marketing-Guide/dp/1958304514' },
-  { title: 'Only God Works',                img: `${WP}/2024/06/only-god-works-1.png`,               link: 'https://www.amazon.com/Only-God-Works-Investing-Matters/dp/195830476X' },
-  { title: "Your Very Own Children's Book", img: `${WP}/2024/06/YVOCB-2.jpg`,                        link: 'https://www.amazon.com/Your-Very-Own-Childrens-Book-ebook/dp/B0D6GTVKQQ' },
-  { title: 'Gifts',                         img: `${WP}/2024/06/GIFTS-2.jpg`,                        link: 'https://www.amazon.com/GIFTS-Everything-Promises-Give-Bible/dp/B0D69RPBWY' },
-];
+// Intermediate book row — pulls the first 5 covers from Sanity
+const rowBooks = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0...5] {
+  title,
+  "img": coverImage.asset->url,
+  "link": amazonUrl
+}`);
 
 const socials = [
   { icon: 'youtube',   label: '@kevinwhitetv',  href: 'https://www.youtube.com/@KevinWhiteTV' },
@@ -100,9 +87,9 @@ const socials = [
     {/* ===== INTERMEDIATE BOOK ROW (5 covers) ===== */}
     <section class="ct-bookrow">
       <div class="ct-bookrow-inner">
-        {rowBooks.map(b => (
-          <a href={b.link} target="_blank" rel="noopener noreferrer" class="ct-bookrow-item">
-            <img src={b.img} alt={b.title} class="ct-bookrow-img" />
+        {rowBooks.map((b: any) => (
+          <a href={b.link || '/books'} target="_blank" rel="noopener noreferrer" class="ct-bookrow-item">
+            <img src={`${b.img}?w=400&auto=format`} alt={b.title} class="ct-bookrow-img" />
           </a>
         ))}
       </div>
