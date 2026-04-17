@@ -63,22 +63,43 @@ const enc = {
 </script>
 
 <style is:inline>
-  .sb-section { background: #fff; padding: 2vw 4vw 4vw; }
+  .sb-section {
+    background: #faf6ed; padding: 56px 4vw;
+    border-top: 1px solid #eee7d3;
+  }
   .sb-inner {
-    width: 768px; max-width: 100%; margin: 0 auto;
-    display: flex; flex-wrap: wrap; align-items: center; gap: 12px;
+    width: 720px; max-width: 100%; margin: 0 auto;
+    display: flex; flex-direction: column; align-items: center; gap: 20px;
+    text-align: center;
   }
   .sb-label {
     font-family: "Almarai", sans-serif; font-size: 12px; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 1.2px; color: #666;
-    margin-right: 4px;
+    text-transform: uppercase; letter-spacing: 2.5px; color: #8a7a50;
   }
   .sb-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 8px 14px; border: 1px solid #d4d4d4; background: #fff; color: #000;
-    font-family: "Almarai", sans-serif; font-size: 13px; font-weight: 700;
-    text-decoration: none; cursor: pointer; transition: background 0.15s;
+    display: inline-flex; align-items: center; gap: 10px;
+    padding: 12px 22px; border: 1px solid #e2ddce; background: #fff; color: #0a0a0a;
+    font-family: "Almarai", sans-serif; font-size: 13px; font-weight: 800;
+    letter-spacing: 0.8px; text-transform: uppercase;
+    text-decoration: none; cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   }
-  .sb-btn:hover { background: #f5f5f5; }
+  .sb-btn:hover {
+    transform: translateY(-2px); border-color: #c9b36b;
+    box-shadow: 0 8px 24px rgba(10,10,10,0.08);
+  }
   .sb-btn-copy { font-family: "Almarai", sans-serif; }
+
+  /* Group buttons on one row, wrap gracefully */
+  .sb-inner > .sb-btn { margin: 0; }
+  .sb-inner { gap: 18px; }
+  .sb-inner .sb-btn + .sb-btn,
+  .sb-inner .sb-label + .sb-btn { margin-left: 0; }
+
+  @media (min-width: 640px) {
+    .sb-inner {
+      flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 12px;
+    }
+    .sb-label { margin-right: 12px; }
+  }
 </style>

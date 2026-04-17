@@ -92,59 +92,82 @@ const { postTitle } = Astro.props;
 </script>
 
 <style is:inline>
-  .bcf-section { background: #fff; padding: 2vw 4vw 6vw; }
-  .bcf-inner { width: 720px; max-width: 100%; margin: 0 auto; border-top: 1px solid #e5e5e5; padding-top: 40px; }
-  .bcf-heading {
-    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 40px;
-    color: #000; text-transform: uppercase; line-height: 1; margin: 0 0 10px;
-  }
-  .bcf-note { font-family: "Almarai", sans-serif; font-size: 13px; color: #777; margin: 0 0 24px; }
-  .bcf-req { color: #c8472b; }
+  .bcf-section { background: #fff; padding: 80px 4vw; }
+  .bcf-inner { width: 720px; max-width: 100%; margin: 0 auto; }
 
-  .bcf-form { display: flex; flex-direction: column; gap: 16px; }
-  .bcf-row { display: flex; gap: 16px; }
+  .bcf-heading {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 44px;
+    color: #0a0a0a; text-transform: uppercase; line-height: 1;
+    letter-spacing: -0.005em; margin: 0 0 8px;
+  }
+  .bcf-heading::after {
+    content: ""; display: block; width: 36px; height: 3px;
+    background: #c9b36b; margin-top: 16px; border-radius: 2px;
+  }
+  .bcf-note {
+    font-family: "Almarai", sans-serif; font-size: 14px; color: #777;
+    margin: 20px 0 32px; line-height: 1.5;
+  }
+  .bcf-req { color: #c8472b; font-weight: 800; }
+
+  .bcf-form { display: flex; flex-direction: column; gap: 22px; }
+  .bcf-row { display: flex; gap: 20px; }
   .bcf-row-half .bcf-field { flex: 1; }
-  .bcf-field { display: flex; flex-direction: column; gap: 6px; }
+  .bcf-field { display: flex; flex-direction: column; gap: 8px; }
   .bcf-label {
-    font-family: "Almarai", sans-serif; font-size: 12px; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 1px; color: #333;
+    font-family: "Almarai", sans-serif; font-size: 11px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1.5px; color: #555;
   }
   .bcf-field input, .bcf-field textarea {
-    font-family: "Almarai", sans-serif; font-size: 16px; color: #000;
-    padding: 12px 14px; border: 1px solid #d0d0d0; background: #fafafa;
-    transition: border-color 0.15s, background 0.15s;
+    font-family: "Almarai", sans-serif; font-size: 16px; color: #0a0a0a;
+    padding: 14px 16px; border: 1px solid #e2ddce; background: #faf6ed;
+    border-radius: 4px;
+    transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   }
+  .bcf-field input::placeholder, .bcf-field textarea::placeholder { color: #a89e82; }
   .bcf-field input:focus, .bcf-field textarea:focus {
-    outline: none; border-color: #000; background: #fff;
+    outline: none; border-color: #c9b36b; background: #fff;
+    box-shadow: 0 0 0 3px rgba(201,179,107,0.18);
   }
-  .bcf-field textarea { resize: vertical; min-height: 140px; font-family: "Almarai", sans-serif; }
+  .bcf-field textarea {
+    resize: vertical; min-height: 160px; font-family: "Almarai", sans-serif;
+    line-height: 1.6;
+  }
 
   .bcf-consent {
     display: flex; align-items: flex-start; gap: 10px;
     font-family: "Almarai", sans-serif; font-size: 14px; color: #555;
-    padding: 4px 0;
+    padding: 4px 0; line-height: 1.5;
   }
-  .bcf-consent input { margin-top: 2px; }
+  .bcf-consent input { margin-top: 4px; accent-color: #c9b36b; }
 
   .bcf-submit {
-    align-self: flex-start;
-    font-family: "Almarai", sans-serif; font-size: 14px; font-weight: 800;
-    text-transform: uppercase; letter-spacing: 1px;
-    background: #000; color: #fff; border: none;
-    padding: 14px 32px; cursor: pointer; transition: background 0.2s, transform 0.2s;
+    align-self: flex-start; margin-top: 8px;
+    font-family: "Almarai", sans-serif; font-size: 13px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 2px;
+    background: #0a0a0a; color: #fff; border: 1px solid #0a0a0a;
+    padding: 16px 40px; cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   }
-  .bcf-submit:hover:not(:disabled) { background: #222; transform: translateY(-1px); }
+  .bcf-submit:hover:not(:disabled) {
+    transform: translateY(-2px); background: #1a1a1a;
+    box-shadow: 0 10px 28px rgba(10,10,10,0.18);
+  }
   .bcf-submit:disabled { opacity: 0.5; cursor: not-allowed; }
 
   .bcf-status {
-    font-family: "Almarai", sans-serif; font-size: 14px; margin: 8px 0 0; padding: 12px 14px;
+    font-family: "Almarai", sans-serif; font-size: 14px;
+    margin: 12px 0 0; padding: 14px 16px;
     border-left: 3px solid #c9b36b; background: #faf6ed;
+    line-height: 1.5;
   }
   .bcf-status-ok { color: #2d5a2d; border-left-color: #5a8c5a; background: #ecf5ec; }
   .bcf-status-err { color: #9a2e2e; border-left-color: #c8472b; background: #fbeceb; }
 
   @media (max-width: 600px) {
-    .bcf-row { flex-direction: column; gap: 16px; }
-    .bcf-heading { font-size: 32px; }
+    .bcf-section { padding: 56px 20px; }
+    .bcf-row { flex-direction: column; gap: 22px; }
+    .bcf-heading { font-size: 34px; }
+    .bcf-submit { align-self: stretch; text-align: center; }
   }
 </style>
