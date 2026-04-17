@@ -1,0 +1,150 @@
+---
+interface Props {
+  postTitle: string;
+}
+const { postTitle } = Astro.props;
+---
+
+<section class="bcf-section">
+  <div class="bcf-inner">
+    <h2 class="bcf-heading">Leave a Reply</h2>
+    <p class="bcf-note">Your email address will not be published. Required fields are marked <span class="bcf-req">*</span></p>
+
+    <form class="bcf-form" data-post={postTitle} novalidate>
+      <div class="bcf-row bcf-row-half">
+        <label class="bcf-field">
+          <span class="bcf-label">Name <span class="bcf-req">*</span></span>
+          <input name="name" type="text" autocomplete="name" required />
+        </label>
+        <label class="bcf-field">
+          <span class="bcf-label">Email <span class="bcf-req">*</span></span>
+          <input name="email" type="email" autocomplete="email" required />
+        </label>
+      </div>
+
+      <label class="bcf-field">
+        <span class="bcf-label">Website</span>
+        <input name="url" type="url" autocomplete="url" placeholder="https://" />
+      </label>
+
+      <label class="bcf-field">
+        <span class="bcf-label">Comment <span class="bcf-req">*</span></span>
+        <textarea name="comment" rows="6" required></textarea>
+      </label>
+
+      <label class="bcf-consent">
+        <input type="checkbox" name="consent" />
+        <span>Save my name and email for the next time I comment.</span>
+      </label>
+
+      <button type="submit" class="bcf-submit">Post Comment</button>
+
+      <p class="bcf-status" role="status" aria-live="polite" hidden></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  const forms = document.querySelectorAll<HTMLFormElement>('.bcf-form');
+  forms.forEach((form) => {
+    const statusEl = form.querySelector<HTMLParagraphElement>('.bcf-status');
+    const submitBtn = form.querySelector<HTMLButtonElement>('.bcf-submit');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity() || !statusEl || !submitBtn) return;
+
+      const data = new FormData(form);
+      const payload = {
+        post: form.dataset.post || '',
+        url: window.location.href,
+        name: String(data.get('name') || '').trim(),
+        email: String(data.get('email') || '').trim(),
+        website: String(data.get('url') || '').trim(),
+        comment: String(data.get('comment') || '').trim(),
+        submittedAt: new Date().toISOString(),
+      };
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+      statusEl.hidden = true;
+
+      try {
+        // Persist locally so Kevin can still read back submissions before GHL is wired
+        const store = JSON.parse(localStorage.getItem('kw-comments') || '[]');
+        store.push(payload);
+        localStorage.setItem('kw-comments', JSON.stringify(store));
+
+        statusEl.textContent = 'Thank you — your comment has been received. Kevin will read it soon.';
+        statusEl.className = 'bcf-status bcf-status-ok';
+        statusEl.hidden = false;
+        form.reset();
+      } catch {
+        statusEl.textContent = 'Something went wrong. Please try again or email kevin@kevinwhite.us directly.';
+        statusEl.className = 'bcf-status bcf-status-err';
+        statusEl.hidden = false;
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Post Comment';
+      }
+    });
+  });
+</script>
+
+<style is:inline>
+  .bcf-section { background: #fff; padding: 2vw 4vw 6vw; }
+  .bcf-inner { width: 720px; max-width: 100%; margin: 0 auto; border-top: 1px solid #e5e5e5; padding-top: 40px; }
+  .bcf-heading {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 40px;
+    color: #000; text-transform: uppercase; line-height: 1; margin: 0 0 10px;
+  }
+  .bcf-note { font-family: "Almarai", sans-serif; font-size: 13px; color: #777; margin: 0 0 24px; }
+  .bcf-req { color: #c8472b; }
+
+  .bcf-form { display: flex; flex-direction: column; gap: 16px; }
+  .bcf-row { display: flex; gap: 16px; }
+  .bcf-row-half .bcf-field { flex: 1; }
+  .bcf-field { display: flex; flex-direction: column; gap: 6px; }
+  .bcf-label {
+    font-family: "Almarai", sans-serif; font-size: 12px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px; color: #333;
+  }
+  .bcf-field input, .bcf-field textarea {
+    font-family: "Almarai", sans-serif; font-size: 16px; color: #000;
+    padding: 12px 14px; border: 1px solid #d0d0d0; background: #fafafa;
+    transition: border-color 0.15s, background 0.15s;
+  }
+  .bcf-field input:focus, .bcf-field textarea:focus {
+    outline: none; border-color: #000; background: #fff;
+  }
+  .bcf-field textarea { resize: vertical; min-height: 140px; font-family: "Almarai", sans-serif; }
+
+  .bcf-consent {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-family: "Almarai", sans-serif; font-size: 14px; color: #555;
+    padding: 4px 0;
+  }
+  .bcf-consent input { margin-top: 2px; }
+
+  .bcf-submit {
+    align-self: flex-start;
+    font-family: "Almarai", sans-serif; font-size: 14px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px;
+    background: #000; color: #fff; border: none;
+    padding: 14px 32px; cursor: pointer; transition: background 0.2s, transform 0.2s;
+  }
+  .bcf-submit:hover:not(:disabled) { background: #222; transform: translateY(-1px); }
+  .bcf-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .bcf-status {
+    font-family: "Almarai", sans-serif; font-size: 14px; margin: 8px 0 0; padding: 12px 14px;
+    border-left: 3px solid #c9b36b; background: #faf6ed;
+  }
+  .bcf-status-ok { color: #2d5a2d; border-left-color: #5a8c5a; background: #ecf5ec; }
+  .bcf-status-err { color: #9a2e2e; border-left-color: #c8472b; background: #fbeceb; }
+
+  @media (max-width: 600px) {
+    .bcf-row { flex-direction: column; gap: 16px; }
+    .bcf-heading { font-size: 32px; }
+  }
+</style>

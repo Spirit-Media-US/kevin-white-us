@@ -4,6 +4,7 @@ import '../../styles/global.css';
 import { sanityClient, urlFor } from '../../lib/sanity.ts';
 import RelatedPosts from '../../components/RelatedPosts.astro';
 import ShareBar from '../../components/ShareBar.astro';
+import BlogCommentForm from '../../components/BlogCommentForm.astro';
 
 export async function getStaticPaths() {
   const posts = await sanityClient.fetch(`*[_type == "blogPost"] { "slug": slug.current }`);
@@ -20,41 +21,72 @@ const post = await sanityClient.fetch(
 );
 if (!post) return Astro.redirect('/blog');
 
-function renderPortableText(blocks: any[]): string {
-  if (!Array.isArray(blocks)) return '';
-  return blocks
-    .map((block: any) => {
-      if (!block || block._type !== 'block') return '';
-      const children = Array.isArray(block.children) ? block.children : [];
-      const rawText = children.map((c: any) => c?.text || '').join('');
-      if (/^\{[\w]+\}\s*[—–-]\s*\{[\w]+\}$/.test(rawText.trim())) return '';
-      const markDefs = Array.isArray(block.markDefs) ? block.markDefs : [];
-      const textContent = children
-        .map((child: any) => {
-          if (!child) return '';
-          let text = (child.text || '')
-            .replace(/&/g, '&amp;')
-            .replace(/</g, '&lt;')
-            .replace(/>/g, '&gt;');
-          const marks = Array.isArray(child.marks) ? child.marks : [];
-          if (marks.includes('strong')) text = `<strong>${text}</strong>`;
-          if (marks.includes('em')) text = `<em>${text}</em>`;
-          for (const m of marks) {
-            const def = markDefs.find((d: any) => d._key === m);
-            if (def?._type === 'link' && def.href) {
-              text = `<a href="${def.href}" target="_blank" rel="noopener noreferrer" class="bp-link">${text}</a>`;
-            }
-          }
-          return text;
-        })
-        .join('');
-      const style = block.style || 'normal';
-      if (style === 'h2') return `<h2 class="bp-h2">${textContent}</h2>`;
-      if (style === 'h3') return `<h3 class="bp-h3">${textContent}</h3>`;
-      if (style === 'blockquote') return `<blockquote class="bp-quote">${textContent}</blockquote>`;
-      return `<p class="bp-p">${textContent}</p>`;
+function renderChildren(children: any[], markDefs: any[]): string {
+  return children
+    .map((child: any) => {
+      if (!child) return '';
+      let text = (child.text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+      const marks = Array.isArray(child.marks) ? child.marks : [];
+      if (marks.includes('strong')) text = `<strong>${text}</strong>`;
+      if (marks.includes('em')) text = `<em>${text}</em>`;
+      for (const m of marks) {
+        const def = markDefs.find((d: any) => d._key === m);
+        if (def?._type === 'link' && def.href) {
+          text = `<a href="${def.href}" target="_blank" rel="noopener noreferrer" class="bp-link">${text}</a>`;
+        }
+      }
+      return text;
     })
     .join('');
+}
+
+function renderBlockContent(block: any): string {
+  const children = Array.isArray(block.children) ? block.children : [];
+  const markDefs = Array.isArray(block.markDefs) ? block.markDefs : [];
+  return renderChildren(children, markDefs);
+}
+
+function renderPortableText(blocks: any[]): string {
+  if (!Array.isArray(blocks)) return '';
+  let html = '';
+  let openList: { tag: 'ul' | 'ol' } | null = null;
+
+  const closeList = () => {
+    if (openList) { html += `</${openList.tag}>`; openList = null; }
+  };
+
+  for (const block of blocks) {
+    if (!block || block._type !== 'block') continue;
+    const rawText = (block.children || []).map((c: any) => c?.text || '').join('').trim();
+    if (!rawText) continue;
+    if (/^\{[\w]+\}\s*[—–-]\s*\{[\w]+\}$/.test(rawText)) continue;
+
+    // List blocks
+    if (block.listItem === 'bullet' || block.listItem === 'number') {
+      const wantTag: 'ul' | 'ol' = block.listItem === 'number' ? 'ol' : 'ul';
+      if (!openList || openList.tag !== wantTag) {
+        closeList();
+        html += `<${wantTag} class="bp-${wantTag}">`;
+        openList = { tag: wantTag };
+      }
+      html += `<li class="bp-li">${renderBlockContent(block)}</li>`;
+      continue;
+    }
+    closeList();
+
+    const content = renderBlockContent(block);
+    const style = block.style || 'normal';
+    if (style === 'scripture') html += `<h3 class="bp-scripture">${content}</h3>`;
+    else if (style === 'h2') html += `<h2 class="bp-h2">${content}</h2>`;
+    else if (style === 'h3') html += `<h3 class="bp-h3">${content}</h3>`;
+    else if (style === 'blockquote') html += `<blockquote class="bp-quote">${content}</blockquote>`;
+    else html += `<p class="bp-p">${content}</p>`;
+  }
+  closeList();
+  return html;
 }
 
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -127,6 +159,8 @@ const canonical = `https://kevinwhite.us/blog/${slug}`;
 
     <ShareBar title={post.title} url={canonical} />
 
+    <BlogCommentForm postTitle={post.title} />
+
     <RelatedPosts currentSlug={`/blog/${slug}`} currentTags={tags} />
 
   </main>
@@ -194,6 +228,34 @@ const canonical = `https://kevinwhite.us/blog/${slug}`;
     border-left: 4px solid #000; padding: 6px 0 6px 24px;
     margin: 28px 0;
   }
+
+  /* Scripture reference — a distinct pull-out heading that introduces a verse */
+  .bp-content-inner :global(.bp-scripture) {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400;
+    font-size: 20px; letter-spacing: 0.5px; text-transform: uppercase;
+    color: #000; line-height: 1.2;
+    margin: 40px 0 12px;
+    padding: 16px 0 16px 20px;
+    border-left: 4px solid #c9b36b;
+    background: linear-gradient(to right, #faf6ed 0%, transparent 90%);
+  }
+  .bp-content-inner :global(.bp-scripture + .bp-p) {
+    font-family: "Lexend", sans-serif; font-style: italic; font-weight: 500;
+    font-size: 20px; line-height: 1.6; color: #2a2a2a;
+    padding-left: 24px; margin-top: 0;
+  }
+
+  /* Lists */
+  .bp-content-inner :global(.bp-ul),
+  .bp-content-inner :global(.bp-ol) {
+    margin: 0 0 24px; padding-left: 28px;
+    font-family: "Almarai", sans-serif; font-size: 19px; line-height: 1.75; color: #222;
+  }
+  .bp-content-inner :global(.bp-ul) { list-style: disc; }
+  .bp-content-inner :global(.bp-ol) { list-style: decimal; }
+  .bp-content-inner :global(.bp-li) { margin: 0 0 10px; padding-left: 4px; }
+  .bp-content-inner :global(.bp-li::marker) { color: #c9b36b; font-weight: 800; }
+
   .bp-content-inner :global(.bp-link) { color: #000; text-decoration: underline; }
   .bp-content-inner :global(.bp-link:hover) { opacity: 0.7; }
 
