@@ -21,15 +21,27 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
   <main>
     <!-- Hero: background image with prayer text left-aligned -->
     <section
-      class="relative bg-cover bg-center flex items-center text-white"
-      style={`background-image: url('${IMG.heroBg}?w=1440&auto=format'); height: 100vh;`}
+      class="home-hero relative bg-cover bg-center flex items-center text-white"
+      style={`background-image: url('${IMG.heroBg}?w=1440&auto=format');`}
     >
-      <div class="container-site relative z-10 py-16">
-        <h1 style="font-family: var(--font-heading); font-size: clamp(40px, 9vw, 80px); color: #fff; line-height: 1.05;">
+      <div class="container-site relative z-10 py-12 md:py-16">
+        <h1 class="home-hero-h1">
           NOTHING<br />CHANGES<br />OUR LIVES<br />MORE THAN<br />PRIORITIZING PRAYER
         </h1>
       </div>
     </section>
+    <style is:inline>
+      .home-hero { min-height: clamp(420px, 70vh, 760px); height: auto; }
+      .home-hero-h1 {
+        font-family: var(--font-heading);
+        font-size: clamp(32px, 9vw, 80px);
+        color: #fff;
+        line-height: 1.05;
+      }
+      @media (max-width: 560px) {
+        .home-hero { min-height: 70svh; background-position: center right; }
+      }
+    </style>
 
     <!-- Kevin White Quote -->
     <section class="bg-white" style="padding: 3vw 2vw;">
