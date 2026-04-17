@@ -267,14 +267,14 @@ const canonical = `https://kevinwhite.us/blog/${slug}`;
   }
 
   /* Paragraphs — live uses normal block margins + plenty of vertical air */
-  .bp-content-inner :global(.bp-p) {
+  .bp-content-inner .bp-p {
     font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
     color: #000; margin: 0 0 30px;
   }
 
   /* Scripture block — a grouped section that holds the verse citation
      (heading) + the verse text together with unified spacing. */
-  .bp-content-inner :global(.bp-scripture-block) {
+  .bp-content-inner .bp-scripture-block {
     margin: 72px 0;
     padding: 32px 36px;
     background: #faf6ed;
@@ -282,42 +282,42 @@ const canonical = `https://kevinwhite.us/blog/${slug}`;
     border-radius: 4px;
     text-align: left;
   }
-  .bp-content-inner :global(.bp-scripture-block + .bp-scripture-block) {
+  .bp-content-inner .bp-scripture-block + .bp-scripture-block {
     margin-top: 48px;
   }
-  .bp-content-inner :global(.bp-scripture-title) {
+  .bp-content-inner .bp-scripture-title {
     font-family: "Black Han Sans", sans-serif; font-weight: 400;
     font-size: 28px; line-height: 1.2; text-transform: uppercase;
     color: #0a0a0a; letter-spacing: 0.5px;
     margin: 0 0 16px;
   }
-  .bp-content-inner :global(.bp-scripture-verse) {
+  .bp-content-inner .bp-scripture-verse {
     font-family: "Almarai", sans-serif; font-style: italic;
     font-size: 20px; line-height: 1.7; color: #222;
     margin: 0;
   }
 
   /* Section headings — e.g. "Over to You!", "Conclusion" (non-scripture H1) */
-  .bp-content-inner :global(.bp-section-title) {
+  .bp-content-inner .bp-section-title {
     font-family: "Black Han Sans", sans-serif; font-weight: 400;
     font-size: 48px; line-height: 1.1; text-transform: uppercase;
     color: #0a0a0a; text-align: left;
     margin: 96px 0 28px; padding-top: 48px;
     border-top: 1px solid #e5e5e5;
   }
-  .bp-content-inner :global(.bp-section-title:first-child) {
+  .bp-content-inner .bp-section-title:first-child {
     margin-top: 0; padding-top: 0; border-top: none;
   }
 
   /* Legacy h3 style (rare) */
-  .bp-content-inner :global(.bp-h3) {
+  .bp-content-inner .bp-h3 {
     font-family: "Almarai", sans-serif; font-size: 24px; font-weight: 800;
     color: #000; letter-spacing: 0.3px; line-height: 36px;
     text-align: left; margin: 60px 0 20px;
   }
 
   /* Blockquote — minimal, Bricks style */
-  .bp-content-inner :global(.bp-quote) {
+  .bp-content-inner .bp-quote {
     font-family: "Almarai", sans-serif; font-style: italic;
     font-size: 20px; line-height: 30px; color: #000;
     border-left: 4px solid #000; padding: 6px 0 6px 24px;
@@ -325,19 +325,19 @@ const canonical = `https://kevinwhite.us/blog/${slug}`;
   }
 
   /* Lists — use the same 20px/30px rhythm as paragraphs */
-  .bp-content-inner :global(.bp-ul),
-  .bp-content-inner :global(.bp-ol) {
+  .bp-content-inner .bp-ul,
+  .bp-content-inner .bp-ol {
     font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
     color: #000; text-align: left;
     margin: 0 0 40px; padding-left: 32px;
   }
-  .bp-content-inner :global(.bp-ul) { list-style: disc; }
-  .bp-content-inner :global(.bp-ol) { list-style: decimal; }
-  .bp-content-inner :global(.bp-li) { margin: 0 0 16px; padding-left: 6px; }
+  .bp-content-inner .bp-ul { list-style: disc; }
+  .bp-content-inner .bp-ol { list-style: decimal; }
+  .bp-content-inner .bp-li { margin: 0 0 16px; padding-left: 6px; }
 
-  .bp-content-inner :global(.bp-link) { color: #000; text-decoration: underline; }
-  .bp-content-inner :global(.bp-link:hover) { opacity: 0.7; }
-  .bp-content-inner :global(strong) { color: #000; font-weight: 800; }
+  .bp-content-inner .bp-link { color: #000; text-decoration: underline; }
+  .bp-content-inner .bp-link:hover { opacity: 0.7; }
+  .bp-content-inner strong { color: #000; font-weight: 800; }
 
   /* MOBILE — live mobile: font-size 18px, text-align left */
   @media (max-width: 700px) {
@@ -349,18 +349,18 @@ const canonical = `https://kevinwhite.us/blog/${slug}`;
 
     .bp-content { padding: 30px 20px 60px; }
     .bp-content-inner { font-size: 18px; line-height: 1.6; text-align: left; }
-    .bp-content-inner :global(.bp-p),
-    .bp-content-inner :global(.bp-scripture + .bp-p),
-    .bp-content-inner :global(.bp-ul),
-    .bp-content-inner :global(.bp-ol),
-    .bp-content-inner :global(.bp-quote) {
+    .bp-content-inner .bp-p,
+    .bp-content-inner .bp-scripture + .bp-p,
+    .bp-content-inner .bp-ul,
+    .bp-content-inner .bp-ol,
+    .bp-content-inner .bp-quote {
       font-size: 18px; line-height: 1.6;
     }
-    .bp-content-inner :global(.bp-p) { margin-bottom: 24px; }
-    .bp-content-inner :global(.bp-scripture-block) { margin: 48px 0; padding: 24px 20px; }
-    .bp-content-inner :global(.bp-scripture-title) { font-size: 22px; margin-bottom: 12px; }
-    .bp-content-inner :global(.bp-scripture-verse) { font-size: 17px; line-height: 1.6; }
-    .bp-content-inner :global(.bp-section-title) { font-size: 32px; margin: 64px 0 20px; padding-top: 32px; }
-    .bp-content-inner :global(.bp-h3) { font-size: 20px; margin: 40px 0 16px; }
+    .bp-content-inner .bp-p { margin-bottom: 24px; }
+    .bp-content-inner .bp-scripture-block { margin: 48px 0; padding: 24px 20px; }
+    .bp-content-inner .bp-scripture-title { font-size: 22px; margin-bottom: 12px; }
+    .bp-content-inner .bp-scripture-verse { font-size: 17px; line-height: 1.6; }
+    .bp-content-inner .bp-section-title { font-size: 32px; margin: 64px 0 20px; padding-top: 32px; }
+    .bp-content-inner .bp-h3 { font-size: 20px; margin: 40px 0 16px; }
   }
 </style>
