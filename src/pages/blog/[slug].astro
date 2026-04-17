@@ -49,23 +49,40 @@ function renderBlockContent(block: any): string {
   return renderChildren(children, markDefs);
 }
 
+// A Bible verse reference looks like "Book Chapter:Verse Translation"
+// (e.g., Romans 14:17 NLT, 1 Corinthians 13:4-7 ESV). The WordPress source
+// uses <h1> for BOTH scripture refs AND section headings like "Over to You!",
+// so we classify by text pattern at render time.
+const SCRIPTURE_RE = /\b(?:\d\s*)?(?:Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|Samuel|Kings|Chronicles|Ezra|Nehemiah|Esther|Job|Psalms?|Proverbs|Ecclesiastes|Song|Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|Corinthians|Galatians|Ephesians|Philippians|Colossians|Thessalonians|Timothy|Titus|Philemon|Hebrews|James|Peter|Jude|Revelation)\b[^,]*?\d/;
+
+function isScriptureRef(text: string): boolean {
+  const clean = text.replace(/[\u202D\u202C\u2060-\u206F]/g, '').trim();
+  return SCRIPTURE_RE.test(clean);
+}
+
 function renderPortableText(blocks: any[]): string {
   if (!Array.isArray(blocks)) return '';
   let html = '';
   let openList: { tag: 'ul' | 'ol' } | null = null;
+  let openScriptureBlock = false;
 
   const closeList = () => {
     if (openList) { html += `</${openList.tag}>`; openList = null; }
   };
+  const closeScriptureBlock = () => {
+    if (openScriptureBlock) { html += `</section>`; openScriptureBlock = false; }
+  };
 
-  for (const block of blocks) {
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
     if (!block || block._type !== 'block') continue;
     const rawText = (block.children || []).map((c: any) => c?.text || '').join('').trim();
     if (!rawText) continue;
     if (/^\{[\w]+\}\s*[—–-]\s*\{[\w]+\}$/.test(rawText)) continue;
 
-    // List blocks
+    // List blocks group into the same <ul>/<ol>
     if (block.listItem === 'bullet' || block.listItem === 'number') {
+      closeScriptureBlock();
       const wantTag: 'ul' | 'ol' = block.listItem === 'number' ? 'ol' : 'ul';
       if (!openList || openList.tag !== wantTag) {
         closeList();
@@ -79,13 +96,42 @@ function renderPortableText(blocks: any[]): string {
 
     const content = renderBlockContent(block);
     const style = block.style || 'normal';
-    if (style === 'scripture') html += `<h3 class="bp-scripture">${content}</h3>`;
-    else if (style === 'h2') html += `<h2 class="bp-h2">${content}</h2>`;
+
+    // 'scripture' blocks from the WP H1 source — split into verse-heading
+    // (real Bible citation) and section-heading (like "Over to You!")
+    if (style === 'scripture') {
+      closeScriptureBlock();
+      if (isScriptureRef(rawText)) {
+        // Open a scripture-block wrapper. The immediately-following paragraph
+        // (the verse itself) gets a special italic class inside this wrapper.
+        const next = blocks[i + 1];
+        const nextStyle = next?.style || 'normal';
+        const isVerseNext = next && next._type === 'block' && (nextStyle === 'normal' || !next.listItem);
+        html += `<section class="bp-scripture-block">`;
+        html += `<h3 class="bp-scripture-title">${content}</h3>`;
+        if (isVerseNext) {
+          const verseText = renderBlockContent(next);
+          html += `<p class="bp-scripture-verse">${verseText}</p>`;
+          html += `</section>`;
+          i++; // skip the verse block we just consumed
+        } else {
+          html += `</section>`;
+        }
+      } else {
+        // Section heading (e.g., "Over to You!")
+        html += `<h2 class="bp-section-title">${content}</h2>`;
+      }
+      continue;
+    }
+    closeScriptureBlock();
+
+    if (style === 'h2') html += `<h2 class="bp-section-title">${content}</h2>`;
     else if (style === 'h3') html += `<h3 class="bp-h3">${content}</h3>`;
     else if (style === 'blockquote') html += `<blockquote class="bp-quote">${content}</blockquote>`;
     else html += `<p class="bp-p">${content}</p>`;
   }
   closeList();
+  closeScriptureBlock();
   return html;
 }
 
@@ -226,26 +272,44 @@ const canonical = `https://kevinwhite.us/blog/${slug}`;
     color: #000; margin: 0 0 30px;
   }
 
-  /* Scripture heading (was an <h1> in the WordPress source) — big + airy,
-     matching the live site's generous title/verse rhythm */
-  .bp-content-inner :global(.bp-scripture) {
-    font-family: "Black Han Sans", sans-serif; font-weight: 400;
-    font-size: 40px; line-height: 1.15; text-transform: uppercase;
-    color: #000; text-align: left;
-    margin: 80px 0 30px; padding: 0;
+  /* Scripture block — a grouped section that holds the verse citation
+     (heading) + the verse text together with unified spacing. */
+  .bp-content-inner :global(.bp-scripture-block) {
+    margin: 72px 0;
+    padding: 32px 36px;
+    background: #faf6ed;
+    border-left: 4px solid #c9b36b;
+    border-radius: 4px;
+    text-align: left;
   }
-  .bp-content-inner :global(.bp-scripture + .bp-p) {
-    font-family: "Almarai", sans-serif; font-style: italic; font-size: 20px;
-    line-height: 30px; color: #000; margin: 0 0 30px; text-align: left;
+  .bp-content-inner :global(.bp-scripture-block + .bp-scripture-block) {
+    margin-top: 48px;
+  }
+  .bp-content-inner :global(.bp-scripture-title) {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400;
+    font-size: 28px; line-height: 1.2; text-transform: uppercase;
+    color: #0a0a0a; letter-spacing: 0.5px;
+    margin: 0 0 16px;
+  }
+  .bp-content-inner :global(.bp-scripture-verse) {
+    font-family: "Almarai", sans-serif; font-style: italic;
+    font-size: 20px; line-height: 1.7; color: #222;
+    margin: 0;
   }
 
-  /* Secondary headings, rarely used */
-  .bp-content-inner :global(.bp-h2) {
+  /* Section headings — e.g. "Over to You!", "Conclusion" (non-scripture H1) */
+  .bp-content-inner :global(.bp-section-title) {
     font-family: "Black Han Sans", sans-serif; font-weight: 400;
-    font-size: 40px; color: #000; text-transform: uppercase;
-    line-height: 1.15; text-align: left;
-    margin: 80px 0 30px;
+    font-size: 48px; line-height: 1.1; text-transform: uppercase;
+    color: #0a0a0a; text-align: left;
+    margin: 96px 0 28px; padding-top: 48px;
+    border-top: 1px solid #e5e5e5;
   }
+  .bp-content-inner :global(.bp-section-title:first-child) {
+    margin-top: 0; padding-top: 0; border-top: none;
+  }
+
+  /* Legacy h3 style (rare) */
   .bp-content-inner :global(.bp-h3) {
     font-family: "Almarai", sans-serif; font-size: 24px; font-weight: 800;
     color: #000; letter-spacing: 0.3px; line-height: 36px;
@@ -293,8 +357,10 @@ const canonical = `https://kevinwhite.us/blog/${slug}`;
       font-size: 18px; line-height: 1.6;
     }
     .bp-content-inner :global(.bp-p) { margin-bottom: 24px; }
-    .bp-content-inner :global(.bp-scripture),
-    .bp-content-inner :global(.bp-h2) { font-size: 28px; margin: 50px 0 20px; }
+    .bp-content-inner :global(.bp-scripture-block) { margin: 48px 0; padding: 24px 20px; }
+    .bp-content-inner :global(.bp-scripture-title) { font-size: 22px; margin-bottom: 12px; }
+    .bp-content-inner :global(.bp-scripture-verse) { font-size: 17px; line-height: 1.6; }
+    .bp-content-inner :global(.bp-section-title) { font-size: 32px; margin: 64px 0 20px; padding-top: 32px; }
     .bp-content-inner :global(.bp-h3) { font-size: 20px; margin: 40px 0 16px; }
   }
 </style>
