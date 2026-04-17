@@ -26,7 +26,7 @@ Then run: `git checkout dev && git pull origin dev`
 - Cloudflare Pages: kevin-white-us.pages.dev
 - Dev preview: dev.kevin-white-us.pages.dev
 
-## Status -- as of 2026-04-14
+## Status -- as of 2026-04-17
 
 ### Completed & Live on Main
 - (nothing yet)
@@ -36,12 +36,18 @@ Then run: `git checkout dev && git pull origin dev`
 - Phase 2: Content + CSS extraction — 18 pages crawled, design tokens, image catalog
 - Phase 3: Design + Build — 19 pages built (6 static + 11 blog posts + blog index + 404)
 - Phase 4: Sanity CMS — 3 schemas (blogPost, book, keynote), 24 docs migrated, embedded Studio, webhook
+- Phase 5: CAR / Transformation Layer — report at `content/CAR.md`. Migrated 3 images to Sanity + 9 videos to R2 (`smp/kevin-white-us/`). Blog protocol applied: tags field, search + filter chips, share bar, related posts, comment form. 11 blog posts re-imported with structured content (scripture refs, lists, sections). Favicon wired. Site-wide fluid typography + responsive pass (clamp() across all pages). Premium reveal-on-scroll animations.
+- Phase 7: Pre-Launch QA — manual scan run 2026-04-17, report at `content/QA-phase7.md`. All 9 scans pass (colors, alt, SEO, WP leftovers, TODOs, sitemap, internal links, build, external URLs). Phase 6 polish deferred — not a launch blocker.
 
-### Still Pending
-- Phase 5: CAR / Transformation Layer Report
-- Phase 6: Design Refinement
-- Phase 7: QA
-- Phase 8: Launch
+### Awaiting Kevin
+- Phase 8: Launch — ready to merge dev → main once approved. DNS Pattern 1 recommended (registrar DNS → Pages, safe for email).
+- Phase 9: Client Delivery — after launch.
+
+### Deferred (optional Phase 6)
+- Consolidate 178 hex brand colors into CSS vars
+- Hero treatment consistency across pages
+- Wire comment form to GHL webhook (currently localStorage only)
+- Lighthouse + cross-browser pass on live domain
 
 ## Sanity Content Audit
 

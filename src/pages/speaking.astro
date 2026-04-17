@@ -1,71 +1,311 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
-import { sanityClient } from '../lib/sanity.ts';
+import { VIDEO } from '../lib/images.ts';
 
-const keynotes = await sanityClient.fetch(`*[_type == "keynote"] | order(order asc) { title, description, videoUrl }`);
+const S = 'https://cdn.sanity.io/images/kwhqwbb4/production';
+const heroBg = `${S}/a0ceaa47821f5f9d0bd593c985cf0c1a9fab07dc-2560x1280.jpg`;
+
+const podcasts = [
+  { img: `${S}/24fd0338e1c164032bd1dea66ec2aa3049272b53-1024x1024.jpg`, link: 'https://www.youtube.com/watch?v=e8PrVlKsvh4' },
+  { img: `${S}/e9da0869e9081093749da38add1252b1e19e2ef0-640x640.jpg`, link: '' },
+  { img: `${S}/752b4e6401dff674d6a8c5ae8f6de3cf49569d01-1024x1024.jpg`, link: 'https://chasingthekingdom.podbean.com/e/ep-47-writing-for-the-kingdom-with-kevin-white/' },
+  { img: `${S}/369f6154251898ea4b25bdc977804c332c77dbf1-1200x1200.jpg`, link: 'https://guyswhodostuff.com/kevin-white-on-leading-a-nonprofit/' },
+  { img: `${S}/cf13f417117a23de48c279e4893daa0352b82414-2560x2560.jpg`, link: 'https://welcomeheart.podbean.com/e/ep-101-are-you-audaciously-generous-with-kevin-white/' },
+  { img: `${S}/0bed2c0be2cc08e94dfc8786560f778f1dabbe1b-1024x1024.jpg`, link: 'https://beyondtherut.com/kevin-white-audacious-generosity-btr-261/' },
+  { img: `${S}/0c4a27dd174f51e03d339f8921d1f8569c73ccd3-512x512.png`, link: 'https://seekgocreate.com/episode/channeling-gods-compassion-through-audacious-generosity/' },
+  { img: `${S}/0bed2c0be2cc08e94dfc8786560f778f1dabbe1b-1024x1024.jpg`, link: 'https://beyondtherut.com/kevin-white-audacious-generosity-btr-261/' },
+  { img: `${S}/7b19ec60111f26e13215f309f5f17f9485341e4c-800x800.jpg`, link: 'https://www.ericnevins.com/blog/kevin-white-and-audacious-generosity' },
+  { img: `${S}/4065752548f94c894f4158415b1d1dd93e444862-640x640.jpg`, link: 'https://www.opspodcast.com/lets-be-audacious/' },
+  { img: `${S}/8f7f2d76b81737289d2f775f9620ac3f0521f56b-500x500.jpg`, link: 'https://kingdomovercoffee.libsyn.com/kingdom-over-coffee-podcast-ep-73-audacious-generosity' },
+  { img: `${S}/6fa96b62b73777f667bcf14fd2a0620470c6cc31-600x600.jpg`, link: '' },
+  { img: `${S}/045603f509fb49e779517c7d242853cd8dfdf697-400x400.jpg`, link: 'https://www.youtube.com/watch?v=dytd5Bg7z74' },
+  { img: `${S}/6fa96b62b73777f667bcf14fd2a0620470c6cc31-600x600.jpg`, link: 'https://podcasts.apple.com/us/podcast/audacious-generosity-kevin-white-alongtheway/id1586830247' },
+  { img: `${S}/989b7b8b265c0d0f545f415dba97e010b632eb1f-1024x988.png`, link: 'https://www.youtube.com/watch?v=VdQ_KWfjwtw' },
+];
+
+const keynotes = [
+  {
+    title: 'Living Generous Lives',
+    video: VIDEO.keynoteLivingGenerous,
+    desc: 'We all want to be more generous, but many fear doing it. It could be a fear of scarcity, exploitation, rejection, stigma, or many other reasons.',
+    bullets: [
+      'The beginning of the realization that God gives through you is the start of a life of limitless giving.',
+      'Learn to enter a relationship with God fueled by courage and characterized by freedom.',
+      'Understand how to experience, receive, and give more than you ever thought possible.',
+    ],
+  },
+  {
+    title: 'Seeking the Kingdom',
+    video: VIDEO.keynoteSeekingKingdom,
+    desc: "We could study the Bible, go to church, and pray regularly, but if the stress is on finding faith instead of God, we're losing.",
+    bullets: [
+      "Here, Kevin provides a practical guide on pursuing the presence of God in everyday life, hearing his voice, and receiving his presence.",
+      "Understand that God's presence determines your why, what, and how in life.",
+      'Learn the six ways the Holy Spirit speaks the word of God.',
+      'Get tips on how to improve your spiritual listening.',
+    ],
+  },
+  {
+    title: 'A Christian in Entrepreneurship',
+    video: VIDEO.keynoteChristianEntrepreneur,
+    desc: 'Have you ever wondered how ethical business practices lead to profitability? With a wealth of entrepreneurial experience, Kevin explains the science behind a generosity-driven company.',
+    bullets: [
+      'Learn how to foster rewarding client relationships and space for growth by being a good steward.',
+      'Learn why compassionate business practices succeed and how to implement them into your projects.',
+    ],
+  },
+  {
+    title: "God Works, You Don't",
+    video: VIDEO.keynoteGodWorks,
+    desc: 'Often, we are in a tug-of-war between our needs and wants. Especially in a business, this issue magnifies if many employees feel this way.',
+    bullets: [
+      "As a leader, it's important to remember your part in the Great Commission and how this plays into your commitment to work.",
+      'Learn how to reframe your perspective to view work as a fulfilling contribution to the greater good.',
+    ],
+  },
+  {
+    title: 'Harness Your Vision',
+    video: VIDEO.keynoteHarnessVision,
+    desc: 'Being a business leader can entail thinking outside the box. Or, going one further, rejecting the premise of the box to begin with.',
+    bullets: [
+      'Get tools to rewire your ideation process.',
+      'Learn ways to bring your vision to life within a regulated environment.',
+      'Learn techniques to harness the power of creative roadblocks.',
+    ],
+  },
+  {
+    title: 'The Startup Revolution / Transformational Leadership',
+    video: VIDEO.keynoteStartupRevolution,
+    desc: 'How do I start my business? From fundraising to creating a trustworthy, hardworking team, starting from scratch can look like a mountain too tall to climb.',
+    bullets: [
+      'Learn how to fundraise your business efforts and write a business plan that sells.',
+      'Understand the importance of adaptability and how to navigate emerging challenges.',
+    ],
+  },
+];
 ---
 
-<Layout title="Speaking — Kevin White" description="Book Kevin White for your next conference. Keynotes on generosity, kingdom entrepreneurship, and faith-driven leadership.">
+<Layout title="Speaker — Kevin White" description="Book Kevin White for your next conference. Keynotes on generosity, kingdom entrepreneurship, and faith-driven leadership.">
   <main>
-    <!-- Hero with video background placeholder -->
-    <section class="bg-white section-pad">
-      <div class="container-site text-center">
-        <div class="img-placeholder rounded-lg aspect-video max-w-3xl mx-auto mb-8">Hero Video</div>
-        <h1 class="mb-2">Engage empower excite</h1>
-        <p class="text-lg text-[var(--color-text-light)] mb-6">Kevin will move your audience</p>
-        <a href="/contact" class="btn btn-primary">Book Kevin to Speak</a>
-      </div>
-    </section>
 
-    <!-- Featured Podcasts -->
-    <section class="bg-white section-pad border-t border-[var(--color-border)]">
-      <div class="container-site">
-        <h2 class="text-center mb-8">Featured Podcasts</h2>
-        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 max-w-4xl mx-auto">
-          {['Chasing the Kingdom', 'Guys Who Do Stuff', 'Welcome Heart', 'Beyond the Rut', 'Seek Go Create', 'Eric Nevins', 'Ops Podcast', 'Kingdom Over Coffee', 'Apple Podcasts', 'YouTube'].map(name => (
-            <div class="img-placeholder rounded aspect-square text-[10px]">{name}</div>
-          ))}
+    {/* ===== HERO — brxe-ltbwdg ===== */}
+    <section class="sp-hero" style={`background-image: url('${heroBg}?w=1920&auto=format');`}>
+      <div class="sp-hero-inner">
+        <div class="sp-hero-text">
+          <h1 class="sp-hero-h1">Engage<br />empower<br />excite</h1>
+          <p class="sp-hero-sub">Kevin will move your audience</p>
+          <a href="/contact" class="sp-hero-btn">Book Kevin to Speak</a>
+        </div>
+        <div class="sp-hero-vid">
+          <video autoplay loop playsinline muted class="sp-hero-video">
+            <source src={VIDEO.kwiSpeakerLoop} type="video/mp4" />
+          </video>
         </div>
       </div>
     </section>
 
-    <!-- Bio: two-column -->
-    <section class="bg-white section-pad border-t border-[var(--color-border)]">
-      <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-        <div>
-          <h2 class="mb-4">Bio</h2>
-          <p class="text-[var(--color-text-light)] leading-relaxed mb-4">
-            Kevin has written international bestsellers Audacious Generosity and Get to the Point. He is also the CEO of Spirit Media, a publishing and marketing company committed to disrupting the traditional publishing industry.
-          </p>
-          <p class="text-[var(--color-text-light)] leading-relaxed">
-            Kevin helps audiences engage, empower, and excite through solutions applicable to communities and offers one-on-one consulting.
-          </p>
-        </div>
-        <div class="img-placeholder rounded-lg aspect-[4/5]">Kevin White Headshot</div>
+    {/* ===== PODCASTS — brxe-sptqpd ===== */}
+    <section class="sp-pods">
+      <h2 class="sp-pods-heading">Featured Podcasts</h2>
+      <div class="sp-pods-grid">
+        {podcasts.map((pod, i) => (
+          pod.link ? (
+            <a href={pod.link} target="_blank" rel="noopener noreferrer" class="sp-pod-item">
+              <img src={`${pod.img}?w=250&auto=format`} alt={`Podcast ${i+1}`} class="sp-pod-img" />
+            </a>
+          ) : (
+            <div class="sp-pod-item">
+              <img src={`${pod.img}?w=250&auto=format`} alt={`Podcast ${i+1}`} class="sp-pod-img" />
+            </div>
+          )
+        ))}
       </div>
     </section>
 
-    <!-- "As heard on" -->
-    <section class="bg-white py-8 border-t border-[var(--color-border)]">
-      <div class="container-site text-center">
-        <p class="text-sm font-semibold text-[var(--color-text-muted)] uppercase tracking-wider mb-4">As heard on</p>
-        <div class="img-placeholder rounded h-12 max-w-2xl mx-auto">Media Logos</div>
+    {/* ===== KEYNOTES — brxe-10286d ===== */}
+    <section class="sp-keynotes">
+      <div class="sp-keynotes-top">
+        <h2 class="sp-keynotes-heading">Keynotes</h2>
       </div>
-    </section>
-
-    <!-- Keynote Presentations -->
-    {keynotes.map((k: any, i: number) => (
-      <section class:list={['section-pad border-t border-[var(--color-border)]', i % 2 === 0 ? 'bg-white' : 'bg-[var(--color-bg-light)]']}>
-        <div class="container-site max-w-3xl mx-auto">
-          <h2 class="mb-4 text-center">{k.title}</h2>
-          <div class="img-placeholder rounded-lg aspect-video mb-6">Video</div>
-          <p class="text-[var(--color-text-light)] leading-relaxed text-center mb-6">{k.description}</p>
-          <div class="text-center">
-            <a href="/contact" class="btn btn-primary">Book</a>
+      {keynotes.map((k) => (
+        <div class="sp-keynote-row">
+          <div class="sp-keynote-vid-col">
+            <video autoplay loop playsinline muted class="sp-keynote-video">
+              <source src={k.video} type="video/mp4" />
+            </video>
+          </div>
+          <div class="sp-keynote-text-col">
+            <h3 class="sp-keynote-title">{k.title}</h3>
+            <p class="sp-keynote-desc">{k.desc}</p>
+            <ul class="sp-keynote-list">
+              {k.bullets.map(b => (
+                <li><span class="sp-keynote-arrow">&rarr;</span><span>{b}</span></li>
+              ))}
+            </ul>
+            <a href="/contact" class="sp-keynote-btn">Book</a>
           </div>
         </div>
-      </section>
-    ))}
+      ))}
+    </section>
+
+    {/* ===== GENEROUSLY BLESSED — brxe-2be012 ===== */}
+    <section class="sp-gb">
+      <div class="sp-gb-card">
+        <h2 class="sp-gb-heading">Generously Blessed</h2>
+        <p class="sp-gb-sub">1 minute devotions that will fire up your spirit. Delivered straight to your inbox.</p>
+      </div>
+    </section>
+
   </main>
 </Layout>
+
+<style is:inline>
+  /* === HERO — brxe-ltbwdg === */
+  .sp-hero {
+    background-size: cover; background-repeat: no-repeat; background-position: center right;
+    min-height: clamp(520px, 80vh, 720px); height: auto; display: flex; align-items: center; justify-content: center;
+    padding: 6vw 4vw;
+  }
+  .sp-hero-inner {
+    width: 1200px; max-width: 100%; display: flex; flex-direction: row; align-items: center;
+  }
+  .sp-hero-text { flex: 1; padding-left: 20px; display: flex; flex-direction: column; justify-content: center; }
+  .sp-hero-h1 {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: clamp(36px, 7.5vw, 74px);
+    color: #fff; text-transform: uppercase;
+  }
+  .sp-hero-sub {
+    font-family: "Lexend", sans-serif; font-weight: 900; font-size: clamp(18px, 3vw, 30px); color: #fff;
+  }
+  .sp-hero-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 15px 35px; background-color: #89cff0; color: #fff;
+    font-size: 18px; width: 300px; text-decoration: none; margin-top: 40px;
+    align-self: flex-start;
+  }
+  .sp-hero-btn:hover { opacity: 0.85; }
+  .sp-hero-vid {
+    flex: 1; margin-top: 30px; padding: 10px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .sp-hero-video {
+    width: 100%; aspect-ratio: 1/1; object-fit: cover;
+    border: 2px solid #fefefe; align-self: center;
+  }
+
+  /* === PODCASTS — brxe-sptqpd === */
+  .sp-pods { margin-top: 181px; padding: 0 4vw; }
+  .sp-pods-heading {
+    font-family: "Black Han Sans", sans-serif; font-size: clamp(36px, 7.5vw, 74px); color: #000;
+    line-height: 50px; text-transform: uppercase; font-weight: 400;
+    width: 1200px; max-width: 100%; margin: 0 auto;
+  }
+  .sp-pods-grid {
+    display: flex; flex-direction: row; flex-wrap: wrap; margin-top: 100px;
+    width: 1200px; max-width: 100%; margin-left: auto; margin-right: auto;
+  }
+  .sp-pod-item {
+    width: calc(100% / 5); padding: 20px; box-sizing: border-box;
+  }
+  .sp-pod-img {
+    width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 8px;
+  }
+
+  /* === KEYNOTES — brxe-10286d === */
+  .sp-keynotes { padding: 0 4vw 6vw; }
+  .sp-keynotes-top {
+    align-items: flex-start; padding-top: 100px; padding-right: 4vw;
+    padding-bottom: 0; display: flex; flex-direction: column; gap: 30px;
+    width: 1200px; max-width: 100%; margin: 0 auto;
+  }
+  .sp-keynotes-heading {
+    font-family: "Black Han Sans", sans-serif; font-size: clamp(36px, 7.5vw, 74px); color: #000;
+    line-height: 50px; text-transform: uppercase; font-weight: 400;
+  }
+  .sp-keynote-row {
+    display: flex; flex-direction: row; padding-top: 3vw; padding-bottom: 3vw;
+    border-bottom: 1px solid #d9d9d9;
+    width: 1200px; max-width: 100%; margin: 0 auto;
+  }
+  .sp-keynote-vid-col {
+    width: 40%; padding-right: 50px; display: flex; align-items: center;
+    justify-content: center; flex-shrink: 0;
+  }
+  .sp-keynote-video {
+    width: 100%; aspect-ratio: 1/1; object-fit: cover; border-radius: 100%;
+  }
+  .sp-keynote-text-col { width: 70%; }
+  .sp-keynote-title {
+    font-family: "Lexend", sans-serif; font-weight: 900; font-size: clamp(18px, 3vw, 30px);
+    line-height: 48px; color: #000; text-transform: capitalize; margin-bottom: 20px;
+    text-align: left;
+  }
+  .sp-keynote-desc {
+    font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
+    color: #000; margin-bottom: 20px;
+  }
+  .sp-keynote-list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 0;
+  }
+  .sp-keynote-list li {
+    font-family: "Almarai", sans-serif; font-size: 18px; color: #000;
+    padding: 5px 15px; display: flex; align-items: flex-start; gap: 20px;
+  }
+  .sp-keynote-arrow { flex-shrink: 0; }
+  .sp-keynote-btn {
+    display: inline-flex; align-items: center; justify-content: center;
+    padding: 15px 35px; background-color: rgba(137,207,240,0.61); color: #fff;
+    font-size: 18px; width: 150px; text-decoration: none; margin-top: 40px;
+    align-self: flex-start;
+  }
+  .sp-keynote-btn:hover { opacity: 0.85; }
+
+  /* === GENEROUSLY BLESSED — brxe-2be012 === */
+  .sp-gb {
+    margin-top: 50px;
+    background: url('https://cdn.sanity.io/images/kwhqwbb4/production/06946f8ab859ca9d6944c5f0c6d8d733f3ffee3a-2560x1344.jpg') center/cover no-repeat;
+    min-height: 700px; display: flex; align-items: center; justify-content: center;
+    padding: 4vw 2vw;
+  }
+  .sp-gb-card {
+    background-color: #000; border-radius: 16px; padding: 60px 50px;
+    max-width: 700px; width: 100%; text-align: center;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  }
+  .sp-gb-heading {
+    font-family: "Lexend", sans-serif; font-size: clamp(22px, 4.5vw, 40px); color: #fff;
+    line-height: 50px; margin-bottom: 20px;
+  }
+  .sp-gb-sub {
+    font-family: "Crimson Text", serif; font-size: clamp(16px, 2.5vw, 25px); color: #fff;
+    line-height: 130%; font-weight: 600;
+  }
+
+  /* === MOBILE === */
+  @media (max-width: 478px) {
+    .sp-hero { height: 800px; padding: 0; flex-direction: column-reverse; background-size: auto; background-position: bottom center; }
+    .sp-hero-inner { flex-direction: column; justify-content: center; }
+    .sp-hero-text { padding: 20px; }
+    .sp-hero-h1 { font-size: clamp(22px, 4.5vw, 40px); }
+    .sp-hero-sub { font-size: 19px; margin-top: 10px; }
+    .sp-hero-btn { margin-top: 20px; }
+    .sp-hero-vid { padding: 10px; }
+    .sp-hero-video { aspect-ratio: 1/1; }
+    .sp-pods { margin-top: 50px; }
+    .sp-pods-heading { font-size: 6vw; padding-left: 20px; }
+    .sp-pods-grid { margin-top: 5px; justify-content: center; }
+    .sp-pod-item { width: 40%; padding: 10px; }
+    .sp-keynotes-top { margin-top: 5vw; padding-top: 0; }
+    .sp-keynotes-heading { font-size: 6vw; }
+    .sp-keynote-row { flex-direction: column; padding-bottom: 10vw; }
+    .sp-keynote-vid-col { width: 100%; padding-right: 0; padding-bottom: 60px; }
+    .sp-keynote-text-col { width: 100%; }
+    .sp-keynote-title { font-size: 5vw; line-height: 2; margin-top: 20px; }
+    .sp-gb { margin-top: 0; padding: 4vw 20px; }
+    .sp-gb-card { padding: 40px 24px; }
+    .sp-gb-heading { font-size: clamp(18px, 3vw, 30px); }
+    .sp-gb-sub { font-size: 20px; }
+  }
+</style>

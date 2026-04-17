@@ -12,7 +12,7 @@ const navLinks = [
   { label: 'About', href: '/about' },
   { label: 'Speaker', href: '/speaking' },
   { label: 'Books', href: '/books' },
-  { label: 'Spirit Media', href: 'https://spiritmedia.us/', external: true },
+  { label: 'Spirit Media', href: 'https://spiritmediapublishing.com/', external: true },
   { label: 'Magazines', href: '/blog' },
   { label: 'Contact', href: '/contact' },
 ];
@@ -32,12 +32,40 @@ const socialLinks = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title}</title>
+    <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     {ogImage && <meta property="og:image" content={ogImage} />}
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta name="twitter:card" content="summary_large_image" />
     <slot name="head" />
+
+    <!-- Reveal + premium animations (global) -->
+    <style is:inline>
+      [data-animate] { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: opacity, transform; }
+      [data-animate="fade"] { transform: none; }
+      [data-animate="fade-left"] { transform: translateX(-24px); }
+      [data-animate="fade-right"] { transform: translateX(24px); }
+      [data-animate="zoom-in"] { transform: scale(0.96); }
+      [data-animate].is-visible { opacity: 1; transform: none; }
+
+      /* Site-wide section reveal — subtle, premium feel.
+         Any <section> within <main> fades up the first time it enters the viewport. */
+      main section { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+      main section.is-in { opacity: 1; transform: none; }
+
+      /* Subtle card/link lift on hover */
+      .ba-book-block a, .mag-card, .sp-pod-item, .bk-book-row { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+      .ba-book-block a:hover, .sp-pod-item:hover { transform: translateY(-4px); }
+
+      @media (prefers-reduced-motion: reduce) {
+        [data-animate], [data-animate].is-visible,
+        main section, main section.is-in { opacity: 1; transform: none; transition: none; }
+      }
+      html { scroll-behavior: smooth; }
+      a, button { transition: opacity 0.2s ease, color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+    </style>
   </head>
   <body>
     <!-- Header -->
@@ -240,6 +268,37 @@ const socialLinks = [
       const btn = document.getElementById('mobile-menu-btn');
       const menu = document.getElementById('mobile-menu');
       if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+
+      // Reveal-on-scroll — lightweight IntersectionObserver, no library
+      const items = document.querySelectorAll<HTMLElement>('[data-animate]');
+      const sections = document.querySelectorAll<HTMLElement>('main section');
+      const all: HTMLElement[] = [...items, ...sections];
+      if ('IntersectionObserver' in window && all.length > 0) {
+        const io = new IntersectionObserver((entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              const el = entry.target as HTMLElement;
+              const delay = el.getAttribute('data-delay');
+              if (delay) el.style.transitionDelay = `${delay}ms`;
+              el.classList.add('is-visible', 'is-in');
+              io.unobserve(el);
+            }
+          });
+        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+        all.forEach((el) => io.observe(el));
+        // Reveal anything already above the fold (hero)
+        requestAnimationFrame(() => {
+          all.forEach((el) => {
+            const r = el.getBoundingClientRect();
+            if (r.top < window.innerHeight * 0.9) {
+              el.classList.add('is-visible', 'is-in');
+              io.unobserve(el);
+            }
+          });
+        });
+      } else {
+        all.forEach((el) => el.classList.add('is-visible', 'is-in'));
+      }
     </script>
   </body>
 </html>

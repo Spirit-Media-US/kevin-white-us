@@ -18,7 +18,7 @@
   --container-max: 1440px;
 }
 
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 
 body {
   font-family: var(--font-body);
@@ -26,22 +26,86 @@ body {
   background: var(--color-bg);
   line-height: 1.6;
   font-size: 16px;
+  overflow-x: hidden;
 }
+
+/* =======================================================================
+   Universal responsive defaults
+   All media fluid; page containers never cause horizontal scroll;
+   long words wrap on narrow screens.
+   ======================================================================= */
+*, *::before, *::after { box-sizing: border-box; }
+
+img, video, iframe, svg, canvas {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+video { background: #000; }
+
+p, h1, h2, h3, h4, h5, h6, li, blockquote {
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+}
+
+section, main { max-width: 100%; }
 
 h1, h2, h3 {
   font-family: var(--font-heading);
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.2;
   color: var(--color-black);
 }
 
-h1 { font-size: 80px; }
-h2 { font-size: 30px; }
-h3 { font-size: 20px; }
+h1 { font-size: clamp(40px, 9vw, 80px); }
+h2 { font-size: clamp(24px, 4vw, 30px); }
+h3 { font-size: clamp(18px, 2.6vw, 20px); }
 
-@media (max-width: 768px) {
-  h1 { font-size: 60px; }
-  h2 { font-size: 25px; }
+/* =======================================================================
+   Page-level responsive safety-net
+   Most pages hard-code Bricks-style title sizes (74px / 64px / 50px);
+   clamp them so they never blow past the viewport on phones / tablets.
+   ======================================================================= */
+@media (max-width: 900px) {
+  /* Any element sized at 74px falls back to a fluid value */
+  [style*="font-size: 74px"],
+  [style*="font-size:74px"] { font-size: clamp(36px, 8vw, 74px) !important; }
+  [style*="font-size: 80px"],
+  [style*="font-size:80px"] { font-size: clamp(40px, 10vw, 80px) !important; }
+  [style*="font-size: 64px"],
+  [style*="font-size:64px"] { font-size: clamp(32px, 7.5vw, 64px) !important; }
+  [style*="font-size: 50px"],
+  [style*="font-size:50px"] { font-size: clamp(26px, 5.5vw, 50px) !important; }
+  [style*="font-size: 48px"],
+  [style*="font-size:48px"] { font-size: clamp(24px, 5vw, 48px) !important; }
+  [style*="font-size: 40px"],
+  [style*="font-size:40px"] { font-size: clamp(22px, 4.5vw, 40px) !important; }
+  [style*="font-size: 30px"],
+  [style*="font-size:30px"] { font-size: clamp(18px, 3vw, 30px) !important; }
+  [style*="font-size: 25px"],
+  [style*="font-size:25px"] { font-size: clamp(16px, 2.5vw, 25px) !important; }
+  [style*="font-size: 20px"],
+  [style*="font-size:20px"] { font-size: clamp(15px, 2vw, 20px) !important; }
+
+  /* Line-heights fixed to px on heading elements should relax on mobile */
+  [style*="line-height: 50px"],
+  [style*="line-height:50px"] { line-height: 1.1 !important; }
+  [style*="line-height: 48px"],
+  [style*="line-height:48px"] { line-height: 1.2 !important; }
+  [style*="line-height: 92px"],
+  [style*="line-height:92px"] { line-height: 1.1 !important; }
+}
+
+/* Small phones — further clamp + force stacked grids that might have
+   been declared with explicit column counts. */
+@media (max-width: 560px) {
+  section, main { padding-left: 0; padding-right: 0; }
+
+  /* If a grid was declared with repeat(3|4|5, 1fr) inline, collapse it. */
+  [class*="grid-cols-3"],
+  [class*="grid-cols-4"],
+  [class*="grid-cols-5"] { grid-template-columns: 1fr !important; }
 }
 
 a { color: inherit; text-decoration: none; }
@@ -50,8 +114,8 @@ a { color: inherit; text-decoration: none; }
   width: 1440px;
   max-width: 100%;
   margin: 0 auto;
-  padding-left: 2vw;
-  padding-right: 2vw;
+  padding-left: clamp(16px, 3vw, 32px);
+  padding-right: clamp(16px, 3vw, 32px);
   box-sizing: border-box;
 }
 

@@ -45,6 +45,20 @@ export default {
       validation: (Rule: any) => Rule.required(),
     },
     {
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        list: [
+          { title: 'Faith', value: 'Faith' },
+          { title: 'Purpose', value: 'Purpose' },
+          { title: 'Generosity', value: 'Generosity' },
+          { title: 'Leadership', value: 'Leadership' },
+        ],
+      },
+    },
+    {
       name: 'body',
       title: 'Body',
       type: 'array',
@@ -55,6 +69,12 @@ export default {
             { title: 'Normal', value: 'normal' },
             { title: 'Heading 2', value: 'h2' },
             { title: 'Heading 3', value: 'h3' },
+            { title: 'Scripture Ref', value: 'scripture' },
+            { title: 'Quote', value: 'blockquote' },
+          ],
+          lists: [
+            { title: 'Bullet', value: 'bullet' },
+            { title: 'Numbered', value: 'number' },
           ],
           marks: {
             decorators: [

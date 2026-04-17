@@ -26,32 +26,39 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
       </div>
     </section>
 
-    {/* ===== SECTION 2: Key Points — brxe-iahcaq ===== */}
-    <section class="about-keypoints">
-      <div class="about-keypoints-inner">
-        <h2 class="about-kp-heading">Key Points</h2>
-        <ul class="about-kp-list">
-          <li><span class="about-kp-arrow">&rarr;</span><span>As a serial entrepreneur, Kevin has helped start hundreds of businesses worldwide.</span></li>
-          <li><span class="about-kp-arrow">&rarr;</span><span>He has a highly-ranked podcast streaming on all platforms.</span></li>
-          <li><span class="about-kp-arrow">&rarr;</span><span>He's the father of three radiant souls.</span></li>
-          <li><span class="about-kp-arrow">&rarr;</span><span>He married his high school sweetheart, going thirty years strong.</span></li>
-          <li><span class="about-kp-arrow">&rarr;</span><span>In the past twenty years, he has traveled to India four dozen times and traveled to thirty countries.</span></li>
+    {/* ===== SECTION 2+3: Key Points + Podcast — brxe-iahcaq + brxe-ysceva ===== */}
+    <section class="kp-section">
+      {/* Key Points heading */}
+      <div class="kp-heading-wrap">
+        <h2 class="kp-heading">Key Points</h2>
+      </div>
+
+      {/* Image floated right, bullets wrap around it */}
+      <div class="kp-content">
+        <img src={`${IMG.familyPhoto}?w=800&auto=format`} alt="Kevin with family" class="kp-family-img" />
+        <ul class="kp-list">
+          <li><span class="kp-icon">&#9786;</span><span>As a serial entrepreneur, Kevin has helped start hundreds of businesses worldwide.</span></li>
+          <li><span class="kp-icon">&#9786;</span><span>He has a highly-ranked podcast streaming on all platforms.</span></li>
+          <li><span class="kp-icon">&#9786;</span><span>He's the father of three radiant souls.</span></li>
+          <li><span class="kp-icon">&#9786;</span><span>He married his high school sweetheart, going thirty years strong.</span></li>
+          <li><span class="kp-icon">&#9786;</span><span>In the past twenty years, he has traveled to India four dozen times and traveled to thirty countries.</span></li>
         </ul>
       </div>
+
     </section>
 
-    {/* ===== SECTION 3: Podcast — brxe-ysceva ===== */}
-    <section class="about-podcast">
-      <div class="about-podcast-row">
-        <div class="about-podcast-img-col">
-          <img src={`${IMG.familyPhoto}?w=600&auto=format`} alt="Kevin with family" class="about-family-img" />
-        </div>
-        <div class="about-podcast-text-col">
-          <h2 class="about-podcast-heading">A weekly podcast to motivate</h2>
-          <p class="about-podcast-text">
+    {/* ===== PODCAST SECTION — brxe-ysceva / brxe-bnvfwp ===== */}
+    <section class="pod-section">
+      <h2 class="pod-heading">A Weekly Podcast<br />to Motivate</h2>
+      <div class="pod-row">
+        <div class="pod-text-col">
+          <p class="pod-text">
             Every week since 2020, the Kevin White Show has offered a new idea, proverb, or short story to help listeners prosper in the presence of God.
           </p>
-          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="about-podcast-btn">Listen</a>
+          <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="pod-btn">Listen</a>
+        </div>
+        <div class="pod-img-col">
+          <img src={`${IMG.podcastPhoto}?w=553&auto=format`} alt="A weekly podcast to motivate" class="pod-img" />
         </div>
       </div>
     </section>
@@ -68,7 +75,7 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
         <div class="about-service-card">
           <h3 class="about-service-title">Serial Entrepreneur</h3>
           <p class="about-service-text">Through strategic and results-oriented marketing, Spirit Media is putting businesses on the map every day.</p>
-          <a href="https://spiritmedia.us/" target="_blank" rel="noopener noreferrer" class="about-service-btn">Learn More</a>
+          <a href="https://spiritmediapublishing.com/" target="_blank" rel="noopener noreferrer" class="about-service-btn">Learn More</a>
         </div>
         <div class="about-service-card">
           <h3 class="about-service-title">Fundraiser</h3>
@@ -79,22 +86,18 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
     </section>
 
     {/* ===== SECTION 5: Books — brxe-pxmruk ===== */}
-    <section class="about-books">
-      <div class="about-books-inner">
-        <h2 class="about-books-heading">Books</h2>
-        <p class="about-books-subtext">Nurture Your Spiritual Journey</p>
-        <div class="about-books-row">
-          {books.map((book: any) => (
-            <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer" class="about-book-item">
-              {book.coverImage ? (
-                <img src={`${book.coverImage}?w=300&auto=format`} alt={book.title} class="about-book-img" />
-              ) : (
-                <div class="img-placeholder" style="width:100%;height:100%;">{book.title}</div>
-              )}
-            </a>
-          ))}
-        </div>
-        <a href="/books" class="about-books-btn">View All Books</a>
+    <section class="ab-books">
+      <div class="ab-books-top">
+        <h2 class="ab-books-heading">Books</h2>
+        <p class="ab-books-sub">Nurture Your Spiritual Journey</p>
+        <a href="https://www.amazon.com/stores/author/B08LZYTR2B/allbooks" target="_blank" rel="noopener noreferrer" class="ab-books-btn">View All Books</a>
+      </div>
+      <div class="ab-books-row">
+        <div class="ab-book-block"><img src={`${books.find((b:any)=>b.title==='Get to the Point')?.coverImage}?w=400&auto=format`} alt="Get to the Point" class="ab-book-img" /></div>
+        <div class="ab-book-block"><img src={`${IMG.bookAG}?w=400&auto=format`} alt="Audacious Generosity" class="ab-book-img" /></div>
+        <div class="ab-book-block"><img src={`${books.find((b:any)=>b.title==='Ultimate Book Marketing Guide')?.coverImage}?w=400&auto=format`} alt="Ultimate Book Marketing Guide" class="ab-book-img" /></div>
+        <div class="ab-book-block"><img src={`${books.find((b:any)=>b.title==='Only God Works')?.coverImage}?w=400&auto=format`} alt="Only God Works" class="ab-book-img" /></div>
+        <div class="ab-book-block"><img src={`${books.find((b:any)=>b.title?.includes('Your Word'))?.coverImage}?w=400&auto=format`} alt="What's Your Word?" class="ab-book-img" /></div>
       </div>
     </section>
 
@@ -127,7 +130,7 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
     display: flex; flex-direction: column; align-items: flex-start;
   }
   .about-heading {
-    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+    font-family: "Black Han Sans", sans-serif; font-size: clamp(36px, 7.5vw, 74px); color: #000;
     line-height: 50px; text-transform: uppercase; font-weight: 400;
   }
   .about-paragraph {
@@ -147,86 +150,107 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
     .about-paragraph { padding: 0; margin-top: 0; }
   }
 
-  /* === SECTION 2: Key Points — brxe-iahcaq === */
-  .about-keypoints { margin-top: 100px; }
-  .about-keypoints-inner {
-    width: 1200px; max-width: 100%; margin: 0 auto; padding: 0 2vw;
-  }
-  .about-kp-heading {
-    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+  /* === SECTION 2+3: Key Points + Podcast — brxe-iahcaq + brxe-ysceva === */
+  .kp-section { margin-top: 100px; padding: 6vw 0 8vw; }
+  .kp-heading-wrap { padding: 0 2vw; }
+  .kp-heading {
+    font-family: "Black Han Sans", sans-serif; font-size: clamp(36px, 7.5vw, 74px); color: #000;
     line-height: 50px; text-transform: uppercase; font-weight: 400;
-    margin-top: -16px; margin-left: 50px;
+    margin-top: -16px; margin-left: 50px; text-align: center; margin-bottom: 50px;
   }
-  .about-kp-list {
-    list-style: none; padding: 100px 0 4vw; margin: 0;
+  /* Content wrapper */
+  .kp-content {
+    width: 1200px; max-width: 100%; margin: 0 auto;
+    padding: 0 2vw; overflow: hidden;
+  }
+  /* Image floated right */
+  .kp-family-img {
+    float: left; width: 50%; height: auto; object-fit: contain;
+    margin: 0 30px 30px 0;
+  }
+  /* List — brxe-iukeaa */
+  .kp-list {
+    list-style: none; padding: 0; margin: 0;
     display: flex; flex-direction: column; gap: 44px;
-    align-self: flex-start; width: 80%;
   }
-  .about-kp-list li {
-    font-family: "Lexend", sans-serif; color: #000; font-size: 25px;
+  .kp-list li {
+    font-family: "Lexend", sans-serif; color: #000; font-size: clamp(16px, 2.5vw, 25px);
     font-weight: 400; padding: 5px 0 5px 15px;
     display: flex; align-items: flex-start; gap: 20px;
   }
-  .about-kp-arrow { flex-shrink: 0; }
-  @media (max-width: 478px) {
-    .about-keypoints { margin-top: 50px; }
-    .about-kp-heading { font-size: 6vw; padding-top: 40px; margin-left: 0; }
-    .about-kp-list { width: 100%; padding: 50px 20px; gap: 10px; }
-    .about-kp-list li { font-size: 18px; gap: 10px; }
+  .kp-icon {
+    flex-shrink: 0; font-size: 35px; line-height: 1;
   }
 
-  /* === SECTION 3: Podcast — brxe-ysceva === */
-  .about-podcast { padding: 6vw 4vw 4vw; }
-  .about-podcast-row {
-    width: 1200px; max-width: 100%; margin: 50px auto 0;
-    display: flex; flex-direction: row; align-items: stretch; padding-top: 2vw;
+  /* === PODCAST — brxe-ysceva / brxe-bnvfwp === */
+  .pod-section {
+    padding: 6vw 4vw 4vw;
   }
-  .about-podcast-img-col { flex: 1; }
-  .about-family-img { width: 100%; height: 100%; object-fit: cover; }
-  .about-podcast-text-col {
-    flex: 1; display: flex; flex-direction: column;
-    align-items: center; margin-top: 150px; padding: 0 2vw;
-  }
-  .about-podcast-heading {
-    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+  .pod-heading {
+    font-family: "Black Han Sans", sans-serif; font-size: clamp(36px, 7.5vw, 74px); color: #000;
     line-height: 90px; text-transform: uppercase; font-weight: 400; text-align: center;
+    margin-bottom: 50px;
   }
-  .about-podcast-text {
-    font-family: "Lexend", sans-serif; line-height: 48px; color: #000;
-    font-weight: 400; font-size: 30px; margin-bottom: 20px;
+  .pod-row {
+    width: 1200px; max-width: 100%; margin: 0 auto;
+    display: flex; flex-direction: row; align-items: stretch;
   }
-  .about-podcast-btn {
+  .pod-text-col {
+    flex: 1; display: flex; flex-direction: column;
+    justify-content: center; padding: 0 4vw;
+  }
+  .pod-text {
+    font-family: "Lexend", sans-serif; font-size: clamp(18px, 3vw, 30px); line-height: 48px;
+    color: #000; font-weight: 400; margin-bottom: 20px;
+  }
+  .pod-btn {
+    display: inline-flex; align-items: center; justify-content: center;
     font-size: 18px; color: #fff; padding: 15px 35px;
     background-color: #89cff0; border: none; text-decoration: none;
+    align-self: flex-start;
+  }
+  .pod-btn:hover { opacity: 0.85; }
+  .pod-img-col {
+    flex: 1; display: flex; align-items: center; justify-content: center;
+  }
+  .pod-img {
+    width: 100%; max-width: 553px; height: auto; object-fit: contain;
   }
   @media (max-width: 478px) {
-    .about-podcast { padding: 4vw; }
-    .about-podcast-row { flex-direction: column-reverse; margin-top: 20px; }
-    .about-podcast-text-col { margin-top: 0; }
-    .about-podcast-heading { font-size: 5vw; line-height: 30px; }
-    .about-podcast-text { font-size: 20px; line-height: 1.3; }
-    .about-podcast-btn { margin-bottom: 50px; }
+    .kp-section { margin-top: 50px; }
+    .kp-heading { font-size: 6vw; padding-top: 40px; margin-left: 0; }
+    .kp-family-img { float: none; width: 100%; max-width: 100%; margin: 0 0 20px 0; }
+    .kp-list { gap: 10px; }
+    .kp-list li { font-size: 18px; gap: 10px; }
+    .pod-section { padding: 4vw; }
+    .pod-heading { font-size: 5vw; line-height: 30px; padding-top: 40px; margin-bottom: 30px; }
+    .pod-row { flex-direction: column-reverse; }
+    .pod-text-col { padding: 20px 0 0; }
+    .pod-text { font-size: 20px; line-height: 1.3; }
+    .pod-btn { margin-bottom: 50px; }
   }
 
   /* === SECTION 4: Services — brxe-scbrek === */
   .about-services { padding: 6vw 4vw; }
   .about-services-heading {
-    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
+    font-family: "Black Han Sans", sans-serif; font-size: clamp(36px, 7.5vw, 74px); color: #000;
     line-height: 90px; text-transform: uppercase; font-weight: 400; text-align: center;
+    margin-bottom: 50px;
   }
   .about-services-grid {
-    width: 1200px; max-width: 100%; margin: 50px auto 0;
+    width: 1200px; max-width: 100%; margin: 0 auto;
     display: flex; flex-direction: row; gap: 20px;
-    padding: 2vw; justify-content: center;
+    justify-content: center; align-items: stretch;
   }
   .about-service-card {
     flex: 1; display: flex; flex-direction: column; align-items: center;
-    padding: 2vw; text-align: center;
+    justify-content: space-between;
+    background-color: #000; border-radius: 20px;
+    padding: 50px 30px 40px; text-align: center;
   }
   .about-service-title {
-    font-family: "Lexend", sans-serif; font-size: 30px; color: #fff;
-    font-weight: 900; line-height: 48px; margin-top: 44px;
-    background-color: #000; padding: 10px 20px;
+    font-family: "Lexend", sans-serif; font-size: clamp(18px, 3vw, 30px); color: #fff;
+    font-weight: 900; line-height: 48px;
   }
   .about-service-text {
     font-family: "Almarai", sans-serif; font-size: 20px; color: #fff;
@@ -234,10 +258,12 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
     padding: 0 10px; margin-top: 30px;
   }
   .about-service-btn {
+    display: inline-flex; align-items: center; justify-content: center;
     font-size: 18px; color: #fff; padding: 15px 35px;
     background-color: #89cff0; border: none; text-decoration: none;
-    margin-top: 20px;
+    margin-top: 30px; border-radius: 0;
   }
+  .about-service-btn:hover { opacity: 0.85; }
   @media (max-width: 478px) {
     .about-services { padding: 0 20px 10vw; }
     .about-services-heading { font-size: 5vw; line-height: 50px; padding-top: 40px; }
@@ -247,41 +273,49 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
   }
 
   /* === SECTION 5: Books — brxe-pxmruk === */
-  .about-books { padding: 4vw 4vw 10vw; }
-  .about-books-inner {
-    width: 1200px; max-width: 100%; margin: 0 auto;
+  .ab-books { padding: 4vw 4vw 10vw; }
+  .ab-books-top {
     display: flex; flex-direction: column; align-items: center;
+    padding: 0 4vw 4vw; gap: 30px;
   }
-  .about-books-heading {
-    font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #000;
-    line-height: 50px; text-transform: uppercase; font-weight: 400;
+  .ab-books-heading {
+    font-family: "Black Han Sans", sans-serif; font-size: clamp(36px, 7.5vw, 74px); color: #000;
+    line-height: 90px; text-transform: uppercase; font-weight: 400; text-align: center;
   }
-  .about-books-subtext {
-    font-family: "Almarai", sans-serif; font-size: 20px; color: #000;
-    margin-top: 20px; margin-bottom: 30px;
+  .ab-books-sub {
+    font-family: "Lexend", sans-serif; font-size: clamp(18px, 3vw, 30px); line-height: 48px;
+    font-weight: 900; color: #000; margin-bottom: 10px; text-align: center;
   }
-  .about-books-row {
-    display: flex; flex-direction: row; gap: 20px;
-    justify-content: center; flex-wrap: wrap;
-  }
-  .about-book-item { display: block; }
-  .about-book-img { height: 280px; width: auto; object-fit: contain; }
-  .about-books-btn {
+  .ab-books-btn {
     display: inline-flex; align-items: center; justify-content: center;
-    background-color: #88cff1; color: #fff;
-    font-family: "Almarai", sans-serif; font-size: 20px; font-weight: 400;
-    padding: 0.5em 1.5em; text-decoration: none; margin-top: 40px;
+    font-size: 18px; color: #fff; padding: 15px 35px;
+    background-color: #89cff0; border: none; text-decoration: none;
+    margin-bottom: 50px;
+  }
+  .ab-books-btn:hover { opacity: 0.85; }
+  /* Book row — brxe-gslfbz */
+  .ab-books-row {
+    display: flex; flex-direction: row; gap: 50px; padding-top: 10px;
+    justify-content: center; align-items: center;
+  }
+  .ab-book-block { width: 10%; }
+  .ab-book-img {
+    width: 100%; height: auto; object-fit: cover;
+    transform: rotate(20deg);
   }
   @media (max-width: 478px) {
-    .about-books { padding: 7vw 4vw 15vw; }
-    .about-books-heading { font-size: 6vw; }
-    .about-book-img { height: 180px; }
+    .ab-books { padding: 7vw 4vw 15vw; }
+    .ab-books-heading { font-size: 6vw; line-height: 10px; }
+    .ab-books-sub { font-size: 19px; font-family: "Almarai", sans-serif; font-weight: 800; line-height: 1; text-align: center; }
+    .ab-books-row { gap: 20px; flex-wrap: wrap; }
+    .ab-book-block { width: 40%; }
+    .ab-book-img { transform: rotate(0deg); object-fit: scale-down; }
   }
 
   /* === SECTION 6: Generously Blessed — brxe-b6ac05 === */
   .about-gb {
     margin-top: 50px;
-    background: url('https://kevinwhite.us/wp-content/uploads/2024/06/KWI-Gradient-1-scaled.jpg') center/cover no-repeat;
+    background: url('https://cdn.sanity.io/images/kwhqwbb4/production/06946f8ab859ca9d6944c5f0c6d8d733f3ffee3a-2560x1344.jpg') center/cover no-repeat;
     min-height: 700px;
     display: flex; align-items: center; justify-content: center;
     padding: 4vw 2vw;
@@ -292,17 +326,17 @@ const books = await sanityClient.fetch(`*[_type == "book"] | order(order asc) [0
     text-align: center; box-shadow: 0 8px 30px rgba(0,0,0,0.4);
   }
   .about-gb-heading {
-    font-family: "Lexend", sans-serif; font-size: 40px; color: #fff;
+    font-family: "Lexend", sans-serif; font-size: clamp(22px, 4.5vw, 40px); color: #fff;
     line-height: 50px; margin-bottom: 20px;
   }
   .about-gb-subtext {
-    font-family: "Crimson Text", serif; font-size: 25px; color: #fff;
+    font-family: "Crimson Text", serif; font-size: clamp(16px, 2.5vw, 25px); color: #fff;
     line-height: 130%; font-weight: 600;
   }
   @media (max-width: 478px) {
     .about-gb { padding: 4vw 20px; }
     .about-gb-card { padding: 40px 24px; }
-    .about-gb-heading { font-size: 30px; }
+    .about-gb-heading { font-size: clamp(18px, 3vw, 30px); }
     .about-gb-subtext { font-size: 20px; }
   }
 </style>

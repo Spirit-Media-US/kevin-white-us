@@ -1,7 +1,10 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import '../../styles/global.css';
-import { sanityClient } from '../../lib/sanity.ts';
+import { sanityClient, urlFor } from '../../lib/sanity.ts';
+import RelatedPosts from '../../components/RelatedPosts.astro';
+import ShareBar from '../../components/ShareBar.astro';
+import BlogCommentForm from '../../components/BlogCommentForm.astro';
 
 export async function getStaticPaths() {
   const posts = await sanityClient.fetch(`*[_type == "blogPost"] { "slug": slug.current }`);
@@ -9,101 +12,366 @@ export async function getStaticPaths() {
 }
 
 const { slug } = Astro.params;
-const post = await sanityClient.fetch(`*[_type == "blogPost" && slug.current == $slug][0]`, { slug });
+const post = await sanityClient.fetch(
+  `*[_type == "blogPost" && slug.current == $slug][0]{
+    title, excerpt, author, publishDate, tags, body, seoTitle, seoDescription,
+    heroImage, "heroUrl": heroImage.asset->url
+  }`,
+  { slug },
+);
 if (!post) return Astro.redirect('/blog');
 
-function renderPortableText(blocks: any[]): string {
-  if (!Array.isArray(blocks)) return '';
-  return blocks.map((block: any) => {
-    if (!block || block._type !== 'block') return '';
-    const children = Array.isArray(block.children) ? block.children : [];
-    const textContent = children.map((child: any) => {
+function renderChildren(children: any[], markDefs: any[]): string {
+  return children
+    .map((child: any) => {
       if (!child) return '';
-      let text = child.text || '';
+      let text = (child.text || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
       const marks = Array.isArray(child.marks) ? child.marks : [];
       if (marks.includes('strong')) text = `<strong>${text}</strong>`;
       if (marks.includes('em')) text = `<em>${text}</em>`;
+      for (const m of marks) {
+        const def = markDefs.find((d: any) => d._key === m);
+        if (def?._type === 'link' && def.href) {
+          text = `<a href="${def.href}" target="_blank" rel="noopener noreferrer" class="bp-link">${text}</a>`;
+        }
+      }
       return text;
-    }).join('');
+    })
+    .join('');
+}
+
+function renderBlockContent(block: any): string {
+  const children = Array.isArray(block.children) ? block.children : [];
+  const markDefs = Array.isArray(block.markDefs) ? block.markDefs : [];
+  return renderChildren(children, markDefs);
+}
+
+// A Bible verse reference looks like "Book Chapter:Verse Translation"
+// (e.g., Romans 14:17 NLT, 1 Corinthians 13:4-7 ESV). The WordPress source
+// uses <h1> for BOTH scripture refs AND section headings like "Over to You!",
+// so we classify by text pattern at render time.
+const SCRIPTURE_RE = /\b(?:\d\s*)?(?:Genesis|Exodus|Leviticus|Numbers|Deuteronomy|Joshua|Judges|Ruth|Samuel|Kings|Chronicles|Ezra|Nehemiah|Esther|Job|Psalms?|Proverbs|Ecclesiastes|Song|Isaiah|Jeremiah|Lamentations|Ezekiel|Daniel|Hosea|Joel|Amos|Obadiah|Jonah|Micah|Nahum|Habakkuk|Zephaniah|Haggai|Zechariah|Malachi|Matthew|Mark|Luke|John|Acts|Romans|Corinthians|Galatians|Ephesians|Philippians|Colossians|Thessalonians|Timothy|Titus|Philemon|Hebrews|James|Peter|Jude|Revelation)\b[^,]*?\d/;
+
+function isScriptureRef(text: string): boolean {
+  const clean = text.replace(/[\u202D\u202C\u2060-\u206F]/g, '').trim();
+  return SCRIPTURE_RE.test(clean);
+}
+
+function renderPortableText(blocks: any[]): string {
+  if (!Array.isArray(blocks)) return '';
+  let html = '';
+  let openList: { tag: 'ul' | 'ol' } | null = null;
+  let openScriptureBlock = false;
+
+  const closeList = () => {
+    if (openList) { html += `</${openList.tag}>`; openList = null; }
+  };
+  const closeScriptureBlock = () => {
+    if (openScriptureBlock) { html += `</section>`; openScriptureBlock = false; }
+  };
+
+  for (let i = 0; i < blocks.length; i++) {
+    const block = blocks[i];
+    if (!block || block._type !== 'block') continue;
+    const rawText = (block.children || []).map((c: any) => c?.text || '').join('').trim();
+    if (!rawText) continue;
+    if (/^\{[\w]+\}\s*[—–-]\s*\{[\w]+\}$/.test(rawText)) continue;
+
+    // List blocks group into the same <ul>/<ol>
+    if (block.listItem === 'bullet' || block.listItem === 'number') {
+      closeScriptureBlock();
+      const wantTag: 'ul' | 'ol' = block.listItem === 'number' ? 'ol' : 'ul';
+      if (!openList || openList.tag !== wantTag) {
+        closeList();
+        html += `<${wantTag} class="bp-${wantTag}">`;
+        openList = { tag: wantTag };
+      }
+      html += `<li class="bp-li">${renderBlockContent(block)}</li>`;
+      continue;
+    }
+    closeList();
+
+    const content = renderBlockContent(block);
     const style = block.style || 'normal';
-    if (style === 'h2') return `<h2>${textContent}</h2>`;
-    if (style === 'h3') return `<h3>${textContent}</h3>`;
-    return `<p>${textContent}</p>`;
-  }).join('');
+
+    // 'scripture' blocks from the WP H1 source — split into verse-heading
+    // (real Bible citation) and section-heading (like "Over to You!")
+    if (style === 'scripture') {
+      closeScriptureBlock();
+      if (isScriptureRef(rawText)) {
+        // Open a scripture-block wrapper. The immediately-following paragraph
+        // (the verse itself) gets a special italic class inside this wrapper.
+        const next = blocks[i + 1];
+        const nextStyle = next?.style || 'normal';
+        const isVerseNext = next && next._type === 'block' && (nextStyle === 'normal' || !next.listItem);
+        html += `<section class="bp-scripture-block">`;
+        html += `<h3 class="bp-scripture-title">${content}</h3>`;
+        if (isVerseNext) {
+          const verseText = renderBlockContent(next);
+          html += `<p class="bp-scripture-verse">${verseText}</p>`;
+          html += `</section>`;
+          i++; // skip the verse block we just consumed
+        } else {
+          html += `</section>`;
+        }
+      } else {
+        // Section heading (e.g., "Over to You!")
+        html += `<h2 class="bp-section-title">${content}</h2>`;
+      }
+      continue;
+    }
+    closeScriptureBlock();
+
+    if (style === 'h2') html += `<h2 class="bp-section-title">${content}</h2>`;
+    else if (style === 'h3') html += `<h3 class="bp-h3">${content}</h3>`;
+    else if (style === 'blockquote') html += `<blockquote class="bp-quote">${content}</blockquote>`;
+    else html += `<p class="bp-p">${content}</p>`;
+  }
+  closeList();
+  closeScriptureBlock();
+  return html;
 }
 
 const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
-function formatDate(d: string) { const dt = new Date(d); return `${MONTHS[dt.getUTCMonth()]} ${dt.getUTCDate()}, ${dt.getUTCFullYear()}`; }
+const formatDate = (d: string) => {
+  if (!d) return '';
+  const dt = new Date(d);
+  return `${MONTHS[dt.getUTCMonth()]} ${dt.getUTCDate()}, ${dt.getUTCFullYear()}`;
+};
 
 const author = post.author || 'Kevin White';
 const publishDate = formatDate(post.publishDate);
+const tags: string[] = post.tags || [];
+const heroImage = post.heroImage
+  ? urlFor(post.heroImage).width(1600).format('webp').url()
+  : post.heroUrl || null;
 const bodyHtml = renderPortableText(post.body);
+const canonical = `https://kevinwhite.us/blog/${slug}`;
 ---
 
-<Layout title={`${post.title} — Kevin White`} description={post.seoDescription || post.excerpt || `Read "${post.title}" by Kevin White`}>
+<Layout
+  title={post.seoTitle || `${post.title} — Kevin White`}
+  description={post.seoDescription || post.excerpt || `Read "${post.title}" by Kevin White`}
+  ogImage={heroImage || undefined}
+>
   <Fragment slot="head">
     <meta property="og:type" content="article" />
     <meta property="article:author" content={author} />
     <meta property="article:published_time" content={post.publishDate} />
+    {tags.length > 0 && <meta property="article:section" content={tags[0]} />}
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org", "@type": "BlogPosting",
       "headline": post.title, "description": post.excerpt || post.title,
+      "image": heroImage || undefined,
       "author": { "@type": "Person", "name": author },
       "publisher": { "@type": "Person", "name": "Kevin White", "url": "https://kevinwhite.us" },
-      "url": `https://kevinwhite.us/blog/${slug}`, "datePublished": post.publishDate
+      "url": canonical, "datePublished": post.publishDate
     })}></script>
   </Fragment>
 
   <main>
-    <section class="bg-white section-pad">
-      <div class="container-site max-w-3xl mx-auto">
-        <a href="/blog" class="text-sm text-[var(--color-text-muted)] hover:text-[var(--color-primary)]" style="transition: color 0.2s;">&larr; Back to Magazines</a>
-        <h1 class="mt-4 mb-2">{post.title}</h1>
-        <p class="text-sm text-[var(--color-text-muted)] mb-8">By {author} &middot; {publishDate}</p>
-        <div class="prose-content" set:html={bodyHtml} />
+
+    {heroImage && (
+      <div class="bp-hero-img-wrap" data-animate="fade-up">
+        <img src={heroImage} alt={post.heroImage?.alt || post.title} class="bp-hero-img" />
+      </div>
+    )}
+
+    <section class="bp-header" data-animate="fade-up">
+      <div class="bp-header-inner">
+        <a href="/blog" class="bp-back">&larr; Back to Magazines</a>
+        <h1 class="bp-title">{post.title}</h1>
+        {post.excerpt && <p class="bp-excerpt">{post.excerpt}</p>}
+        <div class="bp-meta">
+          <span>By <strong>{author}</strong></span>
+          {publishDate && <><span>&middot;</span><span>{publishDate}</span></>}
+        </div>
+        {tags.length > 0 && (
+          <div class="bp-tags">
+            {tags.map((t: string) => (
+              <a href={`/blog?tag=${encodeURIComponent(t)}`} class="bp-tag">{t}</a>
+            ))}
+          </div>
+        )}
       </div>
     </section>
 
-    <!-- YouTube CTA -->
-    <section class="bg-white section-pad border-t border-[var(--color-border)]">
-      <div class="container-site text-center max-w-2xl mx-auto">
-        <p class="text-[var(--color-text-light)] mb-2">Watch The Kevin White Show</p>
-        <p class="text-lg font-semibold mb-5">Every Tuesday at 10 AM on YouTube</p>
-        <a href="https://www.youtube.com/@KevinWhiteTV" target="_blank" rel="noopener noreferrer" class="btn btn-primary">Watch Now</a>
-      </div>
+    <section class="bp-content" data-animate="fade-up">
+      <div class="bp-content-inner" set:html={bodyHtml} />
     </section>
+
+    <ShareBar title={post.title} url={canonical} />
+
+    <BlogCommentForm postTitle={post.title} />
+
+    <RelatedPosts currentSlug={`/blog/${slug}`} currentTags={tags} />
+
   </main>
 </Layout>
 
-<style>
-  .prose-content :global(h2) {
-    font-family: var(--font-heading);
-    font-size: 1.75rem;
-    margin-top: 2rem;
-    margin-bottom: 0.75rem;
-    color: var(--color-primary);
+<style is:inline>
+  /* Blog post — styles matched 1:1 with kevinwhite.us/<slug>/ (Bricks theme).
+     Live values:
+       body font-size 20px, line-height 30px (1.5), text-align justify, Almarai
+       post-content margin 50px top/bottom, plus 100px wp-block-spacer
+       title H1 74px Black Han Sans, mobile 45px
+       body on mobile: 18px, text-align left                                 */
+
+  /* ---------- HERO IMAGE — fluid height, never crops awkwardly ---------- */
+  .bp-hero-img-wrap {
+    width: 100%;
+    max-height: clamp(220px, 45vh, 600px);
+    overflow: hidden;
   }
-  .prose-content :global(h3) {
-    font-family: var(--font-heading);
-    font-size: 1.375rem;
-    margin-top: 1.5rem;
-    margin-bottom: 0.5rem;
-    color: var(--color-primary);
+  .bp-hero-img {
+    width: 100%; height: 100%;
+    max-height: clamp(220px, 45vh, 600px);
+    object-fit: cover; display: block;
   }
-  .prose-content :global(p) {
-    color: var(--color-text-light);
-    font-size: 1.05rem;
-    line-height: 1.8;
-    margin-bottom: 1rem;
+
+  /* ---------- HEADER ---------- */
+  .bp-header {
+    background: #fff;
+    padding: clamp(40px, 8vw, 100px) clamp(20px, 4vw, 40px) clamp(24px, 4vw, 40px);
   }
-  .prose-content :global(ol), .prose-content :global(ul) {
-    color: var(--color-text-light);
-    font-size: 1.05rem;
-    line-height: 1.8;
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
+  .bp-header-inner { width: 900px; max-width: 100%; margin: 0 auto; }
+
+  .bp-back {
+    display: inline-block;
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(12px, 1.6vw, 14px); font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px; color: #000;
+    text-decoration: none; margin-bottom: clamp(20px, 4vw, 40px);
+    transition: opacity 0.2s;
   }
-  .prose-content :global(li) { margin-bottom: 0.4rem; }
-  .prose-content :global(strong) { color: var(--color-primary); }
-  .prose-content :global(em) { color: var(--color-text); }
+  .bp-back:hover { opacity: 0.6; }
+
+  .bp-title {
+    font-family: "Black Han Sans", sans-serif;
+    font-size: clamp(36px, 8vw, 74px);
+    color: #000; text-transform: uppercase; font-weight: 400;
+    line-height: 1; margin: 0 0 clamp(16px, 2.5vw, 24px);
+    overflow-wrap: break-word; word-break: break-word;
+  }
+  .bp-excerpt {
+    font-family: "Lexend", sans-serif;
+    font-size: clamp(17px, 2.8vw, 30px); font-weight: 900;
+    color: #000; line-height: 1.4;
+    margin: 0 0 clamp(20px, 3vw, 32px);
+  }
+
+  .bp-meta {
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(13px, 1.8vw, 16px); color: #666;
+    padding-bottom: clamp(20px, 3vw, 32px);
+    border-bottom: 1px solid #e5e5e5;
+  }
+  .bp-meta strong { color: #000; }
+
+  .bp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: clamp(16px, 2.5vw, 24px); }
+  .bp-tag {
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(11px, 1.4vw, 13px); font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    background: #f0ecdf; color: #555;
+    padding: 6px 14px; border-radius: 999px;
+    text-decoration: none; transition: all 0.15s;
+  }
+  .bp-tag:hover { background: #000; color: #fff; }
+
+  /* ---------- CONTENT ---------- */
+  .bp-content {
+    background: #fff;
+    padding: clamp(24px, 4vw, 50px) clamp(20px, 4vw, 40px) clamp(48px, 8vw, 100px);
+  }
+  .bp-content-inner {
+    width: 900px; max-width: 100%; margin: 0 auto;
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(17px, 1.8vw, 20px);
+    line-height: 1.65;
+    color: #000; text-align: left;
+  }
+
+  /* Paragraphs */
+  .bp-content-inner .bp-p {
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(17px, 1.8vw, 20px); line-height: 1.65;
+    color: #000; margin: 0 0 clamp(20px, 2.8vw, 30px);
+  }
+
+  /* Scripture block */
+  .bp-content-inner .bp-scripture-block {
+    margin: clamp(40px, 7vw, 72px) 0;
+    padding: clamp(20px, 3vw, 32px) clamp(18px, 3vw, 36px);
+    background: #faf6ed;
+    border-left: 4px solid #c9b36b;
+    border-radius: 4px;
+    text-align: left;
+  }
+  .bp-content-inner .bp-scripture-block + .bp-scripture-block {
+    margin-top: clamp(28px, 5vw, 48px);
+  }
+  .bp-content-inner .bp-scripture-title {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400;
+    font-size: clamp(20px, 3.2vw, 28px); line-height: 1.2;
+    text-transform: uppercase; color: #0a0a0a; letter-spacing: 0.5px;
+    margin: 0 0 clamp(10px, 1.5vw, 16px);
+    overflow-wrap: break-word;
+  }
+  .bp-content-inner .bp-scripture-verse {
+    font-family: "Almarai", sans-serif; font-style: italic;
+    font-size: clamp(16px, 2vw, 20px); line-height: 1.7;
+    color: #222; margin: 0;
+  }
+
+  /* Section headings */
+  .bp-content-inner .bp-section-title {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400;
+    font-size: clamp(28px, 5.5vw, 48px); line-height: 1.1;
+    text-transform: uppercase; color: #0a0a0a; text-align: left;
+    margin: clamp(56px, 10vw, 96px) 0 clamp(20px, 3vw, 28px);
+    padding-top: clamp(28px, 5vw, 48px);
+    border-top: 1px solid #e5e5e5;
+  }
+  .bp-content-inner .bp-section-title:first-child {
+    margin-top: 0; padding-top: 0; border-top: none;
+  }
+
+  /* Legacy h3 */
+  .bp-content-inner .bp-h3 {
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(18px, 2.4vw, 24px); font-weight: 800;
+    color: #000; letter-spacing: 0.3px; line-height: 1.4;
+    text-align: left; margin: clamp(36px, 6vw, 60px) 0 clamp(14px, 2vw, 20px);
+  }
+
+  /* Blockquote */
+  .bp-content-inner .bp-quote {
+    font-family: "Almarai", sans-serif; font-style: italic;
+    font-size: clamp(17px, 2vw, 20px); line-height: 1.65;
+    color: #000; border-left: 4px solid #000;
+    padding: 6px 0 6px clamp(16px, 2.5vw, 24px);
+    margin: clamp(28px, 4vw, 40px) 0; text-align: left;
+  }
+
+  /* Lists */
+  .bp-content-inner .bp-ul,
+  .bp-content-inner .bp-ol {
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(17px, 1.8vw, 20px); line-height: 1.65;
+    color: #000; text-align: left;
+    margin: 0 0 clamp(28px, 4vw, 40px);
+    padding-left: clamp(22px, 3vw, 32px);
+  }
+  .bp-content-inner .bp-ul { list-style: disc; }
+  .bp-content-inner .bp-ol { list-style: decimal; }
+  .bp-content-inner .bp-li { margin: 0 0 clamp(10px, 1.5vw, 16px); padding-left: 6px; }
+
+  .bp-content-inner .bp-link { color: #000; text-decoration: underline; word-break: break-word; }
+  .bp-content-inner .bp-link:hover { opacity: 0.7; }
+  .bp-content-inner strong { color: #000; font-weight: 800; }
 </style>
