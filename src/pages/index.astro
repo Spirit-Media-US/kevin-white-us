@@ -31,15 +31,29 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
     <style is:inline>
-      .home-hero { min-height: clamp(420px, 70vh, 760px); height: auto; }
+      .home-hero {
+        min-height: clamp(420px, 70vh, 760px);
+        height: auto;
+        background-position: center;
+      }
       .home-hero-h1 {
         font-family: var(--font-heading);
         font-size: clamp(32px, 9vw, 80px);
         color: #fff;
         line-height: 1.05;
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
       }
-      @media (max-width: 560px) {
-        .home-hero { min-height: 70svh; background-position: center right; }
+      @media (max-width: 768px) {
+        .home-hero {
+          min-height: 70svh;
+          background-position: right center;
+          background-size: cover;
+        }
+      }
+      @media (max-width: 420px) {
+        .home-hero { background-position: 72% center; }
       }
     </style>
 
