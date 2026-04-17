@@ -220,147 +220,158 @@ const canonical = `https://kevinwhite.us/blog/${slug}`;
        title H1 74px Black Han Sans, mobile 45px
        body on mobile: 18px, text-align left                                 */
 
-  /* HERO IMAGE */
-  .bp-hero-img-wrap { width: 100%; max-height: 600px; overflow: hidden; }
-  .bp-hero-img { width: 100%; height: 100%; max-height: 600px; object-fit: cover; display: block; }
+  /* ---------- HERO IMAGE — fluid height, never crops awkwardly ---------- */
+  .bp-hero-img-wrap {
+    width: 100%;
+    max-height: clamp(220px, 45vh, 600px);
+    overflow: hidden;
+  }
+  .bp-hero-img {
+    width: 100%; height: 100%;
+    max-height: clamp(220px, 45vh, 600px);
+    object-fit: cover; display: block;
+  }
 
-  /* HEADER */
-  .bp-header { background: #fff; padding: 100px 4vw 40px; }
+  /* ---------- HEADER ---------- */
+  .bp-header {
+    background: #fff;
+    padding: clamp(40px, 8vw, 100px) clamp(20px, 4vw, 40px) clamp(24px, 4vw, 40px);
+  }
   .bp-header-inner { width: 900px; max-width: 100%; margin: 0 auto; }
+
   .bp-back {
     display: inline-block;
-    font-family: "Almarai", sans-serif; font-size: 14px; font-weight: 800;
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(12px, 1.6vw, 14px); font-weight: 800;
     text-transform: uppercase; letter-spacing: 1px; color: #000;
-    text-decoration: none; margin-bottom: 40px;
+    text-decoration: none; margin-bottom: clamp(20px, 4vw, 40px);
     transition: opacity 0.2s;
   }
   .bp-back:hover { opacity: 0.6; }
+
   .bp-title {
-    font-family: "Black Han Sans", sans-serif; font-size: clamp(36px, 7.5vw, 74px); color: #000;
-    text-transform: uppercase; font-weight: 400; line-height: 1; margin: 0 0 24px;
+    font-family: "Black Han Sans", sans-serif;
+    font-size: clamp(36px, 8vw, 74px);
+    color: #000; text-transform: uppercase; font-weight: 400;
+    line-height: 1; margin: 0 0 clamp(16px, 2.5vw, 24px);
+    overflow-wrap: break-word; word-break: break-word;
   }
   .bp-excerpt {
-    font-family: "Lexend", sans-serif; font-size: clamp(18px, 3vw, 30px); font-weight: 900;
-    color: #000; line-height: 48px; margin: 0 0 32px;
+    font-family: "Lexend", sans-serif;
+    font-size: clamp(17px, 2.8vw, 30px); font-weight: 900;
+    color: #000; line-height: 1.4;
+    margin: 0 0 clamp(20px, 3vw, 32px);
   }
+
   .bp-meta {
-    display: flex; gap: 10px; align-items: center;
-    font-family: "Almarai", sans-serif; font-size: 16px; color: #666;
-    padding-bottom: 32px; border-bottom: 1px solid #e5e5e5;
+    display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(13px, 1.8vw, 16px); color: #666;
+    padding-bottom: clamp(20px, 3vw, 32px);
+    border-bottom: 1px solid #e5e5e5;
   }
   .bp-meta strong { color: #000; }
-  .bp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+
+  .bp-tags { display: flex; flex-wrap: wrap; gap: 8px; margin-top: clamp(16px, 2.5vw, 24px); }
   .bp-tag {
-    font-family: "Almarai", sans-serif; font-size: 13px; font-weight: 800;
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(11px, 1.4vw, 13px); font-weight: 800;
     text-transform: uppercase; letter-spacing: 0.5px;
-    background: #f0ecdf; color: #555; padding: 6px 14px; border-radius: 999px;
+    background: #f0ecdf; color: #555;
+    padding: 6px 14px; border-radius: 999px;
     text-decoration: none; transition: all 0.15s;
   }
   .bp-tag:hover { background: #000; color: #fff; }
 
-  /* CONTENT — faithful to live Bricks .brxe-post-content rules */
-  .bp-content { background: #fff; padding: 50px 4vw 100px; }
+  /* ---------- CONTENT ---------- */
+  .bp-content {
+    background: #fff;
+    padding: clamp(24px, 4vw, 50px) clamp(20px, 4vw, 40px) clamp(48px, 8vw, 100px);
+  }
   .bp-content-inner {
     width: 900px; max-width: 100%; margin: 0 auto;
-    font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
-    color: #000; text-align: justify;
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(17px, 1.8vw, 20px);
+    line-height: 1.65;
+    color: #000; text-align: left;
   }
 
-  /* Paragraphs — live uses normal block margins + plenty of vertical air */
+  /* Paragraphs */
   .bp-content-inner .bp-p {
-    font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
-    color: #000; margin: 0 0 30px;
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(17px, 1.8vw, 20px); line-height: 1.65;
+    color: #000; margin: 0 0 clamp(20px, 2.8vw, 30px);
   }
 
-  /* Scripture block — a grouped section that holds the verse citation
-     (heading) + the verse text together with unified spacing. */
+  /* Scripture block */
   .bp-content-inner .bp-scripture-block {
-    margin: 72px 0;
-    padding: 32px 36px;
+    margin: clamp(40px, 7vw, 72px) 0;
+    padding: clamp(20px, 3vw, 32px) clamp(18px, 3vw, 36px);
     background: #faf6ed;
     border-left: 4px solid #c9b36b;
     border-radius: 4px;
     text-align: left;
   }
   .bp-content-inner .bp-scripture-block + .bp-scripture-block {
-    margin-top: 48px;
+    margin-top: clamp(28px, 5vw, 48px);
   }
   .bp-content-inner .bp-scripture-title {
     font-family: "Black Han Sans", sans-serif; font-weight: 400;
-    font-size: 28px; line-height: 1.2; text-transform: uppercase;
-    color: #0a0a0a; letter-spacing: 0.5px;
-    margin: 0 0 16px;
+    font-size: clamp(20px, 3.2vw, 28px); line-height: 1.2;
+    text-transform: uppercase; color: #0a0a0a; letter-spacing: 0.5px;
+    margin: 0 0 clamp(10px, 1.5vw, 16px);
+    overflow-wrap: break-word;
   }
   .bp-content-inner .bp-scripture-verse {
     font-family: "Almarai", sans-serif; font-style: italic;
-    font-size: 20px; line-height: 1.7; color: #222;
-    margin: 0;
+    font-size: clamp(16px, 2vw, 20px); line-height: 1.7;
+    color: #222; margin: 0;
   }
 
-  /* Section headings — e.g. "Over to You!", "Conclusion" (non-scripture H1) */
+  /* Section headings */
   .bp-content-inner .bp-section-title {
     font-family: "Black Han Sans", sans-serif; font-weight: 400;
-    font-size: clamp(24px, 5vw, 48px); line-height: 1.1; text-transform: uppercase;
-    color: #0a0a0a; text-align: left;
-    margin: 96px 0 28px; padding-top: 48px;
+    font-size: clamp(28px, 5.5vw, 48px); line-height: 1.1;
+    text-transform: uppercase; color: #0a0a0a; text-align: left;
+    margin: clamp(56px, 10vw, 96px) 0 clamp(20px, 3vw, 28px);
+    padding-top: clamp(28px, 5vw, 48px);
     border-top: 1px solid #e5e5e5;
   }
   .bp-content-inner .bp-section-title:first-child {
     margin-top: 0; padding-top: 0; border-top: none;
   }
 
-  /* Legacy h3 style (rare) */
+  /* Legacy h3 */
   .bp-content-inner .bp-h3 {
-    font-family: "Almarai", sans-serif; font-size: 24px; font-weight: 800;
-    color: #000; letter-spacing: 0.3px; line-height: 36px;
-    text-align: left; margin: 60px 0 20px;
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(18px, 2.4vw, 24px); font-weight: 800;
+    color: #000; letter-spacing: 0.3px; line-height: 1.4;
+    text-align: left; margin: clamp(36px, 6vw, 60px) 0 clamp(14px, 2vw, 20px);
   }
 
-  /* Blockquote — minimal, Bricks style */
+  /* Blockquote */
   .bp-content-inner .bp-quote {
     font-family: "Almarai", sans-serif; font-style: italic;
-    font-size: 20px; line-height: 30px; color: #000;
-    border-left: 4px solid #000; padding: 6px 0 6px 24px;
-    margin: 40px 0; text-align: left;
+    font-size: clamp(17px, 2vw, 20px); line-height: 1.65;
+    color: #000; border-left: 4px solid #000;
+    padding: 6px 0 6px clamp(16px, 2.5vw, 24px);
+    margin: clamp(28px, 4vw, 40px) 0; text-align: left;
   }
 
-  /* Lists — use the same 20px/30px rhythm as paragraphs */
+  /* Lists */
   .bp-content-inner .bp-ul,
   .bp-content-inner .bp-ol {
-    font-family: "Almarai", sans-serif; font-size: 20px; line-height: 30px;
+    font-family: "Almarai", sans-serif;
+    font-size: clamp(17px, 1.8vw, 20px); line-height: 1.65;
     color: #000; text-align: left;
-    margin: 0 0 40px; padding-left: 32px;
+    margin: 0 0 clamp(28px, 4vw, 40px);
+    padding-left: clamp(22px, 3vw, 32px);
   }
   .bp-content-inner .bp-ul { list-style: disc; }
   .bp-content-inner .bp-ol { list-style: decimal; }
-  .bp-content-inner .bp-li { margin: 0 0 16px; padding-left: 6px; }
+  .bp-content-inner .bp-li { margin: 0 0 clamp(10px, 1.5vw, 16px); padding-left: 6px; }
 
-  .bp-content-inner .bp-link { color: #000; text-decoration: underline; }
+  .bp-content-inner .bp-link { color: #000; text-decoration: underline; word-break: break-word; }
   .bp-content-inner .bp-link:hover { opacity: 0.7; }
   .bp-content-inner strong { color: #000; font-weight: 800; }
-
-  /* MOBILE — live mobile: font-size 18px, text-align left */
-  @media (max-width: 700px) {
-    .bp-hero-img-wrap { max-height: 360px; }
-    .bp-hero-img { max-height: 360px; }
-    .bp-header { padding: 50px 20px 30px; }
-    .bp-title { font-size: 45px; }
-    .bp-excerpt { font-size: 16px; line-height: 1.5; }
-
-    .bp-content { padding: 30px 20px 60px; }
-    .bp-content-inner { font-size: 18px; line-height: 1.6; text-align: left; }
-    .bp-content-inner .bp-p,
-    .bp-content-inner .bp-scripture + .bp-p,
-    .bp-content-inner .bp-ul,
-    .bp-content-inner .bp-ol,
-    .bp-content-inner .bp-quote {
-      font-size: 18px; line-height: 1.6;
-    }
-    .bp-content-inner .bp-p { margin-bottom: 24px; }
-    .bp-content-inner .bp-scripture-block { margin: 48px 0; padding: 24px 20px; }
-    .bp-content-inner .bp-scripture-title { font-size: 22px; margin-bottom: 12px; }
-    .bp-content-inner .bp-scripture-verse { font-size: 17px; line-height: 1.6; }
-    .bp-content-inner .bp-section-title { font-size: 32px; margin: 64px 0 20px; padding-top: 32px; }
-    .bp-content-inner .bp-h3 { font-size: 20px; margin: 40px 0 16px; }
-  }
 </style>
