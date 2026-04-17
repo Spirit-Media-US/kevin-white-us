@@ -3,15 +3,29 @@ import Layout from '../layouts/Layout.astro';
 import '../styles/global.css';
 import { sanityClient } from '../lib/sanity.ts';
 
-const posts = await sanityClient.fetch(`
+const rawPosts = await sanityClient.fetch(`
   *[_type == "blogPost"] | order(publishDate desc) {
     "slug": slug.current, title, excerpt,
     "author": coalesce(author, "Kevin White"),
-    publishDate,
+    publishDate, tags,
     "image": heroImage.asset->url
   }
 `);
 
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const posts = rawPosts.map((p: any) => {
+  const dt = p.publishDate ? new Date(p.publishDate) : null;
+  return {
+    ...p,
+    tags: p.tags || [],
+    dateLabel: dt ? `${MONTHS[dt.getUTCMonth()]} ${dt.getUTCDate()}, ${dt.getUTCFullYear()}` : '',
+  };
+});
+
+// Tag list — union of every tag used across posts, ordered alphabetically.
+const allTags = Array.from(new Set(posts.flatMap((p: any) => p.tags))).sort();
+
+const POSTS_JSON = JSON.stringify(posts);
 const heroBanner = 'https://cdn.sanity.io/images/kwhqwbb4/production/a09ddd320748a47fe35a825a9dcf5179200d1efe-1440x389.jpg';
 ---
 
@@ -25,7 +39,7 @@ const heroBanner = 'https://cdn.sanity.io/images/kwhqwbb4/production/a09ddd32074
   </Fragment>
 
   <main>
-    {/* ===== HERO — brxe-vvdsjq ===== */}
+    {/* ===== HERO ===== */}
     <section class="mag-hero" style={`background-image: url('${heroBanner}?w=1440&auto=format');`}>
       <div class="mag-hero-inner">
         <h1 class="mag-hero-h1">Magazines</h1>
@@ -33,78 +47,185 @@ const heroBanner = 'https://cdn.sanity.io/images/kwhqwbb4/production/a09ddd32074
       </div>
     </section>
 
-    {/* ===== POSTS GRID — brxe-vxrirh ===== */}
+    {/* ===== SEARCH + FILTER (sticky) ===== */}
+    <section class="mag-toolbar">
+      <div class="mag-toolbar-inner">
+        <div class="mag-search-row">
+          <div class="mag-search-wrap">
+            <svg class="mag-search-icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+            </svg>
+            <input id="mag-search" type="search" placeholder="Search by keyword, topic, or tag..." class="mag-search-input" />
+          </div>
+          <p id="mag-count" class="mag-count"></p>
+        </div>
+        {allTags.length > 0 && (
+          <div class="mag-filter-row">
+            <span class="mag-filter-label">Filter:</span>
+            <button data-tag="all" class="mag-chip mag-chip-active" type="button">All</button>
+            {allTags.map((t: string) => (
+              <button data-tag={t} class="mag-chip" type="button">{t}</button>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+
+    {/* ===== GRID ===== */}
     <section class="mag-grid-section">
       <div class="mag-grid-container">
-        <div id="mag-grid" class="mag-grid">
-          {posts.map((post: any) => (
-            <div class="mag-card" data-card>
-              <a href={`/blog/${post.slug}`} class="mag-card-link">
-                {post.image ? (
-                  <img src={`${post.image}?w=600&h=400&fit=crop&auto=format`} alt={post.title} class="mag-card-img" />
-                ) : (
-                  <div class="img-placeholder mag-card-img">{post.title}</div>
-                )}
-              </a>
-              <h3 class="mag-card-title">
-                <a href={`/blog/${post.slug}`}>{post.title}</a>
-              </h3>
-              {post.excerpt && <p class="mag-card-excerpt">{post.excerpt}</p>}
-              <a href={`/blog/${post.slug}`} class="mag-card-readmore">Read more</a>
-            </div>
-          ))}
+        <div id="mag-grid" class="mag-grid"></div>
+
+        <div id="mag-empty" class="mag-empty" hidden>
+          <p class="mag-empty-title">No posts found</p>
+          <p class="mag-empty-sub">Try a different keyword or <button id="mag-clear" type="button" class="mag-empty-link">clear the filters</button>.</p>
         </div>
 
-        {/* Pagination */}
         <div id="mag-pagination" class="mag-pagination"></div>
       </div>
     </section>
+
+    <script id="mag-data" type="application/json" set:html={POSTS_JSON}></script>
   </main>
 </Layout>
 
 <script>
   const POSTS_PER_PAGE = 9;
-  const cards = Array.from(document.querySelectorAll('[data-card]'));
-  const totalPages = Math.ceil(cards.length / POSTS_PER_PAGE);
+  const data = document.getElementById('mag-data');
+  const POSTS = JSON.parse(data?.textContent || '[]');
+
+  let activeTag = 'all';
+  let activeSearch = '';
   let currentPage = 1;
+  let filtered = [...POSTS];
+
+  // Support deep-linking via ?tag=Faith
+  const params = new URLSearchParams(window.location.search);
+  const initialTag = params.get('tag');
+  if (initialTag) activeTag = initialTag;
+
+  function applyFilters() {
+    const q = activeSearch.trim().toLowerCase();
+    filtered = POSTS.filter((p: any) => {
+      const matchesTag = activeTag === 'all' || (p.tags || []).includes(activeTag);
+      const matchesSearch = !q ||
+        p.title.toLowerCase().includes(q) ||
+        (p.excerpt || '').toLowerCase().includes(q) ||
+        (p.author || '').toLowerCase().includes(q) ||
+        (p.tags || []).some((t: string) => t.toLowerCase().includes(q));
+      return matchesTag && matchesSearch;
+    });
+    currentPage = 1;
+    render();
+  }
 
   function render() {
+    const grid = document.getElementById('mag-grid')!;
+    const empty = document.getElementById('mag-empty')!;
+    const count = document.getElementById('mag-count')!;
+    const pag = document.getElementById('mag-pagination')!;
+    const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
+
+    if (filtered.length === 0) {
+      grid.innerHTML = '';
+      empty.hidden = false;
+      pag.innerHTML = '';
+      count.textContent = '0 posts';
+      return;
+    }
+    empty.hidden = true;
+    count.textContent = filtered.length === POSTS.length
+      ? `${POSTS.length} posts`
+      : `${filtered.length} of ${POSTS.length} posts`;
+
     const start = (currentPage - 1) * POSTS_PER_PAGE;
-    const end = start + POSTS_PER_PAGE;
-    cards.forEach((card, i) => {
-      (card as HTMLElement).style.display = (i >= start && i < end) ? '' : 'none';
-    });
+    const pagePosts = filtered.slice(start, start + POSTS_PER_PAGE);
 
-    const pag = document.getElementById('mag-pagination');
-    if (!pag || totalPages <= 1) return;
+    grid.innerHTML = pagePosts.map((post: any) => `
+      <article class="mag-card">
+        <a href="/blog/${post.slug}" class="mag-card-link">
+          ${post.image
+            ? `<img src="${post.image}?w=600&h=400&fit=crop&auto=format" alt="${escapeHtml(post.title)}" class="mag-card-img" />`
+            : `<div class="img-placeholder mag-card-img">${escapeHtml(post.title)}</div>`
+          }
+        </a>
+        ${post.tags && post.tags.length > 0 ? `
+          <div class="mag-card-tags">
+            ${post.tags.slice(0, 2).map((t: string) => `<span class="mag-card-tag">${escapeHtml(t)}</span>`).join('')}
+          </div>` : ''}
+        <h3 class="mag-card-title"><a href="/blog/${post.slug}">${escapeHtml(post.title)}</a></h3>
+        ${post.excerpt ? `<p class="mag-card-excerpt">${escapeHtml(post.excerpt)}</p>` : ''}
+        <a href="/blog/${post.slug}" class="mag-card-readmore">Read more</a>
+      </article>
+    `).join('');
 
+    if (totalPages <= 1) { pag.innerHTML = ''; return; }
     let html = '';
+    html += `<button class="mag-page-btn" data-page="${currentPage - 1}" ${currentPage === 1 ? 'disabled' : ''}>&larr;</button>`;
     for (let i = 1; i <= totalPages; i++) {
-      html += `<button onclick="goToPage(${i})" class="mag-page-btn ${i === currentPage ? 'active' : ''}">${i}</button>`;
+      html += `<button class="mag-page-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
     }
-    if (currentPage < totalPages) {
-      html += `<button onclick="goToPage(${currentPage + 1})" class="mag-page-btn">&rarr;</button>`;
-    }
+    html += `<button class="mag-page-btn" data-page="${currentPage + 1}" ${currentPage === totalPages ? 'disabled' : ''}>&rarr;</button>`;
     pag.innerHTML = html;
   }
 
-  (window as any).goToPage = function(page: number) {
+  function escapeHtml(s: string) {
+    return s.replace(/[&<>"']/g, (ch: string) => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch] as string));
+  }
+
+  // Search input
+  document.getElementById('mag-search')!.addEventListener('input', (e: any) => {
+    activeSearch = e.target.value;
+    applyFilters();
+  });
+
+  // Tag chips
+  document.querySelectorAll<HTMLButtonElement>('.mag-chip').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      activeTag = btn.getAttribute('data-tag') || 'all';
+      document.querySelectorAll('.mag-chip').forEach((b) => b.classList.remove('mag-chip-active'));
+      btn.classList.add('mag-chip-active');
+      applyFilters();
+    });
+    // Restore active state from deep-link
+    if (btn.getAttribute('data-tag') === activeTag && activeTag !== 'all') {
+      document.querySelectorAll('.mag-chip').forEach((b) => b.classList.remove('mag-chip-active'));
+      btn.classList.add('mag-chip-active');
+    }
+  });
+
+  // Pagination (event delegation)
+  document.getElementById('mag-pagination')!.addEventListener('click', (e: any) => {
+    const btn = e.target.closest('.mag-page-btn');
+    if (!btn || btn.disabled) return;
+    const page = parseInt(btn.getAttribute('data-page') || '1', 10);
+    const totalPages = Math.ceil(filtered.length / POSTS_PER_PAGE);
     if (page < 1 || page > totalPages) return;
     currentPage = page;
     render();
     document.getElementById('mag-grid')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  };
+  });
 
-  render();
+  // Clear-filters button in empty state
+  document.getElementById('mag-clear')!.addEventListener('click', () => {
+    (document.getElementById('mag-search') as HTMLInputElement).value = '';
+    activeSearch = '';
+    activeTag = 'all';
+    document.querySelectorAll('.mag-chip').forEach((b) => b.classList.remove('mag-chip-active'));
+    document.querySelector('.mag-chip[data-tag="all"]')?.classList.add('mag-chip-active');
+    applyFilters();
+  });
+
+  applyFilters();
 </script>
 
 <style is:inline>
-  /* === HERO — brxe-vvdsjq === */
+  /* HERO */
   .mag-hero {
     background-size: cover; background-position: center; background-repeat: no-repeat;
     height: 390px; display: flex; align-items: center; justify-content: center;
   }
-  .mag-hero-inner { text-align: center; align-items: center; }
+  .mag-hero-inner { text-align: center; }
   .mag-hero-h1 {
     font-family: "Black Han Sans", sans-serif; font-size: 74px; color: #fff;
     text-transform: uppercase; font-weight: 400;
@@ -114,58 +235,106 @@ const heroBanner = 'https://cdn.sanity.io/images/kwhqwbb4/production/a09ddd32074
     line-height: 48px; font-weight: 900;
   }
 
-  /* === GRID — brxe-vxrirh === */
-  .mag-grid-section { padding-top: 110px; padding-bottom: 30px; }
-  .mag-grid-container {
-    width: 1245px; max-width: 100%; margin: 0 auto; padding: 0 4vw;
+  /* TOOLBAR (sticky) */
+  .mag-toolbar {
+    background: #fff; border-bottom: 1px solid #e5e5e5;
+    padding: 16px 4vw; position: sticky; top: 0; z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
   }
+  .mag-toolbar-inner { width: 1200px; max-width: 100%; margin: 0 auto; display: flex; flex-direction: column; gap: 12px; }
+  .mag-search-row { display: flex; align-items: center; gap: 16px; }
+  .mag-search-wrap { position: relative; flex: 1; }
+  .mag-search-icon { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; color: #999; }
+  .mag-search-input {
+    width: 100%; padding: 10px 14px 10px 38px;
+    border: 1px solid #d0d0d0; background: #fafafa;
+    font-family: "Almarai", sans-serif; font-size: 14px; color: #000;
+    outline: none; transition: border-color 0.15s, background 0.15s;
+  }
+  .mag-search-input:focus { border-color: #000; background: #fff; }
+  .mag-count {
+    font-family: "Almarai", sans-serif; font-size: 13px; color: #666; margin: 0;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .mag-filter-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .mag-filter-label {
+    font-family: "Almarai", sans-serif; font-size: 12px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 1px; color: #999; margin-right: 4px;
+  }
+  .mag-chip {
+    font-family: "Almarai", sans-serif; font-size: 12px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    padding: 6px 14px; border: 1px solid #d0d0d0; background: #fff; color: #555;
+    cursor: pointer; border-radius: 999px; transition: all 0.15s;
+  }
+  .mag-chip:hover { border-color: #000; color: #000; }
+  .mag-chip-active { background: #000; color: #fff; border-color: #000; }
+
+  /* GRID */
+  .mag-grid-section { padding: 5vw 4vw 3vw; }
+  .mag-grid-container { width: 1245px; max-width: 100%; margin: 0 auto; }
   .mag-grid {
     display: grid; grid-template-columns: repeat(3, 1fr);
-    gap: 105px; margin-bottom: 100px;
+    gap: 48px 40px;
   }
 
-  /* === CARD === */
+  /* CARD */
   .mag-card { display: flex; flex-direction: column; }
-  .mag-card-link { display: block; }
-  .mag-card-img {
-    width: 100%; height: 275px; object-fit: cover;
+  .mag-card-link { display: block; overflow: hidden; }
+  .mag-card-img { width: 100%; height: 275px; object-fit: cover; display: block; transition: transform 0.3s; }
+  .mag-card-link:hover .mag-card-img { transform: scale(1.03); }
+  .mag-card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 16px; }
+  .mag-card-tag {
+    font-family: "Almarai", sans-serif; font-size: 11px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    background: #f0ecdf; color: #555; padding: 3px 10px; border-radius: 999px;
   }
   .mag-card-title {
     font-family: "Almarai", sans-serif; font-size: 20px; font-weight: 800;
-    text-transform: uppercase; margin: 20px 0; line-height: 30px;
+    text-transform: uppercase; margin: 12px 0; line-height: 30px;
   }
   .mag-card-title a { color: #000; text-decoration: none; }
+  .mag-card-title a:hover { text-decoration: underline; }
   .mag-card-excerpt {
     font-family: "Almarai", sans-serif; font-size: 16px; color: #000;
     line-height: 1.6; margin-bottom: 10px;
     display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
   }
   .mag-card-readmore {
-    font-family: "Almarai", sans-serif; font-size: 15px; font-weight: 800;
+    font-family: "Almarai", sans-serif; font-size: 14px; font-weight: 800;
     text-transform: uppercase; text-decoration: underline; color: #000;
-    margin: 20px 0;
+    margin-top: 12px; align-self: flex-start;
   }
 
-  /* === PAGINATION === */
-  .mag-pagination {
-    display: flex; justify-content: center; gap: 10px; padding: 20px 0 60px;
+  /* EMPTY STATE */
+  .mag-empty { text-align: center; padding: 80px 20px; }
+  .mag-empty-title {
+    font-family: "Black Han Sans", sans-serif; font-size: 40px; color: #000;
+    text-transform: uppercase; margin: 0 0 12px;
   }
+  .mag-empty-sub { font-family: "Almarai", sans-serif; font-size: 15px; color: #666; }
+  .mag-empty-link { background: none; border: none; color: #000; text-decoration: underline; cursor: pointer; font: inherit; padding: 0; }
+
+  /* PAGINATION */
+  .mag-pagination { display: flex; justify-content: center; gap: 8px; padding: 40px 0 60px; flex-wrap: wrap; }
   .mag-page-btn {
-    font-family: "Almarai", sans-serif; font-size: 16px; font-weight: 700;
-    padding: 8px 16px; border: 1px solid #000; background: #fff; color: #000;
-    cursor: pointer; transition: all 0.2s;
+    font-family: "Almarai", sans-serif; font-size: 14px; font-weight: 700;
+    min-width: 40px; padding: 8px 14px; border: 1px solid #d0d0d0; background: #fff; color: #000;
+    cursor: pointer; transition: all 0.15s;
   }
-  .mag-page-btn.active {
-    background: #000; color: #fff;
-  }
-  .mag-page-btn:hover:not(.active) { background: #f0f0f0; }
+  .mag-page-btn:hover:not(.active):not(:disabled) { background: #f5f5f5; border-color: #000; }
+  .mag-page-btn.active { background: #000; color: #fff; border-color: #000; }
+  .mag-page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
 
-  /* === MOBILE === */
-  @media (max-width: 478px) {
+  /* MOBILE */
+  @media (max-width: 700px) {
     .mag-hero { padding: 0 40px; }
     .mag-hero-h1 { font-size: 45px; }
-    .mag-hero-sub { font-size: 16px; }
-    .mag-grid-section { padding-top: 50px; padding-right: 40px; padding-left: 40px; }
-    .mag-grid { grid-template-columns: 1fr; gap: 50px; }
+    .mag-hero-sub { font-size: 16px; line-height: 1.4; }
+    .mag-toolbar { padding: 12px 20px; }
+    .mag-search-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+    .mag-count { align-self: flex-end; }
+    .mag-grid-section { padding: 50px 20px; }
+    .mag-grid { grid-template-columns: 1fr; gap: 40px; }
   }
 </style>

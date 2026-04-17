@@ -1,0 +1,111 @@
+---
+import { sanityClient } from '../lib/sanity.ts';
+
+interface Props {
+  currentSlug: string;
+  currentTags: string[];
+}
+const { currentSlug, currentTags = [] } = Astro.props;
+
+const allPosts = await sanityClient.fetch(
+  `*[_type == "blogPost" && slug.current != $slug] {
+    "slug": slug.current,
+    title,
+    excerpt,
+    "image": heroImage.asset->url,
+    publishDate,
+    tags
+  }`,
+  { slug: currentSlug.replace('/blog/', '') },
+);
+
+const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+const formatDate = (d: string) => {
+  if (!d) return '';
+  const dt = new Date(d);
+  return `${MONTHS[dt.getUTCMonth()]} ${dt.getUTCDate()}, ${dt.getUTCFullYear()}`;
+};
+
+const scored = allPosts
+  .map((p: any) => ({
+    ...p,
+    score: (p.tags || []).filter((t: string) => currentTags.includes(t)).length,
+  }))
+  .sort((a: any, b: any) => b.score - a.score || new Date(b.publishDate).getTime() - new Date(a.publishDate).getTime());
+
+const related = (scored.some((p: any) => p.score > 0)
+  ? scored.filter((p: any) => p.score > 0)
+  : scored
+).slice(0, 3);
+---
+
+{related.length > 0 && (
+  <section class="rp-section">
+    <div class="rp-inner">
+      <h2 class="rp-heading">Related Reads</h2>
+      <div class="rp-grid">
+        {related.map((post: any) => (
+          <a href={`/blog/${post.slug}`} class="rp-card">
+            <div class="rp-img-wrap">
+              {post.image ? (
+                <img src={`${post.image}?w=600&h=400&fit=crop&auto=format`} alt={post.title} class="rp-img" />
+              ) : (
+                <div class="rp-img rp-img-fallback">{post.title}</div>
+              )}
+            </div>
+            <div class="rp-card-body">
+              {post.tags && post.tags.length > 0 && (
+                <div class="rp-tags">
+                  {post.tags.slice(0, 2).map((t: string) => (
+                    <span class="rp-tag">{t}</span>
+                  ))}
+                </div>
+              )}
+              <h3 class="rp-title">{post.title}</h3>
+              {post.publishDate && <p class="rp-date">{formatDate(post.publishDate)}</p>}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+)}
+
+<style is:inline>
+  .rp-section { background: #f6f4ef; padding: 5vw 4vw; }
+  .rp-inner { width: 1200px; max-width: 100%; margin: 0 auto; }
+  .rp-heading {
+    font-family: "Black Han Sans", sans-serif; font-weight: 400; font-size: 48px;
+    color: #000; text-transform: uppercase; line-height: 1; margin: 0 0 40px;
+    text-align: center;
+  }
+  .rp-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+  .rp-card {
+    background: #fff; border: 1px solid #e0e0e0; text-decoration: none;
+    display: flex; flex-direction: column; transition: box-shadow 0.2s, transform 0.2s;
+  }
+  .rp-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.08); transform: translateY(-2px); }
+  .rp-img-wrap { height: 200px; overflow: hidden; }
+  .rp-img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .rp-img-fallback {
+    display: flex; align-items: center; justify-content: center; background: #d0d0d0;
+    color: #666; font-family: "Almarai", sans-serif; font-size: 14px; padding: 20px;
+  }
+  .rp-card-body { padding: 20px; }
+  .rp-tags { display: flex; gap: 8px; margin-bottom: 10px; flex-wrap: wrap; }
+  .rp-tag {
+    font-family: "Almarai", sans-serif; font-size: 11px; font-weight: 800;
+    text-transform: uppercase; letter-spacing: 0.5px;
+    background: #000; color: #fff; padding: 3px 10px; border-radius: 999px;
+  }
+  .rp-title {
+    font-family: "Almarai", sans-serif; font-size: 18px; font-weight: 800;
+    color: #000; line-height: 1.4; text-transform: uppercase; margin: 0 0 8px;
+  }
+  .rp-date { font-family: "Almarai", sans-serif; font-size: 13px; color: #666; margin: 0; }
+  @media (max-width: 900px) {
+    .rp-heading { font-size: 36px; }
+    .rp-grid { grid-template-columns: 1fr; gap: 20px; }
+    .rp-img-wrap { height: 180px; }
+  }
+</style>

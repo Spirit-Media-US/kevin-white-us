@@ -45,6 +45,20 @@ export default {
       validation: (Rule: any) => Rule.required(),
     },
     {
+      name: 'tags',
+      title: 'Tags',
+      type: 'array',
+      of: [{ type: 'string' }],
+      options: {
+        list: [
+          { title: 'Faith', value: 'Faith' },
+          { title: 'Purpose', value: 'Purpose' },
+          { title: 'Generosity', value: 'Generosity' },
+          { title: 'Leadership', value: 'Leadership' },
+        ],
+      },
+    },
+    {
       name: 'body',
       title: 'Body',
       type: 'array',
