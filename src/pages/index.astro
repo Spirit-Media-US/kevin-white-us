@@ -183,7 +183,17 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
               <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer">
                 <figure class="ba-book-figure">
                   {book.coverImage ? (
-                    <img src={`${book.coverImage}?w=400&fm=webp&q=80&auto=format`} alt={book.title} class="ba-book-img" loading="lazy" decoding="async" />
+                    <img
+                      src={`${book.coverImage}?w=220&fm=webp&q=75&auto=format`}
+                      srcset={`${book.coverImage}?w=220&fm=webp&q=75&auto=format 220w, ${book.coverImage}?w=400&fm=webp&q=80&auto=format 400w`}
+                      sizes="(max-width: 478px) 22vw, 200px"
+                      width="220"
+                      height="352"
+                      alt={book.title}
+                      class="ba-book-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   ) : (
                     <div class="img-placeholder" style="width: 100%; height: 100%;">{book.title}</div>
                   )}
@@ -200,7 +210,17 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
               <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer">
                 <figure class="ba-book-figure">
                   {book.coverImage ? (
-                    <img src={`${book.coverImage}?w=400&fm=webp&q=80&auto=format`} alt={book.title} class="ba-book-img" loading="lazy" decoding="async" />
+                    <img
+                      src={`${book.coverImage}?w=220&fm=webp&q=75&auto=format`}
+                      srcset={`${book.coverImage}?w=220&fm=webp&q=75&auto=format 220w, ${book.coverImage}?w=400&fm=webp&q=80&auto=format 400w`}
+                      sizes="(max-width: 478px) 22vw, 200px"
+                      width="220"
+                      height="352"
+                      alt={book.title}
+                      class="ba-book-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   ) : (
                     <div class="img-placeholder" style="width: 100%; height: 100%;">{book.title}</div>
                   )}
@@ -212,7 +232,17 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
           <div class="ba-book-block">
             <a href="/books">
               <figure class="ba-book-figure">
-                <img src={`${IMG.kingsBook}?w=400&fm=webp&q=80&auto=format`} alt="Kings of the King" class="ba-book-img" loading="lazy" decoding="async" />
+                <img
+                  src={`${IMG.kingsBook}?w=220&fm=webp&q=75&auto=format`}
+                  srcset={`${IMG.kingsBook}?w=220&fm=webp&q=75&auto=format 220w, ${IMG.kingsBook}?w=400&fm=webp&q=80&auto=format 400w`}
+                  sizes="(max-width: 478px) 22vw, 200px"
+                  width="220"
+                  height="352"
+                  alt="Kings of the King"
+                  class="ba-book-img"
+                  loading="lazy"
+                  decoding="async"
+                />
               </figure>
             </a>
           </div>
@@ -223,14 +253,24 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         {/* Overlapping book composition — brxe-pnfzog / brxe-fxwymo / brxe-oglwmg */}
         <div class="ba-book-comp">
           <img
-            src={`${IMG.getToPointSample}?w=400&fm=webp&q=80&auto=format`}
+            src={`${IMG.getToPointSample}?w=280&fm=webp&q=75&auto=format`}
+            srcset={`${IMG.getToPointSample}?w=280&fm=webp&q=75&auto=format 280w, ${IMG.getToPointSample}?w=400&fm=webp&q=80&auto=format 400w`}
+            sizes="(max-width: 478px) 140px, 200px"
+            width="200"
+            height="320"
             alt="Get to the Point sample page"
             class="ba-book-back"
             loading="lazy"
             decoding="async"
           />
           <img
-            src={books[1]?.coverImage ? `${books[1].coverImage}?w=400&fm=webp&q=80&auto=format` : `${IMG.getToPointSample}?w=400&fm=webp&q=80&auto=format`}
+            src={books[1]?.coverImage ? `${books[1].coverImage}?w=280&fm=webp&q=75&auto=format` : `${IMG.getToPointSample}?w=280&fm=webp&q=75&auto=format`}
+            srcset={books[1]?.coverImage
+              ? `${books[1].coverImage}?w=280&fm=webp&q=75&auto=format 280w, ${books[1].coverImage}?w=400&fm=webp&q=80&auto=format 400w`
+              : `${IMG.getToPointSample}?w=280&fm=webp&q=75&auto=format 280w, ${IMG.getToPointSample}?w=400&fm=webp&q=80&auto=format 400w`}
+            sizes="(max-width: 478px) 140px, 200px"
+            width="200"
+            height="320"
             alt="Get to the Point"
             class="ba-book-front"
             loading="lazy"
