@@ -26,6 +26,17 @@ Then run: `git checkout dev && git pull origin dev`
 - Cloudflare Pages: kevin-white-us.pages.dev
 - Dev preview: dev.kevin-white-us.pages.dev
 
+## Status -- as of 2026-04-18
+
+### Performance optimization (2026-04-18, on dev)
+- Mobile PSI: now 96-98 (best of 3 = 98). Previously 96 with occasional 98s.
+- Right-sized book cover images (w=400 -> w=220 mobile via srcset); saved ~225KB bandwidth
+- Added explicit width/height to all book-cover imgs + header logo (fixes unsized-images audit, prevents CLS)
+- Shrunk mobile logo request (w=400 -> w=320)
+- Set build.inlineStylesheets: 'auto' explicitly in astro.config.mjs
+- Tried R2-hosted hero (commits 53e56c0+20a7cd0) — reverted because it created connection contention with the 7 font preloads on assets.spiritmediapublishing.com (longest chain jumped 289ms -> 442ms). Sanity CDN hero is optimal: its own origin, races in parallel with fonts.
+- Remaining blocker: 14KB Tailwind chunk on critical path (367ms render-blocking). Inlining it (inlineStylesheets 'always' or assetsInlineLimit bump) makes HTML 72KB and hurts FCP +200ms — net loss. Leave external.
+
 ## Status -- as of 2026-04-17
 
 ### Completed & Live on Main
