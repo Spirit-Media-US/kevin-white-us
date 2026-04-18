@@ -47,21 +47,22 @@ const socialLinks = [
     <meta name="twitter:description" content={description} />
     <link rel="canonical" href={`https://kevinwhite.us${currentPath}`} />
 
-    <!-- Font preconnect + non-blocking stylesheet -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&family=Black+Han+Sans&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Lexend:wght@400;500;600;700&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
-    <noscript>
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&family=Black+Han+Sans&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Lexend:wght@400;500;600;700&display=swap"
-      />
-    </noscript>
+    <!-- Self-hosted fonts from R2 — no render-blocking external CSS -->
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2" crossorigin />
+    <style is:inline set:html={`
+      @font-face{font-family:'Almarai';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-400.woff2') format('woff2');}
+      @font-face{font-family:'Almarai';font-style:normal;font-weight:700;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-700.woff2') format('woff2');}
+      @font-face{font-family:'Black Han Sans';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/black-han-sans/black-han-sans-400.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:italic;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-400-italic.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-400.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:600;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-600.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:700;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-700.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:500;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:600;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-600.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:700;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-700.woff2') format('woff2');}
+    `} />
 
     <slot name="head" />
 
