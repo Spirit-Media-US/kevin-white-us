@@ -10,6 +10,15 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
 
 <Layout title="Kevin White — Author, Speaker, Entrepreneur" description="Kevin White is a serial entrepreneur, bestselling author, and conference speaker who equips leaders to live out God's Word and prioritize prayer.">
   <Fragment slot="head">
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+    <link
+      rel="preload"
+      as="image"
+      href={`${IMG.heroBg}?w=640&fm=webp&q=75&auto=format`}
+      imagesrcset={`${IMG.heroBg}?w=640&fm=webp&q=75&auto=format 640w, ${IMG.heroBg}?w=1024&fm=webp&q=80&auto=format 1024w, ${IMG.heroBg}?w=1440&fm=webp&q=80&auto=format 1440w`}
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org", "@type": "Person", "name": "Kevin White",
       "url": "https://kevinwhite.us", "jobTitle": "Founder & Chief Spiritual Officer",
@@ -20,10 +29,19 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
 
   <main>
     <!-- Hero: background image with prayer text left-aligned -->
-    <section
-      class="home-hero relative bg-cover bg-center flex items-center text-white"
-      style={`background-image: url('${IMG.heroBg}?w=1440&auto=format');`}
-    >
+    <section class="home-hero relative flex items-center text-white">
+      <img
+        src={`${IMG.heroBg}?w=1440&fm=webp&q=80&auto=format`}
+        srcset={`${IMG.heroBg}?w=640&fm=webp&q=75&auto=format 640w, ${IMG.heroBg}?w=1024&fm=webp&q=80&auto=format 1024w, ${IMG.heroBg}?w=1440&fm=webp&q=80&auto=format 1440w`}
+        sizes="100vw"
+        width="1440"
+        height="700"
+        alt=""
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+        class="home-hero-img"
+      />
       <div class="container-site relative z-10 py-12 md:py-16">
         <h1 class="home-hero-h1">
           NOTHING<br />CHANGES<br />OUR LIVES<br />MORE THAN<br />PRIORITIZING PRAYER
@@ -34,7 +52,16 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       .home-hero {
         min-height: clamp(420px, 70vh, 760px);
         height: auto;
-        background-position: center;
+        overflow: hidden;
+      }
+      .home-hero-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 0;
       }
       .home-hero-h1 {
         font-family: var(--font-heading);
@@ -47,16 +74,15 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       }
       @media (max-width: 768px) {
         .home-hero {
-          min-height: 70svh;
-          background-position: right center;
-          background-size: cover;
+          min-height: 420px;
           justify-content: flex-end;
         }
+        .home-hero-img { object-position: right center; }
         .home-hero .container-site { text-align: right; }
         .home-hero-h1 { text-align: right; }
       }
       @media (max-width: 420px) {
-        .home-hero { background-position: 72% center; }
+        .home-hero-img { object-position: 72% center; }
       }
     </style>
 
