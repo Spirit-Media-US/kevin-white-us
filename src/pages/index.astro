@@ -97,7 +97,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     </section>
 
     <!-- YouTube + Instagram: 2 column with background image -->
-    <section class="relative bg-cover bg-center" style={`background-image: url('${IMG.ytInstaBg}?w=1920&auto=format'); padding: 4vw 2vw;`}>
+    <section class="relative bg-cover bg-center" style={`background-image: url('${IMG.ytInstaBg}?w=1600&fm=webp&q=75&auto=format'); padding: 4vw 2vw;`}>
       <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- YouTube -->
         <div class="text-center" style="padding: 3vw 2vw;">
@@ -137,8 +137,8 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         </div>
         <!-- Video column -->
         <div class="se-video-col">
-          <video autoplay loop playsinline muted class="se-video">
-            <source src={VIDEO.entrepreneurLoop} type="video/mp4" />
+          <video autoplay loop playsinline muted preload="none" class="se-video lazy-video">
+            <source data-src={VIDEO.entrepreneurLoop} type="video/mp4" />
           </video>
         </div>
       </div>
@@ -154,8 +154,8 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       <div class="cs-row">
         <!-- Video column (left) — brxe-zcafxp -->
         <div class="cs-video-col">
-          <video autoplay loop playsinline muted class="cs-video">
-            <source src={VIDEO.conferenceSpeakerLoop} type="video/mp4" />
+          <video autoplay loop playsinline muted preload="none" class="cs-video lazy-video">
+            <source data-src={VIDEO.conferenceSpeakerLoop} type="video/mp4" />
           </video>
         </div>
         <!-- Text column (right) — brxe-yqknsm -->
@@ -183,7 +183,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
               <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer">
                 <figure class="ba-book-figure">
                   {book.coverImage ? (
-                    <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="ba-book-img" />
+                    <img src={`${book.coverImage}?w=400&fm=webp&q=80&auto=format`} alt={book.title} class="ba-book-img" loading="lazy" decoding="async" />
                   ) : (
                     <div class="img-placeholder" style="width: 100%; height: 100%;">{book.title}</div>
                   )}
@@ -200,7 +200,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
               <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer">
                 <figure class="ba-book-figure">
                   {book.coverImage ? (
-                    <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="ba-book-img" />
+                    <img src={`${book.coverImage}?w=400&fm=webp&q=80&auto=format`} alt={book.title} class="ba-book-img" loading="lazy" decoding="async" />
                   ) : (
                     <div class="img-placeholder" style="width: 100%; height: 100%;">{book.title}</div>
                   )}
@@ -212,7 +212,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
           <div class="ba-book-block">
             <a href="/books">
               <figure class="ba-book-figure">
-                <img src={`${IMG.kingsBook}?w=400&auto=format`} alt="Kings of the King" class="ba-book-img" />
+                <img src={`${IMG.kingsBook}?w=400&fm=webp&q=80&auto=format`} alt="Kings of the King" class="ba-book-img" loading="lazy" decoding="async" />
               </figure>
             </a>
           </div>
@@ -223,14 +223,18 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         {/* Overlapping book composition — brxe-pnfzog / brxe-fxwymo / brxe-oglwmg */}
         <div class="ba-book-comp">
           <img
-            src={`${IMG.getToPointSample}?w=400&auto=format`}
+            src={`${IMG.getToPointSample}?w=400&fm=webp&q=80&auto=format`}
             alt="Get to the Point sample page"
             class="ba-book-back"
+            loading="lazy"
+            decoding="async"
           />
           <img
-            src={books[1]?.coverImage ? `${books[1].coverImage}?w=400&auto=format` : `${IMG.getToPointSample}?w=400&auto=format`}
+            src={books[1]?.coverImage ? `${books[1].coverImage}?w=400&fm=webp&q=80&auto=format` : `${IMG.getToPointSample}?w=400&fm=webp&q=80&auto=format`}
             alt="Get to the Point"
             class="ba-book-front"
+            loading="lazy"
+            decoding="async"
           />
         </div>
 
@@ -242,7 +246,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     <section class="npo-section">
       <div class="npo-container">
         <a href="https://drive.google.com/file/d/1GVJGb50cSwhotRYbf1doRz8BHUVrYerf/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="npo-image-link">
-          <img src={`${IMG.npoBanner}?w=1200&auto=format`} alt="NPO Coaching Banner" class="npo-image" />
+          <img src={`${IMG.npoBanner}?w=1200&fm=webp&q=80&auto=format`} alt="NPO Coaching Banner" class="npo-image" loading="lazy" decoding="async" />
         </a>
       </div>
     </section>
@@ -304,7 +308,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
             <a href={`/blog/${post.slug}`}>
               <figure class="mag-image-wrap">
                 {post.image ? (
-                  <img src={`${post.image}?w=1024&h=683&fit=crop&auto=format`} alt={post.title} class="mag-image" />
+                  <img src={`${post.image}?w=1024&h=683&fit=crop&fm=webp&q=80&auto=format`} alt={post.title} class="mag-image" loading="lazy" decoding="async" />
                 ) : (
                   <div class="img-placeholder" style="width:100%;height:100%;">{post.title}</div>
                 )}
@@ -320,6 +324,41 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
   </main>
+
+  <script>
+    // Lazy-load autoplay videos — swap data-src to src when near viewport
+    const lazyVideos = document.querySelectorAll<HTMLVideoElement>('video.lazy-video');
+    if (lazyVideos.length > 0 && 'IntersectionObserver' in window) {
+      const loadVideo = (v: HTMLVideoElement) => {
+        const sources = v.querySelectorAll<HTMLSourceElement>('source[data-src]');
+        if (sources.length === 0) return;
+        sources.forEach((s) => {
+          if (s.dataset.src) {
+            s.src = s.dataset.src;
+            s.removeAttribute('data-src');
+          }
+        });
+        v.load();
+        v.play().catch(() => {});
+      };
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            loadVideo(entry.target as HTMLVideoElement);
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '400px 0px' });
+      lazyVideos.forEach((v) => io.observe(v));
+    } else {
+      // Fallback: load immediately
+      lazyVideos.forEach((v) => {
+        const sources = v.querySelectorAll<HTMLSourceElement>('source[data-src]');
+        sources.forEach((s) => { if (s.dataset.src) { s.src = s.dataset.src; s.removeAttribute('data-src'); } });
+        v.load();
+      });
+    }
+  </script>
 </Layout>
 
 <style is:inline>
@@ -791,7 +830,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
   /* Generously Blessed — brxe-ypbgzh */
   .gb-section {
     margin-top: 50px;
-    background: url('https://cdn.sanity.io/images/kwhqwbb4/production/06946f8ab859ca9d6944c5f0c6d8d733f3ffee3a-2560x1344.jpg') center/cover no-repeat;
+    background: url('https://cdn.sanity.io/images/kwhqwbb4/production/06946f8ab859ca9d6944c5f0c6d8d733f3ffee3a-2560x1344.jpg?w=1600&fm=webp&q=75&auto=format') center/cover no-repeat;
     min-height: 700px;
     display: flex;
     align-items: center;
