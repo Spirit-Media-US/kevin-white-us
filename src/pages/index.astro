@@ -14,8 +14,8 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     <link
       rel="preload"
       as="image"
-      href={`${IMG.heroBg}?w=640&fm=webp&q=75&auto=format`}
-      imagesrcset={`${IMG.heroBg}?w=640&fm=webp&q=75&auto=format 640w, ${IMG.heroBg}?w=1024&fm=webp&q=80&auto=format 1024w, ${IMG.heroBg}?w=1440&fm=webp&q=80&auto=format 1440w`}
+      href={`${IMG.heroBg}?w=640&fm=webp&q=72&auto=format`}
+      imagesrcset={`${IMG.heroBg}?w=640&fm=webp&q=72&auto=format 640w, ${IMG.heroBg}?w=1024&fm=webp&q=78&auto=format 1024w, ${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format 1200w`}
       imagesizes="100vw"
       fetchpriority="high"
     />
@@ -31,10 +31,10 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     <!-- Hero: background image with prayer text left-aligned -->
     <section class="home-hero relative flex items-center text-white">
       <img
-        src={`${IMG.heroBg}?w=1440&fm=webp&q=80&auto=format`}
-        srcset={`${IMG.heroBg}?w=640&fm=webp&q=75&auto=format 640w, ${IMG.heroBg}?w=1024&fm=webp&q=80&auto=format 1024w, ${IMG.heroBg}?w=1440&fm=webp&q=80&auto=format 1440w`}
+        src={`${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format`}
+        srcset={`${IMG.heroBg}?w=640&fm=webp&q=72&auto=format 640w, ${IMG.heroBg}?w=1024&fm=webp&q=78&auto=format 1024w, ${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format 1200w`}
         sizes="100vw"
-        width="1440"
+        width="1200"
         height="700"
         alt=""
         fetchpriority="high"

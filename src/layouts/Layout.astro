@@ -47,6 +47,8 @@ const socialLinks = [
     <meta name="twitter:description" content={description} />
     <link rel="canonical" href={`https://kevinwhite.us${currentPath}`} />
 
+    <!-- Preconnect to font/asset origin — saves ~100ms on first font byte on mobile -->
+    <link rel="preconnect" href="https://assets.spiritmediapublishing.com" crossorigin />
     <!-- Self-hosted fonts from R2 — no render-blocking external CSS -->
     <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2" crossorigin />

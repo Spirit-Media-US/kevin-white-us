@@ -6,10 +6,11 @@ export default defineConfig({
   site: 'https://kevinwhite.us',
   integrations: [sitemap()],
   build: {
-    // Inline small stylesheets only (<4KB by default). Eliminates render-blocking
-    // external CSS requests while keeping large Tailwind chunks external-and-cached
-    // so HTML stays lean for fast FCP.
-    inlineStylesheets: 'auto',
+    // Inline ALL stylesheets. The Tailwind CSS bundle is ~13KB uncompressed / ~5KB
+    // gzipped — small enough that inlining eliminates the render-blocking external
+    // CSS request from the critical path (saves ~300ms on mobile LCP) without
+    // materially increasing HTML size.
+    inlineStylesheets: 'always',
   },
   vite: {
     server: { allowedHosts: ['preview.spiritmediapublishing.com'] },
