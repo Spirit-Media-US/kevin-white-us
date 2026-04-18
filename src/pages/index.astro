@@ -348,7 +348,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
             io.unobserve(entry.target);
           }
         });
-      }, { rootMargin: '400px 0px' });
+      }, { rootMargin: '0px' });
       lazyVideos.forEach((v) => io.observe(v));
     } else {
       // Fallback: load immediately

@@ -51,11 +51,6 @@ const socialLinks = [
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      rel="preload"
-      as="style"
-      href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&family=Black+Han+Sans&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Lexend:wght@400;500;600;700&display=swap"
-    />
-    <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700&family=Black+Han+Sans&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Lexend:wght@400;500;600;700&display=swap"
       media="print"
@@ -80,8 +75,10 @@ const socialLinks = [
       [data-animate].is-visible { opacity: 1; transform: none; }
 
       /* Site-wide section reveal — subtle, premium feel.
-         Any <section> within <main> fades up the first time it enters the viewport. */
+         Any <section> within <main> fades up the first time it enters the viewport.
+         Exclude the first section (above-the-fold hero) to keep LCP fast. */
       main section { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+      main > section:first-of-type { opacity: 1; transform: none; }
       main section.is-in { opacity: 1; transform: none; }
 
       /* Subtle card/link lift on hover */
