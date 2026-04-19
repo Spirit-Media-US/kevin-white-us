@@ -4,9 +4,10 @@ interface Props {
   description?: string;
   ogImage?: string;
 }
-const { title, description = 'Kevin White — Serial entrepreneur, author, speaker, and Spirit Media founder', ogImage } = Astro.props;
-const currentPath = Astro.url.pathname;
 import { IMG } from '../lib/images.ts';
+const defaultOgImage = `${IMG.kevin}?w=1200&h=630&fit=crop&auto=format`;
+const { title, description = 'Kevin White — Serial entrepreneur, author, speaker, and Spirit Media founder', ogImage = defaultOgImage } = Astro.props;
+const currentPath = Astro.url.pathname;
 
 const navLinks = [
   { label: 'About', href: '/about' },
@@ -32,13 +33,39 @@ const socialLinks = [
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title}</title>
-    <link rel="icon" type="image/png" href="/favicon.png" sizes="32x32" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    {ogImage && <meta property="og:image" content={ogImage} />}
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon.png" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta property="og:image" content={ogImage} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={`https://kevinwhite.us${currentPath}`} />
+    <meta property="og:site_name" content="Kevin White" />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="canonical" href={`https://kevinwhite.us${currentPath}`} />
+
+    <!-- Preconnect to font/asset origin — saves ~100ms on first font byte on mobile -->
+    <link rel="preconnect" href="https://assets.spiritmediapublishing.com" crossorigin />
+    <!-- Self-hosted fonts from R2 — no render-blocking external CSS -->
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2" crossorigin />
+    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2" crossorigin />
+    <style is:inline set:html={`
+      @font-face{font-family:'Almarai';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-400.woff2') format('woff2');}
+      @font-face{font-family:'Almarai';font-style:normal;font-weight:700;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-700.woff2') format('woff2');}
+      @font-face{font-family:'Black Han Sans';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/black-han-sans/black-han-sans-400.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:italic;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-400-italic.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-400.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:600;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-600.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:700;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-700.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:500;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:600;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-600.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:700;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-700.woff2') format('woff2');}
+    `} />
+
     <slot name="head" />
 
     <!-- Reveal + premium animations (global) -->
@@ -51,8 +78,10 @@ const socialLinks = [
       [data-animate].is-visible { opacity: 1; transform: none; }
 
       /* Site-wide section reveal — subtle, premium feel.
-         Any <section> within <main> fades up the first time it enters the viewport. */
+         Any <section> within <main> fades up the first time it enters the viewport.
+         Exclude the first section (above-the-fold hero) to keep LCP fast. */
       main section { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+      main > section:first-of-type { opacity: 1; transform: none; }
       main section.is-in { opacity: 1; transform: none; }
 
       /* Subtle card/link lift on hover */
@@ -73,7 +102,7 @@ const socialLinks = [
       <div class="container-site hidden lg:grid items-center" style="grid-template-columns: 25% 50% 25%; padding-top: 3vw; padding-bottom: 3vw;">
         <!-- Logo -->
         <a href="/" class="shrink-0">
-          <img src={`${IMG.logo}?w=400&auto=format`} alt="Kevin White" style="height: 40px; width: auto;" />
+          <img src={`${IMG.logo}?w=400&auto=format`} alt="Kevin White" width="387" height="40" style="height: 40px; width: auto;" />
         </a>
 
         <!-- Desktop nav -->
@@ -117,7 +146,7 @@ const socialLinks = [
       <!-- Mobile header -->
       <div class="container-site flex lg:hidden items-center justify-between" style="padding-top: 3vw; padding-bottom: 3vw;">
         <a href="/" class="shrink-0">
-          <img src={`${IMG.logo}?w=400&auto=format`} alt="Kevin White" style="height: 32px; width: auto;" />
+          <img src={`${IMG.logo}?w=320&auto=format`} alt="Kevin White" width="310" height="32" style="height: 32px; width: auto;" />
         </a>
         <button id="mobile-menu-btn" class="p-2" aria-label="Open menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">

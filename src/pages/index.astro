@@ -10,6 +10,15 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
 
 <Layout title="Kevin White — Author, Speaker, Entrepreneur" description="Kevin White is a serial entrepreneur, bestselling author, and conference speaker who equips leaders to live out God's Word and prioritize prayer.">
   <Fragment slot="head">
+    <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
+    <link
+      rel="preload"
+      as="image"
+      href={`${IMG.heroBg}?w=640&fm=webp&q=72&auto=format`}
+      imagesrcset={`${IMG.heroBg}?w=640&fm=webp&q=72&auto=format 640w, ${IMG.heroBg}?w=1024&fm=webp&q=78&auto=format 1024w, ${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format 1200w`}
+      imagesizes="100vw"
+      fetchpriority="high"
+    />
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org", "@type": "Person", "name": "Kevin White",
       "url": "https://kevinwhite.us", "jobTitle": "Founder & Chief Spiritual Officer",
@@ -20,16 +29,62 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
 
   <main>
     <!-- Hero: background image with prayer text left-aligned -->
-    <section
-      class="relative bg-cover bg-center flex items-center text-white"
-      style={`background-image: url('${IMG.heroBg}?w=1440&auto=format'); height: 100vh;`}
-    >
-      <div class="container-site relative z-10 py-16">
-        <h1 style="font-family: var(--font-heading); font-size: clamp(40px, 9vw, 80px); color: #fff; line-height: 1.05;">
+    <section class="home-hero relative flex items-center text-white">
+      <img
+        src={`${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format`}
+        srcset={`${IMG.heroBg}?w=640&fm=webp&q=72&auto=format 640w, ${IMG.heroBg}?w=1024&fm=webp&q=78&auto=format 1024w, ${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format 1200w`}
+        sizes="100vw"
+        width="1200"
+        height="700"
+        alt=""
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+        class="home-hero-img"
+      />
+      <div class="container-site relative z-10 py-12 md:py-16">
+        <h1 class="home-hero-h1">
           NOTHING<br />CHANGES<br />OUR LIVES<br />MORE THAN<br />PRIORITIZING PRAYER
         </h1>
       </div>
     </section>
+    <style is:inline>
+      .home-hero {
+        min-height: clamp(420px, 70vh, 760px);
+        height: auto;
+        overflow: hidden;
+      }
+      .home-hero-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 0;
+      }
+      .home-hero-h1 {
+        font-family: var(--font-heading);
+        font-size: clamp(32px, 9vw, 80px);
+        color: #fff;
+        line-height: 1.05;
+        font-weight: 900;
+        letter-spacing: -0.01em;
+        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+      }
+      @media (max-width: 768px) {
+        .home-hero {
+          min-height: 420px;
+          justify-content: flex-end;
+        }
+        .home-hero-img { object-position: right center; }
+        .home-hero .container-site { text-align: right; }
+        .home-hero-h1 { text-align: right; }
+      }
+      @media (max-width: 420px) {
+        .home-hero-img { object-position: 72% center; }
+      }
+    </style>
 
     <!-- Kevin White Quote -->
     <section class="bg-white" style="padding: 3vw 2vw;">
@@ -42,7 +97,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     </section>
 
     <!-- YouTube + Instagram: 2 column with background image -->
-    <section class="relative bg-cover bg-center" style={`background-image: url('${IMG.ytInstaBg}?w=1920&auto=format'); padding: 4vw 2vw;`}>
+    <section class="relative bg-cover bg-center" style={`background-image: url('${IMG.ytInstaBg}?w=1600&fm=webp&q=75&auto=format'); padding: 4vw 2vw;`}>
       <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- YouTube -->
         <div class="text-center" style="padding: 3vw 2vw;">
@@ -82,8 +137,8 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         </div>
         <!-- Video column -->
         <div class="se-video-col">
-          <video autoplay loop playsinline muted class="se-video">
-            <source src={VIDEO.entrepreneurLoop} type="video/mp4" />
+          <video autoplay loop playsinline muted preload="none" class="se-video lazy-video">
+            <source data-src={VIDEO.entrepreneurLoop} type="video/mp4" />
           </video>
         </div>
       </div>
@@ -99,8 +154,8 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       <div class="cs-row">
         <!-- Video column (left) — brxe-zcafxp -->
         <div class="cs-video-col">
-          <video autoplay loop playsinline muted class="cs-video">
-            <source src={VIDEO.conferenceSpeakerLoop} type="video/mp4" />
+          <video autoplay loop playsinline muted preload="none" class="cs-video lazy-video">
+            <source data-src={VIDEO.conferenceSpeakerLoop} type="video/mp4" />
           </video>
         </div>
         <!-- Text column (right) — brxe-yqknsm -->
@@ -128,7 +183,17 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
               <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer">
                 <figure class="ba-book-figure">
                   {book.coverImage ? (
-                    <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="ba-book-img" />
+                    <img
+                      src={`${book.coverImage}?w=220&fm=webp&q=75&auto=format`}
+                      srcset={`${book.coverImage}?w=220&fm=webp&q=75&auto=format 220w, ${book.coverImage}?w=400&fm=webp&q=80&auto=format 400w`}
+                      sizes="(max-width: 478px) 22vw, 200px"
+                      width="220"
+                      height="352"
+                      alt={book.title}
+                      class="ba-book-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   ) : (
                     <div class="img-placeholder" style="width: 100%; height: 100%;">{book.title}</div>
                   )}
@@ -145,7 +210,17 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
               <a href={book.amazonUrl || '/books'} target="_blank" rel="noopener noreferrer">
                 <figure class="ba-book-figure">
                   {book.coverImage ? (
-                    <img src={`${book.coverImage}?w=400&auto=format`} alt={book.title} class="ba-book-img" />
+                    <img
+                      src={`${book.coverImage}?w=220&fm=webp&q=75&auto=format`}
+                      srcset={`${book.coverImage}?w=220&fm=webp&q=75&auto=format 220w, ${book.coverImage}?w=400&fm=webp&q=80&auto=format 400w`}
+                      sizes="(max-width: 478px) 22vw, 200px"
+                      width="220"
+                      height="352"
+                      alt={book.title}
+                      class="ba-book-img"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   ) : (
                     <div class="img-placeholder" style="width: 100%; height: 100%;">{book.title}</div>
                   )}
@@ -157,46 +232,49 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
           <div class="ba-book-block">
             <a href="/books">
               <figure class="ba-book-figure">
-                <img src={`${IMG.kingsBook}?w=400&auto=format`} alt="Kings of the King" class="ba-book-img" />
+                <img
+                  src={`${IMG.kingsBook}?w=220&fm=webp&q=75&auto=format`}
+                  srcset={`${IMG.kingsBook}?w=220&fm=webp&q=75&auto=format 220w, ${IMG.kingsBook}?w=400&fm=webp&q=80&auto=format 400w`}
+                  sizes="(max-width: 478px) 22vw, 200px"
+                  width="220"
+                  height="352"
+                  alt="Kings of the King"
+                  class="ba-book-img"
+                  loading="lazy"
+                  decoding="async"
+                />
               </figure>
             </a>
           </div>
         </div>
 
-        {/* Bestseller download — GHL form */}
         <p class="ba-download">Download my international bestseller</p>
-        <div class="ba-download-form">
-          <iframe
-            src="https://mail.spiritmediaone.com/widget/form/em9l4daiv173GsX3aG2K"
-            style="width:100%;height:100%;border:none;border-radius:4px"
-            id="inline-em9l4daiv173GsX3aG2K"
-            data-layout="{'id':'INLINE'}"
-            data-trigger-type="alwaysShow"
-            data-trigger-value=""
-            data-activation-type="alwaysActivated"
-            data-activation-value=""
-            data-deactivation-type="neverDeactivate"
-            data-deactivation-value=""
-            data-form-name="FREE copy of Get To The Point by Kevin White"
-            data-height="1186"
-            data-layout-iframe-id="inline-em9l4daiv173GsX3aG2K"
-            data-form-id="em9l4daiv173GsX3aG2K"
-            title="FREE copy of Get To The Point by Kevin White"
-          ></iframe>
-        </div>
-        <script is:inline src="https://mail.spiritmediaone.com/js/form_embed.js"></script>
 
         {/* Overlapping book composition — brxe-pnfzog / brxe-fxwymo / brxe-oglwmg */}
         <div class="ba-book-comp">
           <img
-            src={`${IMG.getToPointSample}?w=400&auto=format`}
+            src={`${IMG.getToPointSample}?w=280&fm=webp&q=75&auto=format`}
+            srcset={`${IMG.getToPointSample}?w=280&fm=webp&q=75&auto=format 280w, ${IMG.getToPointSample}?w=400&fm=webp&q=80&auto=format 400w`}
+            sizes="(max-width: 478px) 140px, 200px"
+            width="200"
+            height="320"
             alt="Get to the Point sample page"
             class="ba-book-back"
+            loading="lazy"
+            decoding="async"
           />
           <img
-            src={books[1]?.coverImage ? `${books[1].coverImage}?w=400&auto=format` : `${IMG.getToPointSample}?w=400&auto=format`}
+            src={books[1]?.coverImage ? `${books[1].coverImage}?w=280&fm=webp&q=75&auto=format` : `${IMG.getToPointSample}?w=280&fm=webp&q=75&auto=format`}
+            srcset={books[1]?.coverImage
+              ? `${books[1].coverImage}?w=280&fm=webp&q=75&auto=format 280w, ${books[1].coverImage}?w=400&fm=webp&q=80&auto=format 400w`
+              : `${IMG.getToPointSample}?w=280&fm=webp&q=75&auto=format 280w, ${IMG.getToPointSample}?w=400&fm=webp&q=80&auto=format 400w`}
+            sizes="(max-width: 478px) 140px, 200px"
+            width="200"
+            height="320"
             alt="Get to the Point"
             class="ba-book-front"
+            loading="lazy"
+            decoding="async"
           />
         </div>
 
@@ -208,7 +286,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     <section class="npo-section">
       <div class="npo-container">
         <a href="https://drive.google.com/file/d/1GVJGb50cSwhotRYbf1doRz8BHUVrYerf/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="npo-image-link">
-          <img src={`${IMG.npoBanner}?w=1200&auto=format`} alt="NPO Coaching Banner" class="npo-image" />
+          <img src={`${IMG.npoBanner}?w=1200&fm=webp&q=80&auto=format`} alt="NPO Coaching Banner" class="npo-image" loading="lazy" decoding="async" />
         </a>
       </div>
     </section>
@@ -270,7 +348,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
             <a href={`/blog/${post.slug}`}>
               <figure class="mag-image-wrap">
                 {post.image ? (
-                  <img src={`${post.image}?w=1024&h=683&fit=crop&auto=format`} alt={post.title} class="mag-image" />
+                  <img src={`${post.image}?w=1024&h=683&fit=crop&fm=webp&q=80&auto=format`} alt={post.title} class="mag-image" loading="lazy" decoding="async" />
                 ) : (
                   <div class="img-placeholder" style="width:100%;height:100%;">{post.title}</div>
                 )}
@@ -286,6 +364,41 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
   </main>
+
+  <script>
+    // Lazy-load autoplay videos — swap data-src to src when near viewport
+    const lazyVideos = document.querySelectorAll<HTMLVideoElement>('video.lazy-video');
+    if (lazyVideos.length > 0 && 'IntersectionObserver' in window) {
+      const loadVideo = (v: HTMLVideoElement) => {
+        const sources = v.querySelectorAll<HTMLSourceElement>('source[data-src]');
+        if (sources.length === 0) return;
+        sources.forEach((s) => {
+          if (s.dataset.src) {
+            s.src = s.dataset.src;
+            s.removeAttribute('data-src');
+          }
+        });
+        v.load();
+        v.play().catch(() => {});
+      };
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            loadVideo(entry.target as HTMLVideoElement);
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '0px' });
+      lazyVideos.forEach((v) => io.observe(v));
+    } else {
+      // Fallback: load immediately
+      lazyVideos.forEach((v) => {
+        const sources = v.querySelectorAll<HTMLSourceElement>('source[data-src]');
+        sources.forEach((s) => { if (s.dataset.src) { s.src = s.dataset.src; s.removeAttribute('data-src'); } });
+        v.load();
+      });
+    }
+  </script>
 </Layout>
 
 <style is:inline>
@@ -757,7 +870,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
   /* Generously Blessed — brxe-ypbgzh */
   .gb-section {
     margin-top: 50px;
-    background: url('https://cdn.sanity.io/images/kwhqwbb4/production/06946f8ab859ca9d6944c5f0c6d8d733f3ffee3a-2560x1344.jpg') center/cover no-repeat;
+    background: url('https://cdn.sanity.io/images/kwhqwbb4/production/06946f8ab859ca9d6944c5f0c6d8d733f3ffee3a-2560x1344.jpg?w=1600&fm=webp&q=75&auto=format') center/cover no-repeat;
     min-height: 700px;
     display: flex;
     align-items: center;
