@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "scripts": {
     "dev": "astro dev",
-    "build": "rm -rf public/studio && sanity build public/studio --yes && astro build",
+    "build": "rm -rf public/studio && sanity build public/studio --yes && astro build && node scripts/async-css.mjs",
     "preview": "astro preview"
   },
   "dependencies": {
