@@ -39,10 +39,8 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         width="1200"
         height="700"
         alt=""
-        fetchpriority="high"
-        loading="eager"
         decoding="async"
-        class="home-hero-img hidden lg:block"
+        class="home-hero-img"
       />
       <div class="container-site relative z-10 py-12 md:py-16">
         <h1 class="home-hero-h1">
@@ -62,6 +60,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         background: linear-gradient(135deg, #0b1e33 0%, #143054 55%, #0b1e33 100%);
       }
       .home-hero-img {
+        display: none;
         position: absolute;
         inset: 0;
         width: 100%;
@@ -69,6 +68,9 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         object-fit: cover;
         object-position: center;
         z-index: 0;
+      }
+      @media (min-width: 1024px) {
+        .home-hero-img { display: block; }
       }
       .home-hero-h1 {
         font-family: var(--font-heading);
