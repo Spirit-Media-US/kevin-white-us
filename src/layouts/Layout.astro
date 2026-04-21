@@ -79,6 +79,14 @@ const socialLinks = [
          (grid-cols-*, h-*, etc.) still wins the cascade when the async bundle
          arrives. @keyframes/@font-face stay outside the layer (spec forbids). -->
     <style is:inline>
+      /* Critical above-fold visibility toggles — ensure the desktop header
+         is display:none on mobile even before Tailwind utilities arrive. */
+      .kw-desktop-only { display: none; }
+      .kw-mobile-only { display: flex; }
+      @media (min-width: 1024px) {
+        .kw-desktop-only { display: grid; }
+        .kw-mobile-only { display: none; }
+      }
       @layer base {
         [data-animate] { transform: translateY(24px); transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: transform; }
         [data-animate="fade"] { transform: none; }
@@ -109,10 +117,10 @@ const socialLinks = [
   <body>
     <!-- Header -->
     <header class="bg-white border-b border-[var(--color-border)]">
-      <div class="container-site hidden lg:grid items-center" style="grid-template-columns: 25% 50% 25%; padding-top: 3vw; padding-bottom: 3vw;">
+      <div class="container-site kw-desktop-only items-center" style="grid-template-columns: 25% 50% 25%; padding-top: 3vw; padding-bottom: 3vw;">
         <!-- Logo -->
         <a href="/" class="shrink-0">
-          <img src={`${IMG.logo}?w=400&auto=format`} alt="Kevin White" width="387" height="40" style="height: 40px; width: auto;" />
+          <img src={`${IMG.logo}?w=800&auto=format`} alt="Kevin White" width="387" height="40" style="height: 40px; width: auto;" />
         </a>
 
         <!-- Desktop nav -->
@@ -127,7 +135,7 @@ const socialLinks = [
                   ? 'text-[var(--color-gold)]'
                   : 'text-[var(--color-text)] hover:text-[var(--color-gold)]'
               ]}
-              style="transition: color 0.2s;"
+              style="transition: color 0.2s; padding: 8px 4px; display: inline-block;"
               {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             >
               {link.label}
@@ -154,7 +162,7 @@ const socialLinks = [
       </div>
 
       <!-- Mobile header -->
-      <div class="container-site flex lg:hidden items-center justify-between" style="padding-top: 3vw; padding-bottom: 3vw;">
+      <div class="container-site kw-mobile-only items-center justify-between" style="padding-top: 3vw; padding-bottom: 3vw;">
         <a href="/" class="shrink-0">
           <img src={`${IMG.logo}?w=640&auto=format`} alt="Kevin White" width="310" height="32" style="height: 32px; width: auto;" />
         </a>
@@ -252,8 +260,8 @@ const socialLinks = [
       .kw-footer-link {
         font-family: "Almarai", sans-serif;
         font-size: 18px;
-        font-weight: 400;
-        color: #fff;
+        font-weight: 600;
+        color: #000;
         text-decoration: none;
         padding: 8px 10px;
         margin-left: 5px;
@@ -274,8 +282,8 @@ const socialLinks = [
         gap: 8px;
       }
       .kw-footer-icon {
-        color: #fff;
-        fill: #fff;
+        color: #000;
+        fill: #000;
         padding: 10px;
         font-size: 20px;
         border-radius: 50px;
