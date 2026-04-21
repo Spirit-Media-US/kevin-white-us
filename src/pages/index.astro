@@ -103,15 +103,6 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         .home-hero .container-site { text-align: right; }
         .home-hero-h1 { text-align: right; }
       }
-      /* Below-fold sections: browser skips layout/paint until scroll nears
-         the section → frees main-thread during initial load → faster LCP.
-         Size-containment zeros the intrinsic width, so we must force
-         width:100% AND specify both inline+block intrinsic sizes. */
-      main > section:not(:first-of-type) {
-        content-visibility: auto;
-        contain-intrinsic-size: 100vw 800px;
-        width: 100%;
-      }
     </style>
 
     <!-- Kevin White Quote -->
