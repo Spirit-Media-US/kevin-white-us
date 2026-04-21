@@ -103,6 +103,14 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         .home-hero .container-site { text-align: right; }
         .home-hero-h1 { text-align: right; }
       }
+      /* Everything below the hero: tell the browser to skip initial render
+         until scroll nears the section. Frees up main-thread time at load so
+         LCP (the hero H1) fires sooner on Slow-4G simulation. */
+      main > section:not(:first-of-type),
+      main > div:not(:first-of-type) {
+        content-visibility: auto;
+        contain-intrinsic-size: 1px 800px;
+      }
     </style>
 
     <!-- Kevin White Quote -->
