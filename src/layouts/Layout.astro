@@ -79,14 +79,160 @@ const socialLinks = [
          (grid-cols-*, h-*, etc.) still wins the cascade when the async bundle
          arrives. @keyframes/@font-face stay outside the layer (spec forbids). -->
     <style is:inline>
-      /* Critical above-fold visibility toggles — ensure the desktop header
-         is display:none on mobile even before Tailwind utilities arrive. */
+      /* ============================================================
+         CRITICAL CSS — covers every above-fold layout rule on the
+         homepage so the external Tailwind chunk can load deferred at
+         end of body without triggering CLS. Don't remove anything
+         without re-running PSI mobile.
+         ============================================================ */
+
+      /* Theme tokens (mirrors @theme in global.css). */
+      :root {
+        --color-black: #000;
+        --color-white: #fff;
+        --color-gray: #595959;
+        --color-light-gray: #d9d9d9;
+        --color-blue: #89cff0;
+        --color-blue-dark: #6bb8e0;
+        --color-bg: #fff;
+        --color-text: #000;
+        --color-text-light: #595959;
+        --color-text-gray: #595959;
+        --color-gold: #b38b3a;
+        --color-border: #e5e5e5;
+        --font-heading: "Lexend", sans-serif;
+        --font-body: "Almarai", sans-serif;
+        --font-display: "Black Han Sans", sans-serif;
+        --font-serif: "Crimson Text", serif;
+        --container-max: 1440px;
+      }
+
+      /* Minimal preflight (replaces Tailwind preflight for above-fold). */
+      *, *::before, *::after { box-sizing: border-box; }
+      html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+      body { margin: 0; font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); line-height: 1.6; font-size: 16px; overflow-x: hidden; }
+      h1, h2, h3, h4, h5, h6 { margin: 0; font-family: var(--font-heading); font-weight: 600; line-height: 1.2; color: var(--color-black); }
+      h1 { font-size: clamp(40px, 9vw, 80px); }
+      h2 { font-size: clamp(24px, 4vw, 30px); }
+      h3 { font-size: clamp(18px, 2.6vw, 20px); }
+      p { margin: 0; }
+      p, h1, h2, h3, h4, h5, h6, li, blockquote { overflow-wrap: break-word; word-wrap: break-word; }
+      a { color: inherit; text-decoration: none; }
+      button { background: none; border: 0; font: inherit; cursor: pointer; padding: 0; }
+      img, video, iframe, svg, canvas { max-width: 100%; height: auto; display: block; }
+      video { background: #000; }
+      section, main { max-width: 100%; }
+      ul, ol { margin: 0; padding: 0; }
+
+      /* Site containers. */
+      .container-site { width: var(--container-max); max-width: 100%; margin: 0 auto; padding-left: clamp(16px, 3vw, 32px); padding-right: clamp(16px, 3vw, 32px); box-sizing: border-box; }
+      .text-gray { color: var(--color-gray); }
+
+      /* Header (custom classes, not Tailwind). */
       .kw-desktop-only { display: none; }
       .kw-mobile-only { display: flex; }
       @media (min-width: 1024px) {
         .kw-desktop-only { display: grid; }
         .kw-mobile-only { display: none; }
       }
+
+      /* Tailwind utility subset — every class used on the homepage that
+         affects LAYOUT (not purely cosmetic). Inline so the page stays
+         stable before external CSS arrives. */
+      .block { display: block; }
+      .flex { display: flex; }
+      .grid { display: grid; }
+      .hidden { display: none; }
+      .inline-flex { display: inline-flex; }
+      .inline-block { display: inline-block; }
+      .relative { position: relative; }
+      .absolute { position: absolute; }
+      .flex-col { flex-direction: column; }
+      .flex-row { flex-direction: row; }
+      .flex-wrap { flex-wrap: wrap; }
+      .items-center { align-items: center; }
+      .items-start { align-items: flex-start; }
+      .items-end { align-items: flex-end; }
+      .justify-center { justify-content: center; }
+      .justify-between { justify-content: space-between; }
+      .justify-end { justify-content: flex-end; }
+      .justify-start { justify-content: flex-start; }
+      .shrink-0 { flex-shrink: 0; }
+      .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+      .gap-1 { gap: 0.25rem; }
+      .gap-2 { gap: 0.5rem; }
+      .gap-3 { gap: 0.75rem; }
+      .gap-4 { gap: 1rem; }
+      .gap-5 { gap: 1.25rem; }
+      .gap-6 { gap: 1.5rem; }
+      .gap-8 { gap: 2rem; }
+      .mx-auto { margin-left: auto; margin-right: auto; }
+      .mt-2 { margin-top: 0.5rem; }
+      .mt-3 { margin-top: 0.75rem; }
+      .mt-4 { margin-top: 1rem; }
+      .mt-6 { margin-top: 1.5rem; }
+      .mb-2 { margin-bottom: 0.5rem; }
+      .mb-3 { margin-bottom: 0.75rem; }
+      .mb-4 { margin-bottom: 1rem; }
+      .p-2 { padding: 0.5rem; }
+      .p-4 { padding: 1rem; }
+      .pt-3 { padding-top: 0.75rem; }
+      .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+      .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+      .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+      .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+      .max-w-xl { max-width: 36rem; }
+      .max-w-4xl { max-width: 56rem; }
+      .max-w-7xl { max-width: 80rem; }
+      .w-4 { width: 1rem; }
+      .w-6 { width: 1.5rem; }
+      .h-4 { height: 1rem; }
+      .h-6 { height: 1.5rem; }
+      .overflow-hidden { overflow: hidden; }
+      .rounded-lg { border-radius: 0.5rem; }
+      .rounded-full { border-radius: 9999px; }
+      .border { border-width: 1px; border-style: solid; }
+      .border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+      .border-t { border-top-width: 1px; border-top-style: solid; }
+      .text-center { text-align: center; }
+      .text-white { color: #fff; }
+      .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+      .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+      .font-medium { font-weight: 500; }
+      .font-bold { font-weight: 700; }
+      .uppercase { text-transform: uppercase; }
+      .bg-white { background-color: #fff; }
+      .bg-cover { background-size: cover; }
+      .bg-center { background-position: center; }
+      .z-10 { z-index: 10; }
+
+      /* Arbitrary values used on this site. */
+      .text-\[18px\] { font-size: 18px; }
+      .font-\[var\(--font-body\)\] { font-family: var(--font-body); }
+      .text-\[var\(--color-text\)\] { color: var(--color-text); }
+      .text-\[var\(--color-text-light\)\] { color: var(--color-text-light); }
+      .text-\[var\(--color-gold\)\] { color: var(--color-gold); }
+      .border-\[var\(--color-border\)\] { border-color: var(--color-border); }
+
+      /* Responsive utilities used. */
+      @media (min-width: 768px) {
+        .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .md\:py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+        .md\:py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .md\:text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+      }
+      @media (min-width: 1024px) {
+        .lg\:hidden { display: none; }
+        .lg\:grid { display: grid; }
+        .lg\:flex { display: flex; }
+        .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .lg\:py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .lg\:py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+        .lg\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+      }
+
       @layer base {
         [data-animate] { transform: translateY(24px); transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: transform; }
         [data-animate="fade"] { transform: none; }
