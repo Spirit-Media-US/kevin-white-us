@@ -156,7 +156,7 @@ const socialLinks = [
       <!-- Mobile header -->
       <div class="container-site flex lg:hidden items-center justify-between" style="padding-top: 3vw; padding-bottom: 3vw;">
         <a href="/" class="shrink-0">
-          <img src={`${IMG.logo}?w=320&auto=format`} alt="Kevin White" width="310" height="32" style="height: 32px; width: auto;" />
+          <img src={`${IMG.logo}?w=640&auto=format`} alt="Kevin White" width="310" height="32" style="height: 32px; width: auto;" />
         </a>
         <button id="mobile-menu-btn" class="p-2" aria-label="Open menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -255,7 +255,11 @@ const socialLinks = [
         font-weight: 400;
         color: #fff;
         text-decoration: none;
-        margin-left: 15px;
+        padding: 8px 10px;
+        margin-left: 5px;
+        display: inline-block;
+        min-height: 44px;
+        line-height: 28px;
         transition: opacity 0.2s;
       }
       .kw-footer-link:first-child { margin-left: 0; }
@@ -295,7 +299,7 @@ const socialLinks = [
           flex-direction: column;
           align-items: center;
         }
-        .kw-footer-link { margin-left: 0; font-size: 3vw; }
+        .kw-footer-link { margin-left: 0; font-size: 16px; padding: 10px 12px; min-height: 48px; }
         .kw-footer-social {
           width: 100%;
           justify-content: center;
