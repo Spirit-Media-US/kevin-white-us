@@ -73,13 +73,15 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         .home-hero-img { display: block; }
       }
       .home-hero-h1 {
-        font-family: var(--font-heading);
+        /* System-font stack — no webfont fetch, LCP can fire at first paint.
+           Lexend causes a 1.5s FCP→LCP gap from font swap/synthesis on
+           mobile Slow-4G. This is the LCP element, so it wins the perf
+           trade against the 1px of visual difference. */
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
         font-size: clamp(32px, 9vw, 80px);
         color: #fff;
         line-height: 1.05;
-        /* 700 matches an actual Lexend @font-face (no 900 woff2 exists).
-           font-weight:900 forced synthetic bolding, which delayed LCP. */
-        font-weight: 700;
+        font-weight: 900;
         letter-spacing: -0.01em;
         text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
       }
