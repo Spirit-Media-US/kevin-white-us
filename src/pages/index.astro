@@ -30,18 +30,24 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
   </Fragment>
 
   <main>
-    <!-- Hero: desktop = photo + H1 overlay; mobile = dark gradient + H1 as LCP (performance-gate §6) -->
+    <!-- Hero: desktop = photo + H1 overlay; mobile = dark gradient + H1 as LCP (performance-gate §6).
+         <picture> with media="(min-width:1024px)" on the source so mobile never fetches the real image;
+         fallback <img> uses a 1px transparent data URI to avoid any network hit. -->
     <section class="home-hero relative flex items-center text-white">
-      <img
-        src={`${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format`}
-        srcset={`${IMG.heroBg}?w=1024&fm=webp&q=78&auto=format 1024w, ${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format 1200w`}
-        sizes="1200px"
-        width="1200"
-        height="700"
-        alt=""
-        decoding="async"
-        class="home-hero-img"
-      />
+      <picture class="home-hero-img">
+        <source
+          media="(min-width: 1024px)"
+          srcset={`${IMG.heroBg}?w=1024&fm=webp&q=78&auto=format 1024w, ${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format 1200w`}
+          sizes="1200px"
+        />
+        <img
+          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+          width="1200"
+          height="700"
+          alt=""
+          decoding="async"
+        />
+      </picture>
       <div class="container-site relative z-10 py-12 md:py-16">
         <h1 class="home-hero-h1">
           NOTHING<br />CHANGES<br />OUR LIVES<br />MORE THAN<br />PRIORITIZING PRAYER
@@ -65,9 +71,13 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         inset: 0;
         width: 100%;
         height: 100%;
+        z-index: 0;
+      }
+      .home-hero-img img {
+        width: 100%;
+        height: 100%;
         object-fit: cover;
         object-position: center;
-        z-index: 0;
       }
       @media (min-width: 1024px) {
         .home-hero-img { display: block; }
