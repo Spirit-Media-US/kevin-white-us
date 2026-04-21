@@ -51,39 +51,42 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
     <style is:inline>
-      @layer base {
+      /* NOT wrapped in @layer base: global.css has an unlayered
+         `h1,h2,h3 { color: #000 }` rule that would otherwise win and
+         turn this hero's H1 black. None of these rules touch display/grid
+         utilities, so staying unlayered is safe here. */
+      .home-hero {
+        min-height: clamp(420px, 70vh, 760px);
+        height: auto;
+        overflow: hidden;
+        background: linear-gradient(135deg, #0b1e33 0%, #143054 55%, #0b1e33 100%);
+      }
+      .home-hero-img {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        z-index: 0;
+      }
+      .home-hero-h1 {
+        font-family: var(--font-heading);
+        font-size: clamp(32px, 9vw, 80px);
+        color: #fff;
+        line-height: 1.05;
+        font-weight: 700;
+        font-synthesis: none;
+        letter-spacing: -0.01em;
+        text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
+      }
+      @media (max-width: 768px) {
         .home-hero {
-          min-height: clamp(420px, 70vh, 760px);
-          height: auto;
-          overflow: hidden;
-          background: linear-gradient(135deg, #0b1e33 0%, #143054 55%, #0b1e33 100%);
+          min-height: 420px;
+          justify-content: flex-end;
         }
-        .home-hero-img {
-          position: absolute;
-          inset: 0;
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-          object-position: center;
-          z-index: 0;
-        }
-        .home-hero-h1 {
-          font-family: var(--font-heading);
-          font-size: clamp(32px, 9vw, 80px);
-          color: #fff;
-          line-height: 1.05;
-          font-weight: 900;
-          letter-spacing: -0.01em;
-          text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
-        }
-        @media (max-width: 768px) {
-          .home-hero {
-            min-height: 420px;
-            justify-content: flex-end;
-          }
-          .home-hero .container-site { text-align: right; }
-          .home-hero-h1 { text-align: right; }
-        }
+        .home-hero .container-site { text-align: right; }
+        .home-hero-h1 { text-align: right; }
       }
     </style>
 
