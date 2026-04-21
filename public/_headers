@@ -6,11 +6,9 @@
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
   Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' https://assets.spiritmediapublishing.com; img-src 'self' https://cdn.sanity.io https://assets.spiritmediapublishing.com data:; media-src 'self' https://assets.spiritmediapublishing.com; connect-src 'self' https://cloudflareinsights.com https://*.api.sanity.io; frame-src https://www.youtube.com https://www.youtube-nocookie.com; base-uri 'self'
-  Link: <https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin
-  Link: <https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin
-
-# Link: headers above CF Pages promotes to 103 Early Hints on cached edge hits
-# (20-30% LCP win, CF BFCM data). Only stable URLs — hashed CSS filenames change.
-# No hero Link: Early Hints Link: has no media-query support, so preloading the
-# hero on mobile wastes bandwidth — mobile LCP is the H1 text (performance-gate §6).
-# Desktop preload is handled by index.astro <link rel=preload media="(min-width:1024px)">.
+# Early Hints Link: headers removed 2026-04-21. Same fonts are already
+# preloaded via <link rel=preload> in HTML; the Early Hints version was
+# redundant and appeared to create HTTP/2 stream contention on mobile
+# Slow-4G (regression window matches commit 71025a1 which added them).
+# Hero Link: also removed — Early Hints has no media-query support, so
+# it would preload the hero on mobile where it's display:none.

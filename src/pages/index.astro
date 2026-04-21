@@ -77,7 +77,9 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         font-size: clamp(32px, 9vw, 80px);
         color: #fff;
         line-height: 1.05;
-        font-weight: 900;
+        /* 700 matches an actual Lexend @font-face (no 900 woff2 exists).
+           font-weight:900 forced synthetic bolding, which delayed LCP. */
+        font-weight: 700;
         letter-spacing: -0.01em;
         text-shadow: 0 2px 18px rgba(0, 0, 0, 0.35);
       }
