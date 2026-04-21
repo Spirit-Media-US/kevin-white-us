@@ -15,7 +15,7 @@ function walk(dir) {
 // Move <link rel="stylesheet" href="/_astro/*.css"> out of <head> and into
 // just before </body>. Above-fold content paints with only inline critical
 // CSS; the external Tailwind chunk is non-blocking.
-const linkRe = /<link rel="stylesheet" href="\/_astro\/[^"]+\.css">/g;
+const linkRe = /<link rel="stylesheet" href="\/(?:_astro\/[^"]+|homepage-below)\.css">/g;
 
 const files = walk('dist');
 let rewritten = 0;
