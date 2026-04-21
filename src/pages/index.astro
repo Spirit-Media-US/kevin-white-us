@@ -106,21 +106,20 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         .home-hero .container-site { text-align: right; }
         .home-hero-h1 { text-align: right; }
       }
-      /* YT/IG section background via pseudo-element — Chrome LCP
-         algorithm excludes ::before backgrounds, so this image never
-         wins LCP vs. the hero H1. */
-      .yt-ig-section::before {
-        content: '';
-        position: absolute;
-        inset: 0;
-        background-image: var(--yt-bg);
-        background-size: cover;
-        background-position: center;
-        z-index: 0;
-      }
+      /* YT/IG section — desktop gets the background image via ::before.
+         Mobile keeps the solid dark color (set inline on the section)
+         for a ~33KB bandwidth saving on the critical path. */
       .yt-ig-section > * { position: relative; z-index: 1; }
       @media (min-width: 1024px) {
-        .yt-ig-section { --yt-bg: url('https://cdn.sanity.io/images/kwhqwbb4/production/d4e27107db3a661a83b73edce68d01dae465b9ef-2560x1440.jpg?w=1600&fm=webp&q=75&auto=format'); }
+        .yt-ig-section::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background-image: url('https://cdn.sanity.io/images/kwhqwbb4/production/d4e27107db3a661a83b73edce68d01dae465b9ef-2560x1440.jpg?w=1600&fm=webp&q=75&auto=format');
+          background-size: cover;
+          background-position: center;
+          z-index: 0;
+        }
       }
     </style>
 
@@ -134,11 +133,10 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
 
-    <!-- YouTube + Instagram: 2 column with background image.
-         Background moved to ::before pseudo-element so Chrome excludes it
-         from LCP candidate selection (background on the section element
-         itself was winning LCP on some runs, pushing perf to 4.1s). -->
-    <section class="yt-ig-section relative" style={`--yt-bg: url('${IMG.ytInstaBg}?w=640&fm=webp&q=72&auto=format'); padding: 4vw 2vw;`}>
+    <!-- YouTube + Instagram: 2 column. Background image loads on desktop
+         only; mobile uses a solid dark color to save ~33KB bandwidth and
+         not compete with critical-path resources. -->
+    <section class="yt-ig-section relative" style="padding: 4vw 2vw; background: #1a2332;">
       <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- YouTube -->
         <div class="text-center" style="padding: 3vw 2vw;">
@@ -232,7 +230,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
                       height="352"
                       alt={book.title}
                       class="ba-book-img"
-                      loading="lazy"
+                      loading="lazy" fetchpriority="low"
                       decoding="async"
                     />
                   ) : (
@@ -259,7 +257,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
                       height="352"
                       alt={book.title}
                       class="ba-book-img"
-                      loading="lazy"
+                      loading="lazy" fetchpriority="low"
                       decoding="async"
                     />
                   ) : (
@@ -281,7 +279,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
                   height="352"
                   alt="Kings of the King"
                   class="ba-book-img"
-                  loading="lazy"
+                  loading="lazy" fetchpriority="low"
                   decoding="async"
                 />
               </figure>
@@ -301,7 +299,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
             height="320"
             alt="Get to the Point sample page"
             class="ba-book-back"
-            loading="lazy"
+            loading="lazy" fetchpriority="low"
             decoding="async"
           />
           <img
@@ -314,7 +312,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
             height="320"
             alt="Get to the Point"
             class="ba-book-front"
-            loading="lazy"
+            loading="lazy" fetchpriority="low"
             decoding="async"
           />
         </div>
@@ -327,7 +325,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
     <section class="npo-section">
       <div class="npo-container">
         <a href="https://drive.google.com/file/d/1GVJGb50cSwhotRYbf1doRz8BHUVrYerf/view?usp=drive_link" target="_blank" rel="noopener noreferrer" class="npo-image-link">
-          <img src={`${IMG.npoBanner}?w=1200&fm=webp&q=80&auto=format`} alt="NPO Coaching Banner" class="npo-image" loading="lazy" decoding="async" />
+          <img src={`${IMG.npoBanner}?w=1200&fm=webp&q=80&auto=format`} alt="NPO Coaching Banner" class="npo-image" loading="lazy" fetchpriority="low" decoding="async" />
         </a>
       </div>
     </section>
@@ -389,7 +387,7 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
             <a href={`/blog/${post.slug}`}>
               <figure class="mag-image-wrap">
                 {post.image ? (
-                  <img src={`${post.image}?w=1024&h=683&fit=crop&fm=webp&q=80&auto=format`} alt={post.title} class="mag-image" loading="lazy" decoding="async" />
+                  <img src={`${post.image}?w=1024&h=683&fit=crop&fm=webp&q=80&auto=format`} alt={post.title} class="mag-image" loading="lazy" fetchpriority="low" decoding="async" />
                 ) : (
                   <div class="img-placeholder" style="width:100%;height:100%;">{post.title}</div>
                 )}
