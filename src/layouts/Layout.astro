@@ -68,32 +68,40 @@ const socialLinks = [
 
     <slot name="head" />
 
-    <!-- Reveal + premium animations (global) -->
+    <!-- Reveal + premium animations (global).
+         CRITICAL: transitions are TRANSFORM-ONLY, no opacity. Lighthouse captures
+         frames mid-transition; a 0.7s opacity fade catches text at ~50% opacity →
+         40+ false color-contrast fails. Transform-only gives the same slide-in
+         without the A11y artifact. Do NOT add opacity back.
+         CSS below is wrapped in @layer base so Tailwind's @layer utilities
+         (grid-cols-*, h-*, etc.) still wins the cascade when the async bundle
+         arrives. @keyframes/@font-face stay outside the layer (spec forbids). -->
     <style is:inline>
-      [data-animate] { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: opacity, transform; }
-      [data-animate="fade"] { transform: none; }
-      [data-animate="fade-left"] { transform: translateX(-24px); }
-      [data-animate="fade-right"] { transform: translateX(24px); }
-      [data-animate="zoom-in"] { transform: scale(0.96); }
-      [data-animate].is-visible { opacity: 1; transform: none; }
+      @layer base {
+        [data-animate] { transform: translateY(24px); transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: transform; }
+        [data-animate="fade"] { transform: none; }
+        [data-animate="fade-left"] { transform: translateX(-24px); }
+        [data-animate="fade-right"] { transform: translateX(24px); }
+        [data-animate="zoom-in"] { transform: scale(0.96); }
+        [data-animate].is-visible { transform: none; }
 
-      /* Site-wide section reveal — subtle, premium feel.
-         Any <section> within <main> fades up the first time it enters the viewport.
-         Exclude the first section (above-the-fold hero) to keep LCP fast. */
-      main section { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
-      main > section:first-of-type { opacity: 1; transform: none; }
-      main section.is-in { opacity: 1; transform: none; }
+        /* Site-wide section reveal — transform only. First section excluded so
+           hero LCP isn't competing against a 0.8s slide. */
+        main section { transform: translateY(28px); transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
+        main > section:first-of-type { transform: none; }
+        main section.is-in { transform: none; }
 
-      /* Subtle card/link lift on hover */
-      .ba-book-block a, .mag-card, .sp-pod-item, .bk-book-row { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-      .ba-book-block a:hover, .sp-pod-item:hover { transform: translateY(-4px); }
+        /* Subtle card/link lift on hover */
+        .ba-book-block a, .mag-card, .sp-pod-item, .bk-book-row { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .ba-book-block a:hover, .sp-pod-item:hover { transform: translateY(-4px); }
 
-      @media (prefers-reduced-motion: reduce) {
-        [data-animate], [data-animate].is-visible,
-        main section, main section.is-in { opacity: 1; transform: none; transition: none; }
+        @media (prefers-reduced-motion: reduce) {
+          [data-animate], [data-animate].is-visible,
+          main section, main section.is-in { transform: none; transition: none; }
+        }
+        html { scroll-behavior: smooth; }
+        a, button { transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
       }
-      html { scroll-behavior: smooth; }
-      a, button { transition: opacity 0.2s ease, color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
     </style>
   </head>
   <body>
@@ -216,6 +224,7 @@ const socialLinks = [
     </footer>
 
     <style is:inline>
+      @layer base {
       /* Footer — brxe-qhotsd */
       .kw-footer {
         background-color: #88cff1;
@@ -291,6 +300,7 @@ const socialLinks = [
           margin-top: 3vw;
         }
       }
+      } /* end @layer base */
     </style>
 
     <script>

@@ -2,5 +2,15 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
+  X-Robots-Tag: index, follow
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' https://assets.spiritmediapublishing.com; img-src 'self' https://cdn.sanity.io https://assets.spiritmediapublishing.com data:; media-src 'self' https://assets.spiritmediapublishing.com; connect-src 'self' https://cloudflareinsights.com https://*.api.sanity.io; frame-src https://www.youtube.com https://www.youtube-nocookie.com; base-uri 'self'
+  Link: <https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin
+  Link: <https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin
+
+# Homepage — additional Early Hint for the hero LCP image (Sanity CDN, stable URL)
+/
+  Link: <https://cdn.sanity.io/images/kwhqwbb4/production/5751308142cca7852196a388c3d232a2cb5f5784-1200x700.jpg?w=640&fm=webp&q=72&auto=format>; rel=preload; as=image; fetchpriority=high
+# Link: headers above CF Pages promotes to 103 Early Hints on cached edge hits
+# (20-30% LCP win, CF BFCM data). Only stable URLs — hashed CSS filenames change.
