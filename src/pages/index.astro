@@ -103,6 +103,22 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         .home-hero .container-site { text-align: right; }
         .home-hero-h1 { text-align: right; }
       }
+      /* YT/IG section background via pseudo-element — Chrome LCP
+         algorithm excludes ::before backgrounds, so this image never
+         wins LCP vs. the hero H1. */
+      .yt-ig-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: var(--yt-bg);
+        background-size: cover;
+        background-position: center;
+        z-index: 0;
+      }
+      .yt-ig-section > * { position: relative; z-index: 1; }
+      @media (min-width: 1024px) {
+        .yt-ig-section { --yt-bg: url('https://cdn.sanity.io/images/kwhqwbb4/production/d4e27107db3a661a83b73edce68d01dae465b9ef-2560x1440.jpg?w=1600&fm=webp&q=75&auto=format'); }
+      }
     </style>
 
     <!-- Kevin White Quote -->
@@ -115,8 +131,11 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       </div>
     </section>
 
-    <!-- YouTube + Instagram: 2 column with background image -->
-    <section class="relative bg-cover bg-center" style={`background-image: url('${IMG.ytInstaBg}?w=1600&fm=webp&q=75&auto=format'); padding: 4vw 2vw;`}>
+    <!-- YouTube + Instagram: 2 column with background image.
+         Background moved to ::before pseudo-element so Chrome excludes it
+         from LCP candidate selection (background on the section element
+         itself was winning LCP on some runs, pushing perf to 4.1s). -->
+    <section class="yt-ig-section relative" style={`--yt-bg: url('${IMG.ytInstaBg}?w=640&fm=webp&q=72&auto=format'); padding: 4vw 2vw;`}>
       <div class="container-site grid grid-cols-1 md:grid-cols-2 gap-8">
         <!-- YouTube -->
         <div class="text-center" style="padding: 3vw 2vw;">
