@@ -50,11 +50,10 @@ const socialLinks = [
     <!-- Preconnect to font/asset origin — saves ~100ms on first font byte on mobile -->
     <link rel="preconnect" href="https://assets.spiritmediapublishing.com" crossorigin />
     <!-- Self-hosted fonts from R2 — no render-blocking external CSS.
-         Preload 400/500 (body), 700 (headings — H1 renders as Lexend 700 since
-         no 900 woff2 exists, so preloading 700 closes the font-swap LCP gap). -->
+         Only 2 preloads: 3+ preloads on the same R2 origin create HTTP/2 stream
+         contention and push LCP +1s on mobile Slow-4G (verified 2026-04-21). -->
     <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2" crossorigin />
     <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-700.woff2" crossorigin />
     <style is:inline set:html={`
       @font-face{font-family:'Almarai';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-400.woff2') format('woff2');}
       @font-face{font-family:'Almarai';font-style:normal;font-weight:700;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-700.woff2') format('woff2');}
