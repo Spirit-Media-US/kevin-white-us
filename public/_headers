@@ -9,8 +9,8 @@
   Link: <https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin
   Link: <https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2>; rel=preload; as=font; type="font/woff2"; crossorigin
 
-# Homepage — additional Early Hint for the hero LCP image (Sanity CDN, stable URL)
-/
-  Link: <https://cdn.sanity.io/images/kwhqwbb4/production/5751308142cca7852196a388c3d232a2cb5f5784-1200x700.jpg?w=640&fm=webp&q=72&auto=format>; rel=preload; as=image; fetchpriority=high
 # Link: headers above CF Pages promotes to 103 Early Hints on cached edge hits
 # (20-30% LCP win, CF BFCM data). Only stable URLs — hashed CSS filenames change.
+# No hero Link: Early Hints Link: has no media-query support, so preloading the
+# hero on mobile wastes bandwidth — mobile LCP is the H1 text (performance-gate §6).
+# Desktop preload is handled by index.astro <link rel=preload media="(min-width:1024px)">.
