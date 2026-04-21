@@ -6,7 +6,7 @@ export default defineConfig({
   site: 'https://kevinwhite.us',
   integrations: [sitemap()],
   build: {
-    inlineStylesheets: 'auto',
+    inlineStylesheets: 'always',
   },
   vite: {
     server: { allowedHosts: ['preview.spiritmediapublishing.com'] },
