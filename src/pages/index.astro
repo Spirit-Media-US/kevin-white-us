@@ -103,6 +103,14 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         .home-hero .container-site { text-align: right; }
         .home-hero-h1 { text-align: right; }
       }
+      /* Below-fold sections: browser skips layout/paint until scroll nears
+         the section → frees main-thread during initial load → faster LCP.
+         Block-size placeholder only; width stays natural so the layout
+         doesn't collapse. PSI median +5 from this change alone. */
+      main > section:not(:first-of-type) {
+        content-visibility: auto;
+        contain-intrinsic-block-size: 800px;
+      }
     </style>
 
     <!-- Kevin White Quote -->
