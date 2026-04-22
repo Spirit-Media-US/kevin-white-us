@@ -49,11 +49,11 @@ const socialLinks = [
 
     <!-- Preconnect to font/asset origin — saves ~100ms on first font byte on mobile -->
     <link rel="preconnect" href="https://assets.spiritmediapublishing.com" crossorigin />
-    <!-- Self-hosted fonts from R2 — no render-blocking external CSS.
-         Only 2 preloads: 3+ preloads on the same R2 origin create HTTP/2 stream
-         contention and push LCP +1s on mobile Slow-4G (verified 2026-04-21). -->
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2" crossorigin />
+    <!-- Font preloads removed 2026-04-22. Homepage uses system-font
+         stacks for all above-fold text (H1, YT/IG, quote). Preloading
+         Lexend was forcing a ~40KB fetch on the critical path on homepage
+         even though no element uses it. Pages that need Lexend will fetch
+         it lazily via @font-face when their headings paint. -->
     <style is:inline set:html={`
       @font-face{font-family:'Almarai';font-style:normal;font-weight:400;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-400.woff2') format('woff2');}
       @font-face{font-family:'Almarai';font-style:normal;font-weight:700;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-700.woff2') format('woff2');}
@@ -113,7 +113,10 @@ const socialLinks = [
       *, *::before, *::after, ::backdrop { box-sizing: border-box; border: 0 solid; margin: 0; padding: 0; }
       html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; tab-size: 4; line-height: 1.5; }
       body { font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); line-height: 1.6; font-size: 16px; overflow-x: hidden; }
-      h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 600; line-height: 1.2; color: var(--color-black); }
+      /* Headings inherit body font by default. Pages that need Lexend
+         set it explicitly; skipping the default saves the Lexend 600
+         fetch on homepage where every h* element overrides font-family. */
+      h1, h2, h3, h4, h5, h6 { line-height: 1.2; color: var(--color-black); }
       h1 { font-size: clamp(40px, 9vw, 80px); }
       h2 { font-size: clamp(24px, 4vw, 30px); }
       h3 { font-size: clamp(18px, 2.6vw, 20px); }
