@@ -123,8 +123,10 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       }
     </style>
 
-    <!-- Kevin White Quote -->
-    <section class="bg-white" style="padding: 3vw 2vw;">
+    <!-- Kevin White Quote. Reserve height with min-height so any text
+         reflow (font load, class activation) doesn't propagate a layout
+         shift down to the YT/IG section. -->
+    <section class="bg-white" style="padding: 3vw 2vw; min-height: 280px; display: flex; align-items: center;">
       <div class="container-site text-center max-w-4xl mx-auto">
         <p style="font-family: var(--font-serif); font-size: 20px; line-height: 1.6; color: var(--color-text);">
           "I have valued prayer my whole life, but when I prioritized prayer above everything else on my calendar I immediately witnessed God's miracles in my life, marriage, family, companies, and world. You can too! Allow me to empower you in prioritizing prayer."
