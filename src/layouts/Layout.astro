@@ -107,11 +107,13 @@ const socialLinks = [
         --container-max: 1440px;
       }
 
-      /* Minimal preflight (replaces Tailwind preflight for above-fold). */
-      *, *::before, *::after { box-sizing: border-box; }
-      html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
-      body { margin: 0; font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); line-height: 1.6; font-size: 16px; overflow-x: hidden; }
-      h1, h2, h3, h4, h5, h6 { margin: 0; font-family: var(--font-heading); font-weight: 600; line-height: 1.2; color: var(--color-black); }
+      /* Minimal preflight (replaces Tailwind preflight for above-fold).
+         Must cover everything Tailwind preflight does, otherwise the
+         external stylesheet applying late causes layout shift. */
+      *, *::before, *::after, ::backdrop { box-sizing: border-box; border: 0 solid; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; tab-size: 4; line-height: 1.5; }
+      body { font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); line-height: 1.6; font-size: 16px; overflow-x: hidden; }
+      h1, h2, h3, h4, h5, h6 { font-family: var(--font-heading); font-weight: 600; line-height: 1.2; color: var(--color-black); }
       h1 { font-size: clamp(40px, 9vw, 80px); }
       h2 { font-size: clamp(24px, 4vw, 30px); }
       h3 { font-size: clamp(18px, 2.6vw, 20px); }
