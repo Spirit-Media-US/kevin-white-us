@@ -2,5 +2,13 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains
   X-Frame-Options: SAMEORIGIN
   X-Content-Type-Options: nosniff
+  X-Robots-Tag: index, follow
   Referrer-Policy: strict-origin-when-cross-origin
   Permissions-Policy: geolocation=(), microphone=(), camera=(), payment=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://static.cloudflareinsights.com; style-src 'self' 'unsafe-inline'; font-src 'self' https://assets.spiritmediapublishing.com; img-src 'self' https://cdn.sanity.io https://assets.spiritmediapublishing.com data:; media-src 'self' https://assets.spiritmediapublishing.com; connect-src 'self' https://cloudflareinsights.com https://*.api.sanity.io; frame-src https://www.youtube.com https://www.youtube-nocookie.com; base-uri 'self'
+# Early Hints Link: headers removed 2026-04-21. Same fonts are already
+# preloaded via <link rel=preload> in HTML; the Early Hints version was
+# redundant and appeared to create HTTP/2 stream contention on mobile
+# Slow-4G (regression window matches commit 71025a1 which added them).
+# Hero Link: also removed — Early Hints has no media-query support, so
+# it would preload the hero on mobile where it's display:none.

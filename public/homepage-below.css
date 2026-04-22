@@ -1,0 +1,644 @@
+  /* Serial Entrepreneur — exact values from brxe-ldwriz / brxe-tdzzpt */
+  .se-section {
+    display: flex;
+    flex-direction: column;
+  }
+  .se-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+    row-gap: 40px;
+    margin: 0 auto;
+    width: 1200px;
+    max-width: 100%;
+    align-items: stretch;
+    padding-bottom: 50px;
+  }
+  /* Text column — brxe-ycicih */
+  .se-text-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 50px;
+    padding-left: 50px;
+    min-height: 400px;
+  }
+  /* Paragraph — brxe-anxalw */
+  .se-paragraph {
+    font-size: 20px;
+    font-family: "Almarai", sans-serif;
+    line-height: 30px;
+    color: #000;
+    font-weight: 400;
+  }
+  .se-paragraph a {
+    font-size: 20px;
+    font-family: "Almarai", sans-serif;
+    line-height: 30px;
+    color: #000;
+    font-weight: 400;
+    text-decoration: underline;
+  }
+  /* Button — brxe-youglj */
+  .se-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #88cff1;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #000;
+    font-weight: 700;
+    line-height: 30px;
+    margin-top: 50px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border-width: 0;
+    text-align: center;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+  .se-button:hover {
+    opacity: 0.85;
+  }
+  /* Video column — brxe-evknpf */
+  .se-video-col {
+    flex: 1;
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+  .se-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  /* Mobile — matches @media max-width: 478px */
+  @media (max-width: 478px) {
+    .se-row {
+      flex-direction: column-reverse;
+      padding-right: 20px;
+      padding-bottom: 0;
+      padding-left: 20px;
+    }
+    .se-text-col {
+      padding-top: 0;
+      padding-right: 20px;
+      padding-left: 20px;
+      font-size: 16px;
+      margin-top: -20px;
+      min-height: auto;
+    }
+    .se-paragraph {
+      margin-top: 10px;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .se-paragraph a {
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    .se-video-col {
+      min-height: 400px;
+    }
+  }
+  /* Bestselling Author — exact values from brxe-mnwlya / brxe-nlnnpw */
+  .ba-section {
+    padding-top: 4vw;
+    padding-bottom: 0;
+  }
+  .ba-container {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 0 0 4vw 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 30px;
+  }
+  /* Heading — brxe-mhvwnv */
+  .ba-heading {
+    font-family: Impact, "Arial Black", sans-serif;
+    font-size: clamp(36px, 7.5vw, 74px);
+    color: #000;
+    line-height: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    margin-bottom: 0;
+  }
+  /* Description — brxe-srfzhy */
+  .ba-description {
+    font-family: "Almarai", sans-serif;
+    color: #000;
+    line-height: 1.5;
+    font-weight: 800;
+    text-align: center;
+    font-size: 16px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+  }
+  /* Book rows — brxe-sowhvf / brxe-oahemj */
+  .ba-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 50px;
+    row-gap: 50px;
+    width: 100%;
+    justify-content: center;
+  }
+  /* Book block — brxe-pzmeay etc */
+  .ba-book-block {
+    width: 45%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  /* Book figure — brxe-pjonhb etc */
+  .ba-book-figure {
+    height: 330px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+  .ba-book-img {
+    height: 100%;
+    width: auto;
+    object-fit: contain;
+  }
+  /* Download text — brxe-dziwfs */
+  .ba-download {
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    font-weight: 800;
+    color: #000;
+    text-transform: uppercase;
+    margin-top: 40px;
+    text-align: center;
+  }
+  .ba-download a {
+    color: #000;
+    text-decoration: underline;
+  }
+  /* GHL form container — height set so iframe has room before form_embed.js auto-sizes */
+  .ba-download-form {
+    max-width: 640px;
+    margin: 24px auto 0;
+    height: 1186px;
+  }
+  .ba-download-form iframe {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+  /* Overlapping book composition — brxe-pnfzog / brxe-fxwymo / brxe-oglwmg */
+  .ba-book-comp {
+    position: relative;
+    width: 280px;
+    height: 380px;
+    margin: 10px auto 0;
+  }
+  /* Back page — rotated, behind — brxe-oglwmg */
+  .ba-book-back {
+    position: absolute;
+    width: 200px;
+    top: 35px;
+    left: 110px;
+    transform: rotate(15deg);
+    z-index: 1;
+  }
+  /* Front book — upright, in front — brxe-fxwymo */
+  .ba-book-front {
+    position: absolute;
+    width: 200px;
+    top: 0;
+    left: 0;
+    z-index: 9;
+  }
+  @media (max-width: 478px) {
+    .ba-section { padding-top: 7vw; padding-bottom: 7vw; }
+    .ba-container { padding-right: 20px; padding-left: 20px; }
+    .ba-heading { font-size: 6vw; margin-bottom: 0; }
+    .ba-description { margin-top: 10px; }
+    .ba-row { column-gap: 20px; row-gap: 20px; }
+    .ba-book-figure { height: 200px; min-height: 200px; }
+    .ba-download { font-size: 4vw; }
+    .ba-book-comp { width: 200px; height: 280px; }
+    .ba-book-front { width: 140px; }
+    .ba-book-back { width: 140px; top: 25px; left: 70px; }
+  }
+
+  /* Conference Speaker — exact values from brxe-czmhlo / brxe-vlhlfy / brxe-fnekom */
+  .cs-heading-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 73px;
+    padding-bottom: 64px;
+  }
+  .cs-heading {
+    font-family: Impact, "Arial Black", sans-serif;
+    font-size: clamp(36px, 7.5vw, 74px);
+    color: #000;
+    line-height: 50px;
+    text-transform: uppercase;
+    font-weight: 400;
+    text-align: center;
+  }
+  .cs-section {
+    padding-bottom: 70px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+  .cs-row {
+    display: flex;
+    flex-direction: row;
+    column-gap: 40px;
+    row-gap: 40px;
+    margin: 0 auto;
+    width: 1200px;
+    max-width: 100%;
+    align-items: stretch;
+  }
+  .cs-video-col {
+    flex: 1;
+    min-height: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+  .cs-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
+  .cs-text-col {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding-right: 50px;
+    padding-left: 50px;
+    min-height: 400px;
+  }
+  .cs-paragraph {
+    font-family: "Almarai", sans-serif;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    margin-top: 50px;
+  }
+  .cs-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #88cff1;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #000;
+    font-weight: 700;
+    line-height: 30px;
+    margin-top: 50px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border-width: 0;
+    text-align: center;
+    text-decoration: none;
+    align-self: flex-start;
+  }
+  .cs-button:hover { opacity: 0.85; }
+
+  @media (max-width: 478px) {
+    .cs-heading-wrap {
+      padding: 20px;
+    }
+    .cs-heading {
+      font-size: 6vw;
+    }
+    .cs-section {
+      padding: 0 20px 0;
+    }
+    .cs-row {
+      flex-direction: column;
+    }
+    .cs-text-col {
+      padding: 0 20px;
+      margin-top: -20px;
+      min-height: auto;
+    }
+    .cs-paragraph {
+      margin-top: 0;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+  }
+  /* Fundraiser — brxe-hhoquz structure */
+  .fr-section {
+    width: 100%;
+  }
+  .fr-outer {
+    width: 1200px;
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 5vw 0 4vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .fr-content {
+    padding: 0 4vw;
+    width: 100%;
+  }
+  /* Two-column row — brxe-ornmgx */
+  .fr-columns {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+  }
+  /* Left column — brxe-jirzaa */
+  .fr-col-left {
+    flex: 1;
+    padding: 0 2vw;
+  }
+  /* Right column — brxe-fqgshn */
+  .fr-col-right {
+    flex: 1;
+    padding: 0 2vw;
+    padding-top: 150px;
+  }
+  /* Heading — brxe-yrbduu */
+  .fr-heading {
+    font-family: Impact, "Arial Black", sans-serif;
+    font-size: clamp(36px, 7.5vw, 74px);
+    font-weight: 400;
+    color: #000;
+    line-height: 50px;
+    text-transform: uppercase;
+    margin-top: 50px;
+  }
+  /* Paragraph — brxe-vkcjgy / brxe-jvgyox / brxe-shofck */
+  .fr-text {
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    margin-top: 50px;
+    margin-bottom: 20px;
+  }
+  .fr-col-right .fr-text {
+    margin-top: 0;
+    padding-top: 0;
+  }
+  .fr-bottom-text {
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    text-align: left;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0 2vw;
+  }
+  /* Arrow list — brxe-eqpkao / brxe-lipohf */
+  .fr-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+  .fr-list li {
+    font-family: "Almarai", sans-serif;
+    font-size: 18px;
+    color: #000;
+    padding: 5px 15px;
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .fr-arrow {
+    flex-shrink: 0;
+    font-size: 18px;
+  }
+  /* CTA — brxe-hhlmjl */
+  .fr-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #89cff0;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #000;
+    font-weight: 700;
+    line-height: 30px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border: none;
+    text-decoration: none;
+    margin-top: 10px;
+    margin-bottom: 50px;
+    align-self: center;
+  }
+  .fr-cta:hover { opacity: 0.85; }
+  @media (max-width: 478px) {
+    .fr-heading { font-size: 6vw; }
+    .fr-columns { flex-direction: column; }
+    .fr-col-right { padding-top: 10px; }
+    .fr-text { font-size: 16px; line-height: 1.5; margin-top: 10px; }
+    .fr-col-right .fr-text { padding-top: 0; }
+    .fr-bottom-text { font-size: 16px; line-height: 1.5; }
+    .fr-list li { font-size: 16px; line-height: 1.5; }
+  }
+
+  /* Generously Blessed — brxe-ypbgzh */
+  .gb-section {
+    margin-top: 50px;
+    background: url('https://cdn.sanity.io/images/kwhqwbb4/production/06946f8ab859ca9d6944c5f0c6d8d733f3ffee3a-2560x1344.jpg?w=1600&fm=webp&q=75&auto=format') center/cover no-repeat;
+    min-height: 700px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4vw 2vw;
+  }
+  .gb-card {
+    background-color: #000;
+    border-radius: 16px;
+    padding: 60px 50px;
+    max-width: 700px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  }
+  .gb-heading {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-size: clamp(22px, 4.5vw, 40px);
+    color: #fff;
+    line-height: 50px;
+    margin-bottom: 20px;
+  }
+  .gb-subtext {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(16px, 2.5vw, 25px);
+    color: #fff;
+    line-height: 130%;
+    font-weight: 600;
+  }
+  @media (max-width: 478px) {
+    .gb-section { padding: 4vw 20px; }
+    .gb-card { padding: 40px 24px; }
+    .gb-heading { font-size: clamp(18px, 3vw, 30px); }
+    .gb-subtext { font-size: 20px; }
+  }
+
+  /* Magazines — brxe-xakeuv */
+  .mag-section {
+    padding-top: 9vw;
+    padding-right: 4vw;
+    padding-bottom: 100px;
+    padding-left: 4vw;
+    width: 100%;
+  }
+  .mag-heading {
+    font-family: Impact, "Arial Black", sans-serif;
+    font-weight: 400;
+    font-size: clamp(36px, 7.5vw, 74px);
+    line-height: 92px;
+    color: #000;
+    text-transform: uppercase;
+    padding-bottom: 50px;
+    text-align: center;
+  }
+  /* Card row — brxe-ngrvtj */
+  .mag-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+  /* Card block — .brxe-fzulfa */
+  .mag-card {
+    flex: 1;
+  }
+  /* Card image — .brxe-cxzyou */
+  .mag-image-wrap {
+    height: 270px;
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid #000;
+    margin: 0;
+  }
+  .mag-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    mix-blend-mode: multiply;
+  }
+  /* Card title — .brxe-ovigyk */
+  .mag-title {
+    font-size: 20px;
+    font-family: "Almarai", sans-serif;
+    line-height: 30px;
+    font-weight: 800;
+    color: #000;
+    text-transform: uppercase;
+    margin-top: 10px;
+  }
+  .mag-title a {
+    color: #000;
+    text-decoration: none;
+  }
+  /* View More button — brxe-qcazhi */
+  .mag-btn-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
+  }
+  .mag-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 200px;
+    font-family: "Almarai", sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 30px;
+    color: #000;
+    background-color: #88cff1;
+    border-radius: 0;
+    padding: 0.5em 1em;
+    text-decoration: none;
+    text-align: center;
+  }
+  .mag-btn:hover { opacity: 0.85; }
+  @media (max-width: 478px) {
+    .mag-section { padding-top: 14vw; padding-bottom: 50px; }
+    .mag-heading { padding-bottom: 0; font-size: 6vw; }
+    .mag-row { flex-direction: column; gap: 20px; }
+    .mag-image-wrap { height: 200px; }
+    .mag-title { text-align: center; }
+    .mag-btn-wrap { margin-top: 20px; }
+  }
+
+  /* CTA Button — brxe-bbgdht / brxe-hhlmjl */
+  .ba-cta-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    background-color: #89cff0;
+    font-family: "Almarai", sans-serif;
+    font-size: 20px;
+    color: #000;
+    font-weight: 700;
+    line-height: 30px;
+    padding: 0.5em 1em;
+    letter-spacing: 0.5px;
+    border-width: 0;
+    text-align: center;
+    text-decoration: none;
+  }
+  .ba-cta-button:hover { opacity: 0.85; }
+
+  /* NPO Coaching Banner — brxe-mrxnju */
+  .npo-section {
+    padding: 0;
+  }
+  .npo-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2vw 4vw;
+  }
+  .npo-image-link {
+    display: block;
+    border-radius: 10px;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.62);
+    overflow: hidden;
+  }
+  .npo-image {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  @media (max-width: 478px) {
+    .npo-image-link {
+      border-radius: 0;
+      box-shadow: none;
+    }
+    .npo-container {
+      padding: 2vw 0;
+    }
+  }

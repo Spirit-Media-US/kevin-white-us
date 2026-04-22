@@ -49,60 +49,234 @@ const socialLinks = [
 
     <!-- Preconnect to font/asset origin — saves ~100ms on first font byte on mobile -->
     <link rel="preconnect" href="https://assets.spiritmediapublishing.com" crossorigin />
-    <!-- Self-hosted fonts from R2 — no render-blocking external CSS -->
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2" crossorigin />
-    <link rel="preload" as="font" type="font/woff2" href="https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2" crossorigin />
+    <!-- Font preloads removed 2026-04-22. Homepage uses system-font
+         stacks for all above-fold text (H1, YT/IG, quote). Preloading
+         Lexend was forcing a ~40KB fetch on the critical path on homepage
+         even though no element uses it. Pages that need Lexend will fetch
+         it lazily via @font-face when their headings paint. -->
     <style is:inline set:html={`
-      @font-face{font-family:'Almarai';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-400.woff2') format('woff2');}
-      @font-face{font-family:'Almarai';font-style:normal;font-weight:700;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-700.woff2') format('woff2');}
-      @font-face{font-family:'Black Han Sans';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/black-han-sans/black-han-sans-400.woff2') format('woff2');}
-      @font-face{font-family:'Crimson Text';font-style:italic;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-400-italic.woff2') format('woff2');}
-      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-400.woff2') format('woff2');}
-      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:600;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-600.woff2') format('woff2');}
-      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:700;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-700.woff2') format('woff2');}
-      @font-face{font-family:'Lexend';font-style:normal;font-weight:400;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2') format('woff2');}
-      @font-face{font-family:'Lexend';font-style:normal;font-weight:500;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2') format('woff2');}
-      @font-face{font-family:'Lexend';font-style:normal;font-weight:600;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-600.woff2') format('woff2');}
-      @font-face{font-family:'Lexend';font-style:normal;font-weight:700;font-display:swap;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-700.woff2') format('woff2');}
+      @font-face{font-family:'Almarai';font-style:normal;font-weight:400;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-400.woff2') format('woff2');}
+      @font-face{font-family:'Almarai';font-style:normal;font-weight:700;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/almarai/almarai-700.woff2') format('woff2');}
+      @font-face{font-family:'Black Han Sans';font-style:normal;font-weight:400;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/black-han-sans/black-han-sans-400.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:italic;font-weight:400;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-400-italic.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:400;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-400.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:600;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-600.woff2') format('woff2');}
+      @font-face{font-family:'Crimson Text';font-style:normal;font-weight:700;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/crimson-text/crimson-text-700.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:400;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-400.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:500;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-500.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:600;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-600.woff2') format('woff2');}
+      @font-face{font-family:'Lexend';font-style:normal;font-weight:700;font-display:optional;src:url('https://assets.spiritmediapublishing.com/fonts/lexend/lexend-700.woff2') format('woff2');}
     `} />
 
     <slot name="head" />
 
-    <!-- Reveal + premium animations (global) -->
+    <!-- Reveal + premium animations (global).
+         CRITICAL: transitions are TRANSFORM-ONLY, no opacity. Lighthouse captures
+         frames mid-transition; a 0.7s opacity fade catches text at ~50% opacity →
+         40+ false color-contrast fails. Transform-only gives the same slide-in
+         without the A11y artifact. Do NOT add opacity back.
+         CSS below is wrapped in @layer base so Tailwind's @layer utilities
+         (grid-cols-*, h-*, etc.) still wins the cascade when the async bundle
+         arrives. @keyframes/@font-face stay outside the layer (spec forbids). -->
     <style is:inline>
-      [data-animate] { opacity: 0; transform: translateY(24px); transition: opacity 0.7s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: opacity, transform; }
-      [data-animate="fade"] { transform: none; }
-      [data-animate="fade-left"] { transform: translateX(-24px); }
-      [data-animate="fade-right"] { transform: translateX(24px); }
-      [data-animate="zoom-in"] { transform: scale(0.96); }
-      [data-animate].is-visible { opacity: 1; transform: none; }
+      /* ============================================================
+         CRITICAL CSS — covers every above-fold layout rule on the
+         homepage so the external Tailwind chunk can load deferred at
+         end of body without triggering CLS. Don't remove anything
+         without re-running PSI mobile.
+         ============================================================ */
 
-      /* Site-wide section reveal — subtle, premium feel.
-         Any <section> within <main> fades up the first time it enters the viewport.
-         Exclude the first section (above-the-fold hero) to keep LCP fast. */
-      main section { opacity: 0; transform: translateY(28px); transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
-      main > section:first-of-type { opacity: 1; transform: none; }
-      main section.is-in { opacity: 1; transform: none; }
-
-      /* Subtle card/link lift on hover */
-      .ba-book-block a, .mag-card, .sp-pod-item, .bk-book-row { transition: transform 0.3s ease, box-shadow 0.3s ease; }
-      .ba-book-block a:hover, .sp-pod-item:hover { transform: translateY(-4px); }
-
-      @media (prefers-reduced-motion: reduce) {
-        [data-animate], [data-animate].is-visible,
-        main section, main section.is-in { opacity: 1; transform: none; transition: none; }
+      /* Theme tokens (mirrors @theme in global.css). */
+      :root {
+        --color-black: #000;
+        --color-white: #fff;
+        --color-gray: #595959;
+        --color-light-gray: #d9d9d9;
+        --color-blue: #89cff0;
+        --color-blue-dark: #6bb8e0;
+        --color-bg: #fff;
+        --color-text: #000;
+        --color-text-light: #595959;
+        --color-text-gray: #595959;
+        --color-gold: #b38b3a;
+        --color-border: #e5e5e5;
+        --font-heading: "Lexend", sans-serif;
+        --font-body: "Almarai", sans-serif;
+        --font-display: "Black Han Sans", sans-serif;
+        --font-serif: "Crimson Text", serif;
+        --container-max: 1440px;
       }
-      html { scroll-behavior: smooth; }
-      a, button { transition: opacity 0.2s ease, color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+
+      /* Minimal preflight (replaces Tailwind preflight for above-fold).
+         Must cover everything Tailwind preflight does, otherwise the
+         external stylesheet applying late causes layout shift. */
+      *, *::before, *::after, ::backdrop { box-sizing: border-box; border: 0 solid; margin: 0; padding: 0; }
+      html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; tab-size: 4; line-height: 1.5; }
+      body { font-family: var(--font-body); color: var(--color-text); background: var(--color-bg); line-height: 1.6; font-size: 16px; overflow-x: hidden; }
+      /* Headings inherit body font by default. Pages that need Lexend
+         set it explicitly; skipping the default saves the Lexend 600
+         fetch on homepage where every h* element overrides font-family. */
+      h1, h2, h3, h4, h5, h6 { line-height: 1.2; color: var(--color-black); }
+      h1 { font-size: clamp(40px, 9vw, 80px); }
+      h2 { font-size: clamp(24px, 4vw, 30px); }
+      h3 { font-size: clamp(18px, 2.6vw, 20px); }
+      p { margin: 0; }
+      p, h1, h2, h3, h4, h5, h6, li, blockquote { overflow-wrap: break-word; word-wrap: break-word; }
+      a { color: inherit; text-decoration: none; }
+      button { background: none; border: 0; font: inherit; cursor: pointer; padding: 0; }
+      img, video, iframe, svg, canvas { max-width: 100%; height: auto; display: block; }
+      video { background: #000; }
+      section, main { max-width: 100%; }
+      ul, ol { margin: 0; padding: 0; }
+
+      /* Site containers. */
+      .container-site { width: var(--container-max); max-width: 100%; margin: 0 auto; padding-left: clamp(16px, 3vw, 32px); padding-right: clamp(16px, 3vw, 32px); box-sizing: border-box; }
+      .text-gray { color: var(--color-gray); }
+
+      /* Header (custom classes, not Tailwind). */
+      .kw-desktop-only { display: none; }
+      .kw-mobile-only { display: flex; }
+      @media (min-width: 1024px) {
+        .kw-desktop-only { display: grid; }
+        .kw-mobile-only { display: none; }
+      }
+
+      /* Tailwind utility subset — every class used on the homepage that
+         affects LAYOUT (not purely cosmetic). Inline so the page stays
+         stable before external CSS arrives. */
+      .block { display: block; }
+      .flex { display: flex; }
+      .grid { display: grid; }
+      .hidden { display: none; }
+      .inline-flex { display: inline-flex; }
+      .inline-block { display: inline-block; }
+      .relative { position: relative; }
+      .absolute { position: absolute; }
+      .flex-col { flex-direction: column; }
+      .flex-row { flex-direction: row; }
+      .flex-wrap { flex-wrap: wrap; }
+      .items-center { align-items: center; }
+      .items-start { align-items: flex-start; }
+      .items-end { align-items: flex-end; }
+      .justify-center { justify-content: center; }
+      .justify-between { justify-content: space-between; }
+      .justify-end { justify-content: flex-end; }
+      .justify-start { justify-content: flex-start; }
+      .shrink-0 { flex-shrink: 0; }
+      .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+      .gap-1 { gap: 0.25rem; }
+      .gap-2 { gap: 0.5rem; }
+      .gap-3 { gap: 0.75rem; }
+      .gap-4 { gap: 1rem; }
+      .gap-5 { gap: 1.25rem; }
+      .gap-6 { gap: 1.5rem; }
+      .gap-8 { gap: 2rem; }
+      .mx-auto { margin-left: auto; margin-right: auto; }
+      .mt-2 { margin-top: 0.5rem; }
+      .mt-3 { margin-top: 0.75rem; }
+      .mt-4 { margin-top: 1rem; }
+      .mt-6 { margin-top: 1.5rem; }
+      .mb-2 { margin-bottom: 0.5rem; }
+      .mb-3 { margin-bottom: 0.75rem; }
+      .mb-4 { margin-bottom: 1rem; }
+      .p-2 { padding: 0.5rem; }
+      .p-4 { padding: 1rem; }
+      .pt-3 { padding-top: 0.75rem; }
+      .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+      .py-8 { padding-top: 2rem; padding-bottom: 2rem; }
+      .py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+      .py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+      .max-w-xl { max-width: 36rem; }
+      .max-w-4xl { max-width: 56rem; }
+      .max-w-7xl { max-width: 80rem; }
+      .w-4 { width: 1rem; }
+      .w-6 { width: 1.5rem; }
+      .h-4 { height: 1rem; }
+      .h-6 { height: 1.5rem; }
+      .overflow-hidden { overflow: hidden; }
+      .rounded-lg { border-radius: 0.5rem; }
+      .rounded-full { border-radius: 9999px; }
+      .border { border-width: 1px; border-style: solid; }
+      .border-b { border-bottom-width: 1px; border-bottom-style: solid; }
+      .border-t { border-top-width: 1px; border-top-style: solid; }
+      .text-center { text-align: center; }
+      .text-white { color: #fff; }
+      .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+      .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+      .font-medium { font-weight: 500; }
+      .font-bold { font-weight: 700; }
+      .uppercase { text-transform: uppercase; }
+      .bg-white { background-color: #fff; }
+      .bg-cover { background-size: cover; }
+      .bg-center { background-position: center; }
+      .z-10 { z-index: 10; }
+
+      /* Arbitrary values used on this site. */
+      .text-\[18px\] { font-size: 18px; }
+      .font-\[var\(--font-body\)\] { font-family: var(--font-body); }
+      .text-\[var\(--color-text\)\] { color: var(--color-text); }
+      .text-\[var\(--color-text-light\)\] { color: var(--color-text-light); }
+      .text-\[var\(--color-gold\)\] { color: var(--color-gold); }
+      .border-\[var\(--color-border\)\] { border-color: var(--color-border); }
+
+      /* Mobile font-size overrides — mirrors global.css; applies before
+         external CSS arrives so inline font-size values don't reflow when
+         the deferred stylesheet swaps in. */
+      @media (max-width: 900px) {
+        [style*="font-size: 74px"], [style*="font-size:74px"] { font-size: clamp(36px, 8vw, 74px) !important; }
+        [style*="font-size: 80px"], [style*="font-size:80px"] { font-size: clamp(40px, 10vw, 80px) !important; }
+        [style*="font-size: 64px"], [style*="font-size:64px"] { font-size: clamp(32px, 7.5vw, 64px) !important; }
+        [style*="font-size: 50px"], [style*="font-size:50px"] { font-size: clamp(26px, 5.5vw, 50px) !important; }
+        [style*="font-size: 48px"], [style*="font-size:48px"] { font-size: clamp(24px, 5vw, 48px) !important; }
+        [style*="font-size: 40px"], [style*="font-size:40px"] { font-size: clamp(22px, 4.5vw, 40px) !important; }
+        [style*="font-size: 30px"], [style*="font-size:30px"] { font-size: clamp(18px, 3vw, 30px) !important; }
+        [style*="font-size: 25px"], [style*="font-size:25px"] { font-size: clamp(16px, 2.5vw, 25px) !important; }
+        [style*="font-size: 20px"], [style*="font-size:20px"] { font-size: clamp(15px, 2vw, 20px) !important; }
+        [style*="line-height: 50px"], [style*="line-height:50px"] { line-height: 1.1 !important; }
+        [style*="line-height: 48px"], [style*="line-height:48px"] { line-height: 1.2 !important; }
+        [style*="line-height: 92px"], [style*="line-height:92px"] { line-height: 1.1 !important; }
+      }
+
+      /* Responsive utilities used. */
+      @media (min-width: 768px) {
+        .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .md\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .md\:py-12 { padding-top: 3rem; padding-bottom: 3rem; }
+        .md\:py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .md\:text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+      }
+      @media (min-width: 1024px) {
+        .lg\:hidden { display: none; }
+        .lg\:grid { display: grid; }
+        .lg\:flex { display: flex; }
+        .lg\:grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .lg\:grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        .lg\:py-16 { padding-top: 4rem; padding-bottom: 4rem; }
+        .lg\:py-20 { padding-top: 5rem; padding-bottom: 5rem; }
+        .lg\:px-8 { padding-left: 2rem; padding-right: 2rem; }
+      }
+
+      @layer base {
+        /* Reveal-on-scroll REMOVED — the rAF+getBoundingClientRect loop was
+           triggering a 200ms forced reflow on Lighthouse mobile, bumping
+           LCP +1.7s. Sections now render in place, no transform on mount. */
+
+        /* Subtle card/link lift on hover (no forced reflow). */
+        .ba-book-block a, .mag-card, .sp-pod-item, .bk-book-row { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .ba-book-block a:hover, .sp-pod-item:hover { transform: translateY(-4px); }
+
+        html { scroll-behavior: smooth; }
+        a, button { transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+      }
     </style>
   </head>
   <body>
     <!-- Header -->
     <header class="bg-white border-b border-[var(--color-border)]">
-      <div class="container-site hidden lg:grid items-center" style="grid-template-columns: 25% 50% 25%; padding-top: 3vw; padding-bottom: 3vw;">
+      <div class="container-site kw-desktop-only items-center" style="grid-template-columns: 25% 50% 25%; padding-top: 3vw; padding-bottom: 3vw;">
         <!-- Logo -->
         <a href="/" class="shrink-0">
-          <img src={`${IMG.logo}?w=400&auto=format`} alt="Kevin White" width="387" height="40" style="height: 40px; width: auto;" />
+          <img src={`${IMG.logo}?w=726&h=75&auto=format`} alt="Kevin White" width="726" height="75" style="height: 30px; width: auto;" />
         </a>
 
         <!-- Desktop nav -->
@@ -117,7 +291,7 @@ const socialLinks = [
                   ? 'text-[var(--color-gold)]'
                   : 'text-[var(--color-text)] hover:text-[var(--color-gold)]'
               ]}
-              style="transition: color 0.2s;"
+              style="transition: color 0.2s; padding: 8px 4px; display: inline-block;"
               {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
             >
               {link.label}
@@ -144,9 +318,9 @@ const socialLinks = [
       </div>
 
       <!-- Mobile header -->
-      <div class="container-site flex lg:hidden items-center justify-between" style="padding-top: 3vw; padding-bottom: 3vw;">
+      <div class="container-site kw-mobile-only items-center justify-between" style="padding-top: 3vw; padding-bottom: 3vw;">
         <a href="/" class="shrink-0">
-          <img src={`${IMG.logo}?w=320&auto=format`} alt="Kevin White" width="310" height="32" style="height: 32px; width: auto;" />
+          <img src={`${IMG.logo}?w=726&h=75&auto=format`} alt="Kevin White" width="726" height="75" style="height: 32px; width: auto;" />
         </a>
         <button id="mobile-menu-btn" class="p-2" aria-label="Open menu">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
@@ -216,6 +390,7 @@ const socialLinks = [
     </footer>
 
     <style is:inline>
+      @layer base {
       /* Footer — brxe-qhotsd */
       .kw-footer {
         background-color: #88cff1;
@@ -241,10 +416,14 @@ const socialLinks = [
       .kw-footer-link {
         font-family: "Almarai", sans-serif;
         font-size: 18px;
-        font-weight: 400;
-        color: #fff;
+        font-weight: 600;
+        color: #000;
         text-decoration: none;
-        margin-left: 15px;
+        padding: 8px 10px;
+        margin-left: 5px;
+        display: inline-block;
+        min-height: 44px;
+        line-height: 28px;
         transition: opacity 0.2s;
       }
       .kw-footer-link:first-child { margin-left: 0; }
@@ -259,8 +438,8 @@ const socialLinks = [
         gap: 8px;
       }
       .kw-footer-icon {
-        color: #fff;
-        fill: #fff;
+        color: #000;
+        fill: #000;
         padding: 10px;
         font-size: 20px;
         border-radius: 50px;
@@ -284,50 +463,20 @@ const socialLinks = [
           flex-direction: column;
           align-items: center;
         }
-        .kw-footer-link { margin-left: 0; font-size: 3vw; }
+        .kw-footer-link { margin-left: 0; font-size: 16px; padding: 10px 12px; min-height: 48px; }
         .kw-footer-social {
           width: 100%;
           justify-content: center;
           margin-top: 3vw;
         }
       }
+      } /* end @layer base */
     </style>
 
     <script>
       const btn = document.getElementById('mobile-menu-btn');
       const menu = document.getElementById('mobile-menu');
-      if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
-
-      // Reveal-on-scroll — lightweight IntersectionObserver, no library
-      const items = document.querySelectorAll<HTMLElement>('[data-animate]');
-      const sections = document.querySelectorAll<HTMLElement>('main section');
-      const all: HTMLElement[] = [...items, ...sections];
-      if ('IntersectionObserver' in window && all.length > 0) {
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const el = entry.target as HTMLElement;
-              const delay = el.getAttribute('data-delay');
-              if (delay) el.style.transitionDelay = `${delay}ms`;
-              el.classList.add('is-visible', 'is-in');
-              io.unobserve(el);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-        all.forEach((el) => io.observe(el));
-        // Reveal anything already above the fold (hero)
-        requestAnimationFrame(() => {
-          all.forEach((el) => {
-            const r = el.getBoundingClientRect();
-            if (r.top < window.innerHeight * 0.9) {
-              el.classList.add('is-visible', 'is-in');
-              io.unobserve(el);
-            }
-          });
-        });
-      } else {
-        all.forEach((el) => el.classList.add('is-visible', 'is-in'));
-      }
+      if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('is-open'));
     </script>
   </body>
 </html>

@@ -6,10 +6,6 @@ export default defineConfig({
   site: 'https://kevinwhite.us',
   integrations: [sitemap()],
   build: {
-    // Inline small stylesheets only (<4KB by default). Keeps the HTML document
-    // small for faster FCP on mobile, while still avoiding render-blocking for
-    // any small per-page style chunks. The shared Tailwind CSS is served as a
-    // cacheable external file and the preconnect hint makes it cheap to fetch.
     inlineStylesheets: 'auto',
   },
   vite: {
