@@ -124,7 +124,7 @@
   }
   /* Heading — brxe-mhvwnv */
   .ba-heading {
-    font-family: "Black Han Sans", sans-serif;
+    font-family: Impact, "Arial Black", sans-serif;
     font-size: clamp(36px, 7.5vw, 74px);
     color: #000;
     line-height: 50px;
@@ -244,7 +244,7 @@
     padding-bottom: 64px;
   }
   .cs-heading {
-    font-family: "Black Han Sans", sans-serif;
+    font-family: Impact, "Arial Black", sans-serif;
     font-size: clamp(36px, 7.5vw, 74px);
     color: #000;
     line-height: 50px;
@@ -380,7 +380,7 @@
   }
   /* Heading — brxe-yrbduu */
   .fr-heading {
-    font-family: "Black Han Sans", sans-serif;
+    font-family: Impact, "Arial Black", sans-serif;
     font-size: clamp(36px, 7.5vw, 74px);
     font-weight: 400;
     color: #000;
@@ -512,7 +512,7 @@
     width: 100%;
   }
   .mag-heading {
-    font-family: "Black Han Sans", sans-serif;
+    font-family: Impact, "Arial Black", sans-serif;
     font-weight: 400;
     font-size: clamp(36px, 7.5vw, 74px);
     line-height: 92px;
