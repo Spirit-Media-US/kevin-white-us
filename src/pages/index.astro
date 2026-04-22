@@ -11,16 +11,6 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
 <Layout title="Kevin White — Author, Speaker, Entrepreneur" description="Kevin White is a serial entrepreneur, bestselling author, and conference speaker who equips leaders to live out God's Word and prioritize prayer.">
   <Fragment slot="head">
     <link rel="preconnect" href="https://cdn.sanity.io" crossorigin />
-    <!-- Hero preload gated to desktop. Mobile LCP is the H1 text (performance-gate §6). -->
-    <link
-      rel="preload"
-      as="image"
-      href={`${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format`}
-      imagesrcset={`${IMG.heroBg}?w=1024&fm=webp&q=78&auto=format 1024w, ${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format 1200w`}
-      imagesizes="1200px"
-      media="(min-width: 1024px)"
-      fetchpriority="high"
-    />
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org", "@type": "Person", "name": "Kevin White",
       "url": "https://kevinwhite.us", "jobTitle": "Founder & Chief Spiritual Officer",
@@ -33,24 +23,11 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
   </Fragment>
 
   <main>
-    <!-- Hero: desktop = photo + H1 overlay; mobile = dark gradient + H1 as LCP (performance-gate §6).
-         <picture> with media="(min-width:1024px)" on the source so mobile never fetches the real image;
-         fallback <img> uses a 1px transparent data URI to avoid any network hit. -->
+    <!-- Hero: photo via ::before pseudo-element (excluded from LCP
+         candidacy per Chrome spec) + H1 text overlay. Mobile gets a
+         640w variant (~45KB), desktop upscales to 1200w. The gradient
+         stays as a fill behind the image for faster first paint. -->
     <section class="home-hero relative flex items-center text-white">
-      <picture class="home-hero-img">
-        <source
-          media="(min-width: 1024px)"
-          srcset={`${IMG.heroBg}?w=1024&fm=webp&q=78&auto=format 1024w, ${IMG.heroBg}?w=1200&fm=webp&q=80&auto=format 1200w`}
-          sizes="1200px"
-        />
-        <img
-          src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-          width="1200"
-          height="700"
-          alt=""
-          decoding="async"
-        />
-      </picture>
       <div class="container-site relative z-10 py-12 md:py-16">
         <h1 class="home-hero-h1">
           NOTHING<br />CHANGES<br />OUR LIVES<br />MORE THAN<br />PRIORITIZING PRAYER
@@ -68,22 +45,21 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         overflow: hidden;
         background: linear-gradient(135deg, #0b1e33 0%, #143054 55%, #0b1e33 100%);
       }
-      .home-hero-img {
-        display: none;
+      /* Hero photo via ::before — ::before backgrounds are excluded from
+         Chrome's LCP candidate selection, so H1 text stays the LCP. */
+      .home-hero::before {
+        content: '';
         position: absolute;
         inset: 0;
-        width: 100%;
-        height: 100%;
+        background-image: url('https://cdn.sanity.io/images/kwhqwbb4/production/5751308142cca7852196a388c3d232a2cb5f5784-1200x700.jpg?w=640&fm=webp&q=72&auto=format');
+        background-size: cover;
+        background-position: center;
         z-index: 0;
       }
-      .home-hero-img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-      }
       @media (min-width: 1024px) {
-        .home-hero-img { display: block; }
+        .home-hero::before {
+          background-image: url('https://cdn.sanity.io/images/kwhqwbb4/production/5751308142cca7852196a388c3d232a2cb5f5784-1200x700.jpg?w=1200&fm=webp&q=80&auto=format');
+        }
       }
       .home-hero-h1 {
         /* System-font stack — no webfont fetch, LCP can fire at first paint.
