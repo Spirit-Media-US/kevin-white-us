@@ -335,7 +335,7 @@
     }
     .cs-text-col {
       padding: 0 20px;
-      margin-top: -40px;
+      margin-top: 0;
       min-height: auto;
     }
     .cs-paragraph {

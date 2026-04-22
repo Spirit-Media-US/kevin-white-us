@@ -77,10 +77,10 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
       @media (max-width: 768px) {
         .home-hero {
           min-height: 420px;
-          justify-content: flex-end;
+          justify-content: flex-start;
         }
-        .home-hero .container-site { text-align: right; }
-        .home-hero-h1 { text-align: right; }
+        .home-hero .container-site { text-align: left; }
+        .home-hero-h1 { text-align: left; }
       }
       /* YT/IG section background via ::before so it's excluded from LCP
          candidate selection. Mobile gets a 640w webp (~33KB); desktop
