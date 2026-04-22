@@ -106,19 +106,22 @@ const posts = await sanityClient.fetch(`*[_type == "blogPost"] | order(publishDa
         .home-hero .container-site { text-align: right; }
         .home-hero-h1 { text-align: right; }
       }
-      /* YT/IG section — desktop gets the background image via ::before.
-         Mobile keeps the solid dark color (set inline on the section)
-         for a ~33KB bandwidth saving on the critical path. */
+      /* YT/IG section background via ::before so it's excluded from LCP
+         candidate selection. Mobile gets a 640w webp (~33KB); desktop
+         upscales to 1600w. */
       .yt-ig-section > * { position: relative; z-index: 1; }
+      .yt-ig-section::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: url('https://cdn.sanity.io/images/kwhqwbb4/production/d4e27107db3a661a83b73edce68d01dae465b9ef-2560x1440.jpg?w=640&fm=webp&q=72&auto=format');
+        background-size: cover;
+        background-position: center;
+        z-index: 0;
+      }
       @media (min-width: 1024px) {
         .yt-ig-section::before {
-          content: '';
-          position: absolute;
-          inset: 0;
           background-image: url('https://cdn.sanity.io/images/kwhqwbb4/production/d4e27107db3a661a83b73edce68d01dae465b9ef-2560x1440.jpg?w=1600&fm=webp&q=75&auto=format');
-          background-size: cover;
-          background-position: center;
-          z-index: 0;
         }
       }
     </style>
