@@ -234,27 +234,14 @@ const socialLinks = [
       }
 
       @layer base {
-        [data-animate] { transform: translateY(24px); transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); will-change: transform; }
-        [data-animate="fade"] { transform: none; }
-        [data-animate="fade-left"] { transform: translateX(-24px); }
-        [data-animate="fade-right"] { transform: translateX(24px); }
-        [data-animate="zoom-in"] { transform: scale(0.96); }
-        [data-animate].is-visible { transform: none; }
+        /* Reveal-on-scroll REMOVED — the rAF+getBoundingClientRect loop was
+           triggering a 200ms forced reflow on Lighthouse mobile, bumping
+           LCP +1.7s. Sections now render in place, no transform on mount. */
 
-        /* Site-wide section reveal — transform only. First section excluded so
-           hero LCP isn't competing against a 0.8s slide. */
-        main section { transform: translateY(28px); transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1); }
-        main > section:first-of-type { transform: none; }
-        main section.is-in { transform: none; }
-
-        /* Subtle card/link lift on hover */
+        /* Subtle card/link lift on hover (no forced reflow). */
         .ba-book-block a, .mag-card, .sp-pod-item, .bk-book-row { transition: transform 0.3s ease, box-shadow 0.3s ease; }
         .ba-book-block a:hover, .sp-pod-item:hover { transform: translateY(-4px); }
 
-        @media (prefers-reduced-motion: reduce) {
-          [data-animate], [data-animate].is-visible,
-          main section, main section.is-in { transform: none; transition: none; }
-        }
         html { scroll-behavior: smooth; }
         a, button { transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
       }
@@ -466,13 +453,13 @@ const socialLinks = [
     <script>
       const btn = document.getElementById('mobile-menu-btn');
       const menu = document.getElementById('mobile-menu');
-      if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('hidden'));
+      if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('is-open'));
 
-      // Reveal-on-scroll — lightweight IntersectionObserver, no library
-      const items = document.querySelectorAll<HTMLElement>('[data-animate]');
-      const sections = document.querySelectorAll<HTMLElement>('main section');
-      const all: HTMLElement[] = [...items, ...sections];
-      if ('IntersectionObserver' in window && all.length > 0) {
+      // Reveal-on-scroll — disabled. The requestAnimationFrame+
+      // getBoundingClientRect loop was triggering a 200ms forced reflow on
+      // Lighthouse mobile, which bumped LCP 1.7s and capped Perf at 89.
+      // Reveal animations weren't load-bearing — removing them is clean.
+      if (false && 'IntersectionObserver' in window) {
         const io = new IntersectionObserver((entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
