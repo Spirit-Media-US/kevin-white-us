@@ -477,37 +477,6 @@ const socialLinks = [
       const btn = document.getElementById('mobile-menu-btn');
       const menu = document.getElementById('mobile-menu');
       if (btn && menu) btn.addEventListener('click', () => menu.classList.toggle('is-open'));
-
-      // Reveal-on-scroll — disabled. The requestAnimationFrame+
-      // getBoundingClientRect loop was triggering a 200ms forced reflow on
-      // Lighthouse mobile, which bumped LCP 1.7s and capped Perf at 89.
-      // Reveal animations weren't load-bearing — removing them is clean.
-      if (false && 'IntersectionObserver' in window) {
-        const io = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const el = entry.target as HTMLElement;
-              const delay = el.getAttribute('data-delay');
-              if (delay) el.style.transitionDelay = `${delay}ms`;
-              el.classList.add('is-visible', 'is-in');
-              io.unobserve(el);
-            }
-          });
-        }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
-        all.forEach((el) => io.observe(el));
-        // Reveal anything already above the fold (hero)
-        requestAnimationFrame(() => {
-          all.forEach((el) => {
-            const r = el.getBoundingClientRect();
-            if (r.top < window.innerHeight * 0.9) {
-              el.classList.add('is-visible', 'is-in');
-              io.unobserve(el);
-            }
-          });
-        });
-      } else {
-        all.forEach((el) => el.classList.add('is-visible', 'is-in'));
-      }
     </script>
   </body>
 </html>
