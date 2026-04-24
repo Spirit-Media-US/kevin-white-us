@@ -1,5 +1,5 @@
 # [SITE NAME] — Project Status & Knowledge Base
-> Last updated: YYYY-MM-DD
+> Last updated: 2026-04-24
 > **Claude: Read this file before making any statements about project state or touching any code.**
 
 ---
@@ -16,17 +16,18 @@
 
 ---
 
-## Sanity Document Counts
+## Sanity Document Counts (as of 2026-04-24)
 | Type | Count | Notes |
 |---|---|---|
-| siteSettings | 0 | Not yet populated |
-| testimonial | 0 | |
-| teamMember | 0 | |
-| blogPost | 0 | |
-| book | 0 | |
+| testimonial | 0 | Live on homepage, fetched from Sanity |
+| teamMember | 0 | Live on about page, fetched from Sanity |
+| pressRelease | 0 | Live on media-center, fetched from Sanity |
+| mediaVideo | 0 | YouTube IDs/titles only, no video files in Sanity |
+| portfolioVideo | 0 | YouTube embed URLs |
+| blogPost | 11 | Fully dynamic via [slug].astro |
+| book | 7 | Fully dynamic on /bookstore |
+| siteSettings | 0 | phone, email, socials, siteName, tagline, description |
 
-> Update counts by running:
-> `node -e "const {createClient}=require('@sanity/client');const c=createClient({projectId:'REPLACE_PROJECT_ID',dataset:'production',useCdn:false,apiVersion:'2024-01-01'});['siteSettings','testimonial','teamMember','blogPost'].forEach(async t=>console.log(t,await c.fetch('count(*[_type==\"'+t+'\"])')))"` 
 
 ---
 
