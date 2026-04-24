@@ -15,7 +15,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const STATUS_FILE = join(__dirname, '..', 'PROJECT-STATUS.md');
 
 const client = createClient({
-  projectId: 'REPLACE_PROJECT_ID',
+  projectId: 'kwhqwbb4',
   dataset: 'production',
   useCdn: false,
   apiVersion: '2024-01-01',
